@@ -1,0 +1,64 @@
+import { Handler } from "aws-cdk-lib/aws-lambda";
+import * as AWS from "aws-sdk"
+
+const tableName = process.env.TODO_TABLE_NAME
+
+const documentClient = new AWS.DynamoDB.DocumentClient({
+  region: process.env.region,
+});
+
+export const handler: Handler = async (event : any) => {
+console.info("EVENT\n" + tableName + event.body)
+
+
+// const userID = bodypram.userId;
+// const customerName = bodypram.customerName;
+// const apptNo = bodypram.appartmentNo;
+// const address = bodypram.address;
+// const suburb = bodypram.suburb;
+
+const bodypram = JSON.parse(event.body)
+var params = {
+  TableName: tableName!,
+  Item: {
+    postcode: bodypram.userId, // need to change it to userId as a priority key 
+    CustomerName : bodypram.customerName,
+    AppartmentNo : bodypram.appartmentNo,
+    Address: bodypram.address,
+    Suburb: bodypram.suburb,
+    PostCode: bodypram.postCode,
+    State: bodypram.state,
+    Country: bodypram.country
+  }
+};
+
+  try {
+     let response;
+      response =  await documentClient.put(params).promise();
+      console.info(response + "this is line 55")
+    return {
+        statusCode: 200,
+        body: JSON.stringify(response)
+      };
+  } catch (e) {
+    console.info(e + "this is line 55")
+    return {
+        statusCode:  500,
+        body: e === 500 ? 'Invalid Request Body' : e,
+      };
+  }
+};
+
+
+
+
+
+
+
+
+export const main = async () => {
+  
+
+  
+};
+

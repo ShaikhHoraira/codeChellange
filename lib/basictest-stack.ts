@@ -2,7 +2,7 @@ import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Function, Runtime, Code } from "aws-cdk-lib/aws-lambda";
-import { RestApi, LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
+import { RestApi, LambdaIntegration, ApiKeySourceType } from "aws-cdk-lib/aws-apigateway";
 import * as cdk from 'aws-cdk-lib';
 
 export class BasictestStack extends cdk.Stack {
@@ -15,25 +15,38 @@ export class BasictestStack extends cdk.Stack {
     });
 
 
-    const getAllTodosLambda = new Function(this, "GetAllTodosLambdaHandler", {
+    const getUserdataLambda = new Function(this, "GetAllTodosLambdaHandler", {
       runtime: Runtime.NODEJS_14_X,
       code: Code.fromAsset('handler'),
-      handler: 'save_retrive_address.TuHandler',
+      handler: 'getHandler.handler',
       environment: {
         TODO_TABLE_NAME: saveAddress.tableName,
       },
     });
 
-    saveAddress.grantReadWriteData(getAllTodosLambda);
+     const saveUserdataLambda = new Function(this, "PutTodoLambdaHandler", {
+      runtime: Runtime.NODEJS_14_X,
+      code: Code.fromAsset("handler"),
+      handler: "saveHandler.handler",
+      environment: {
+        TODO_TABLE_NAME: saveAddress.tableName,
+      },
+    });
 
-    const api = new RestApi(this, "todo-api");
-    api.root
-      .resourceForPath("userAddress")
-      .addMethod("GET", new LambdaIntegration(getAllTodosLambda));
+    saveAddress.grantReadWriteData(getUserdataLambda);
+    saveAddress.grantReadWriteData(saveUserdataLambda);
 
-    api.root
-    .resourceForPath("userAddress")
-    .addMethod("POST", new LambdaIntegration(getAllTodosLambda));
+    const api = new RestApi(this, "Tu_testApi");
+
+    const userAddressApi = api.root.resourceForPath('userAddress');
+
+    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
+    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda))
+    
+    // const _apiKey = api.addApiKey('ApiKey',{
+    //   apiKeyName: 'tuApiKey',
+    //   value: 'thisIsJustSampleAPi',
+    // })
 
     new CfnOutput(this, "API URL", {
       value: api.url ?? "Something went wrong"

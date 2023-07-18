@@ -10,7 +10,7 @@ import {
 export class ManageSaveData {
 
   public tableName: string;
-  constructor(tableName: string ) {
+  constructor(tableName: string = '') {
     this.tableName = tableName;
   }
 
