@@ -1,0 +1,752 @@
+{
+ "Resources": {
+  "addressBFE7FD18": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "KeySchema": [
+     {
+      "AttributeName": "postcode",
+      "KeyType": "HASH"
+     }
+    ],
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "postcode",
+      "AttributeType": "S"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/address/Resource"
+   }
+  },
+  "GetAllTodosLambdaHandlerServiceRoleF0585033": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/GetAllTodosLambdaHandler/ServiceRole/Resource"
+   }
+  },
+  "GetAllTodosLambdaHandlerServiceRoleDefaultPolicyC482C5E0": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "addressBFE7FD18",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "GetAllTodosLambdaHandlerServiceRoleDefaultPolicyC482C5E0",
+    "Roles": [
+     {
+      "Ref": "GetAllTodosLambdaHandlerServiceRoleF0585033"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/GetAllTodosLambdaHandler/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "GetAllTodosLambdaHandler2650293E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "78f82fc7b605e4ca3310255cea2a144380250f0c065a8d4114cf290933c30788.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "GetAllTodosLambdaHandlerServiceRoleF0585033",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "TODO_TABLE_NAME": {
+       "Ref": "addressBFE7FD18"
+      }
+     }
+    },
+    "Handler": "save_retrive_address.ts.TuHandler",
+    "Runtime": "nodejs14.x"
+   },
+   "DependsOn": [
+    "GetAllTodosLambdaHandlerServiceRoleDefaultPolicyC482C5E0",
+    "GetAllTodosLambdaHandlerServiceRoleF0585033"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/GetAllTodosLambdaHandler/Resource",
+    "aws:asset:path": "asset.78f82fc7b605e4ca3310255cea2a144380250f0c065a8d4114cf290933c30788",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "todoapiA0696EAD": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "todo-api"
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/todo-api/Resource"
+   }
+  },
+  "todoapiDeployment10609ED78416a887a9770cdadca49a4bafe6645b": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "todoapiA0696EAD"
+    },
+    "Description": "Automatically created by the RestApi construct"
+   },
+   "DependsOn": [
+    "todoapiuserAddressGET6F4097AF",
+    "todoapiuserAddressPOST9D5FF739",
+    "todoapiuserAddressF91D85A3"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/todo-api/Deployment/Resource"
+   }
+  },
+  "todoapiDeploymentStageprod07CD4BAD": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "todoapiA0696EAD"
+    },
+    "DeploymentId": {
+     "Ref": "todoapiDeployment10609ED78416a887a9770cdadca49a4bafe6645b"
+    },
+    "StageName": "prod"
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/todo-api/DeploymentStage.prod/Resource"
+   }
+  },
+  "todoapiuserAddressF91D85A3": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "todoapiA0696EAD",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "userAddress",
+    "RestApiId": {
+     "Ref": "todoapiA0696EAD"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/todo-api/Default/userAddress/Resource"
+   }
+  },
+  "todoapiuserAddressGETApiPermissionBasictestStacktodoapiCE727705GETuserAddress19FBD0A5": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetAllTodosLambdaHandler2650293E",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "todoapiA0696EAD"
+       },
+       "/",
+       {
+        "Ref": "todoapiDeploymentStageprod07CD4BAD"
+       },
+       "/GET/userAddress"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/todo-api/Default/userAddress/GET/ApiPermission.BasictestStacktodoapiCE727705.GET..userAddress"
+   }
+  },
+  "todoapiuserAddressGETApiPermissionTestBasictestStacktodoapiCE727705GETuserAddressC625C930": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetAllTodosLambdaHandler2650293E",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "todoapiA0696EAD"
+       },
+       "/test-invoke-stage/GET/userAddress"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/todo-api/Default/userAddress/GET/ApiPermission.Test.BasictestStacktodoapiCE727705.GET..userAddress"
+   }
+  },
+  "todoapiuserAddressGET6F4097AF": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "GET",
+    "ResourceId": {
+     "Ref": "todoapiuserAddressF91D85A3"
+    },
+    "RestApiId": {
+     "Ref": "todoapiA0696EAD"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "GetAllTodosLambdaHandler2650293E",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/todo-api/Default/userAddress/GET/Resource"
+   }
+  },
+  "todoapiuserAddressPOSTApiPermissionBasictestStacktodoapiCE727705POSTuserAddress562AEA6C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetAllTodosLambdaHandler2650293E",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "todoapiA0696EAD"
+       },
+       "/",
+       {
+        "Ref": "todoapiDeploymentStageprod07CD4BAD"
+       },
+       "/POST/userAddress"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/todo-api/Default/userAddress/POST/ApiPermission.BasictestStacktodoapiCE727705.POST..userAddress"
+   }
+  },
+  "todoapiuserAddressPOSTApiPermissionTestBasictestStacktodoapiCE727705POSTuserAddress6A3A3885": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetAllTodosLambdaHandler2650293E",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "todoapiA0696EAD"
+       },
+       "/test-invoke-stage/POST/userAddress"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/todo-api/Default/userAddress/POST/ApiPermission.Test.BasictestStacktodoapiCE727705.POST..userAddress"
+   }
+  },
+  "todoapiuserAddressPOST9D5FF739": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "POST",
+    "ResourceId": {
+     "Ref": "todoapiuserAddressF91D85A3"
+    },
+    "RestApiId": {
+     "Ref": "todoapiA0696EAD"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "GetAllTodosLambdaHandler2650293E",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/todo-api/Default/userAddress/POST/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WPwU7DMBBEv6V3Z6FQqVzbIm6IqnCvNvZStontKF5TRVH+Hdspopz2zXg89j7A0xruF3gJlTZN1XIN47ugblSyjqMZHFpvkvmBdUtq9+kKTKpFWxuE8SU6LexdPrrlPfWWQ0hqUowWxoOf75e59y3roeQKTSo8HjEEkgCbPJKGbdQNyRYDKez4hEIXHFIRBdl0XLqu+Exd6wdLTrJ7o9Iqp/LqDCnvY6+pdP6Ka9HMryRf3mRrpmn6y5WP5SJ2p5x4i9JF+Xc98c47w1L2dt4QnMPd93IFyzWsFufAXPXRCVuCwzx/AJydqaCCAQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "todoapiEndpoint12E3775A": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "todoapiA0696EAD"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "todoapiDeploymentStageprod07CD4BAD"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "APIURL": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "todoapiA0696EAD"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "todoapiDeploymentStageprod07CD4BAD"
+      },
+      "/"
+     ]
+    ]
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

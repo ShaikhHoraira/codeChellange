@@ -1,0 +1,166 @@
+{
+  "version": "32.0.0",
+  "artifacts": {
+    "BasictestStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "BasictestStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "BasictestStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "BasictestStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/d588707e4745cd5517d75e475e3bacb3a31e3a9b7d5b5caef285303a885657fc.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "BasictestStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "BasictestStack.assets"
+      ],
+      "metadata": {
+        "/BasictestStack/address/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "addressBFE7FD18"
+          }
+        ],
+        "/BasictestStack/GetAllTodosLambdaHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAllTodosLambdaHandlerServiceRoleF0585033"
+          }
+        ],
+        "/BasictestStack/GetAllTodosLambdaHandler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAllTodosLambdaHandlerServiceRoleDefaultPolicyC482C5E0"
+          }
+        ],
+        "/BasictestStack/GetAllTodosLambdaHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAllTodosLambdaHandler2650293E"
+          }
+        ],
+        "/BasictestStack/todo-api/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "todoapiA0696EAD"
+          }
+        ],
+        "/BasictestStack/todo-api/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "todoapiDeployment10609ED78416a887a9770cdadca49a4bafe6645b"
+          }
+        ],
+        "/BasictestStack/todo-api/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "todoapiDeploymentStageprod07CD4BAD"
+          }
+        ],
+        "/BasictestStack/todo-api/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "todoapiEndpoint12E3775A"
+          }
+        ],
+        "/BasictestStack/todo-api/Default/userAddress/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "todoapiuserAddressF91D85A3"
+          }
+        ],
+        "/BasictestStack/todo-api/Default/userAddress/GET/ApiPermission.BasictestStacktodoapiCE727705.GET..userAddress": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "todoapiuserAddressGETApiPermissionBasictestStacktodoapiCE727705GETuserAddress19FBD0A5"
+          }
+        ],
+        "/BasictestStack/todo-api/Default/userAddress/GET/ApiPermission.Test.BasictestStacktodoapiCE727705.GET..userAddress": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "todoapiuserAddressGETApiPermissionTestBasictestStacktodoapiCE727705GETuserAddressC625C930"
+          }
+        ],
+        "/BasictestStack/todo-api/Default/userAddress/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "todoapiuserAddressGET6F4097AF"
+          }
+        ],
+        "/BasictestStack/todo-api/Default/userAddress/POST/ApiPermission.BasictestStacktodoapiCE727705.POST..userAddress": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "todoapiuserAddressPOSTApiPermissionBasictestStacktodoapiCE727705POSTuserAddress562AEA6C"
+          }
+        ],
+        "/BasictestStack/todo-api/Default/userAddress/POST/ApiPermission.Test.BasictestStacktodoapiCE727705.POST..userAddress": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "todoapiuserAddressPOSTApiPermissionTestBasictestStacktodoapiCE727705POSTuserAddress6A3A3885"
+          }
+        ],
+        "/BasictestStack/todo-api/Default/userAddress/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "todoapiuserAddressPOST9D5FF739"
+          }
+        ],
+        "/BasictestStack/API URL": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "APIURL"
+          }
+        ],
+        "/BasictestStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/BasictestStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/BasictestStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/BasictestStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "BasictestStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
