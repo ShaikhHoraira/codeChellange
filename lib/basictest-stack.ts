@@ -36,39 +36,30 @@ export class BasictestStack extends cdk.Stack {
     saveAddress.grantReadWriteData(getUserdataLambda);
     saveAddress.grantReadWriteData(saveUserdataLambda);
 
-    const api = new RestApi(this, "Tu_testApi");
-
+    const api = new RestApi(this, "Tu_testApi", {
+      defaultMethodOptions: {
+        apiKeyRequired: true,
+      },
+    });
     const userAddressApi = api.root.resourceForPath('userAddress');
 
     userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
     userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda))
     
-    // const _apiKey = api.addApiKey('ApiKey',{
-    //   apiKeyName: 'tuApiKey',
-    //   value: 'thisIsJustSampleAPi',
-    // })
-
+    const apiKey = api.addApiKey('ApiKey',{
+      apiKeyName: 'tuApiKey',
+      value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
+    })
+    const plan = api.addUsagePlan('mobile-push-notification-device-api-usage-plan', {
+      name: `api-usage-plan`,
+      apiStages: [{ stage: api.deploymentStage }],
+    });
+  
+    plan.addApiKey(apiKey);
+  
     new CfnOutput(this, "API URL", {
       value: api.url ?? "Something went wrong"
     });
 
   }
 }
-
-
-
-    // lambda function 2 PutTodoLambdaHandler
-    // const putTodoLambda = new Function(this, "PutTodoLambdaHandler", {
-    //   runtime: Runtime.NODEJS_14_X,
-    //   code: Code.fromAsset("functions"),
-    //   handler: "put-todo.putTodoHandler",
-    //   environment: {
-    //     TODO_TABLE_NAME: todoTable.tableName,
-    //   },
-    // });
-
-    //  // permissions to lambda to dynamo table    
-    //  todoTable.grantReadWriteData(putTodoLambda);
-
-    // create the API Gateway method and path
-    //I could do one one lambda with two handler 

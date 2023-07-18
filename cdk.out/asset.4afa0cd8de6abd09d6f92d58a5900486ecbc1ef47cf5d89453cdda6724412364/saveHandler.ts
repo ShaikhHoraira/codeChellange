@@ -37,7 +37,7 @@ var params = {
     console.info(e + "this is line 55")
     return {
         statusCode:  500,
-        body: e === 500 ? 'Invalid Request Body' : 'Something went wrong', // here we can create and import a commomn error function or specific error handling function where the out put can be organise 
+        body: e === 500 ? 'Invalid Request Body' : e,
       };
   }
 };

@@ -114,7 +114,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "f18dc064f786335cfe57d5b62d2260cee1c91361c9d7306f35a190c6a831d320.zip"
+     "S3Key": "ac65cb31d41abfbdc72349481317e2eae6fc033ff33303b96586d88347d4b24f.zip"
     },
     "Role": {
      "Fn::GetAtt": [
@@ -138,7 +138,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "BasictestStack/GetAllTodosLambdaHandler/Resource",
-    "aws:asset:path": "asset.f18dc064f786335cfe57d5b62d2260cee1c91361c9d7306f35a190c6a831d320",
+    "aws:asset:path": "asset.ac65cb31d41abfbdc72349481317e2eae6fc033ff33303b96586d88347d4b24f",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -231,7 +231,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "f18dc064f786335cfe57d5b62d2260cee1c91361c9d7306f35a190c6a831d320.zip"
+     "S3Key": "ac65cb31d41abfbdc72349481317e2eae6fc033ff33303b96586d88347d4b24f.zip"
     },
     "Role": {
      "Fn::GetAtt": [
@@ -255,7 +255,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "BasictestStack/PutTodoLambdaHandler/Resource",
-    "aws:asset:path": "asset.f18dc064f786335cfe57d5b62d2260cee1c91361c9d7306f35a190c6a831d320",
+    "aws:asset:path": "asset.ac65cb31d41abfbdc72349481317e2eae6fc033ff33303b96586d88347d4b24f",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -269,7 +269,7 @@
     "aws:cdk:path": "BasictestStack/Tu_testApi/Resource"
    }
   },
-  "TutestApiDeploymentF8A5EE7A7dd5346a05701cb789d8aad9b831f10f": {
+  "TutestApiDeploymentF8A5EE7Aa65cb73d0a6b239aaced42390e867757": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "RestApiId": {
@@ -293,7 +293,7 @@
      "Ref": "TutestApiD8E43CAD"
     },
     "DeploymentId": {
-     "Ref": "TutestApiDeploymentF8A5EE7A7dd5346a05701cb789d8aad9b831f10f"
+     "Ref": "TutestApiDeploymentF8A5EE7Aa65cb73d0a6b239aaced42390e867757"
     },
     "StageName": "prod"
    },
@@ -413,6 +413,7 @@
     "RestApiId": {
      "Ref": "TutestApiD8E43CAD"
     },
+    "ApiKeyRequired": true,
     "AuthorizationType": "NONE",
     "Integration": {
      "IntegrationHttpMethod": "POST",
@@ -540,6 +541,7 @@
     "RestApiId": {
      "Ref": "TutestApiD8E43CAD"
     },
+    "ApiKeyRequired": true,
     "AuthorizationType": "NONE",
     "Integration": {
      "IntegrationHttpMethod": "POST",
@@ -573,10 +575,66 @@
     "aws:cdk:path": "BasictestStack/Tu_testApi/Default/userAddress/POST/Resource"
    }
   },
+  "TutestApiApiKeyAD0371B0": {
+   "Type": "AWS::ApiGateway::ApiKey",
+   "Properties": {
+    "Enabled": true,
+    "Name": "tuApiKey",
+    "StageKeys": [
+     {
+      "RestApiId": {
+       "Ref": "TutestApiD8E43CAD"
+      },
+      "StageName": {
+       "Ref": "TutestApiDeploymentStageprod7BA0F058"
+      }
+     }
+    ],
+    "Value": "thisIsJustSampleAPi123"
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/Tu_testApi/ApiKey/Resource"
+   }
+  },
+  "TutestApimobilepushnotificationdeviceapiusageplan81520C5E": {
+   "Type": "AWS::ApiGateway::UsagePlan",
+   "Properties": {
+    "ApiStages": [
+     {
+      "ApiId": {
+       "Ref": "TutestApiD8E43CAD"
+      },
+      "Stage": {
+       "Ref": "TutestApiDeploymentStageprod7BA0F058"
+      },
+      "Throttle": {}
+     }
+    ],
+    "UsagePlanName": "api-usage-plan"
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan/Resource"
+   }
+  },
+  "TutestApimobilepushnotificationdeviceapiusageplanUsagePlanKeyResourceBasictestStackTutestApiApiKeyD3D0FC17ED583281": {
+   "Type": "AWS::ApiGateway::UsagePlanKey",
+   "Properties": {
+    "KeyId": {
+     "Ref": "TutestApiApiKeyAD0371B0"
+    },
+    "KeyType": "API_KEY",
+    "UsagePlanId": {
+     "Ref": "TutestApimobilepushnotificationdeviceapiusageplan81520C5E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan/UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQQU/DMAyFfwv3NDAmAddtiBtiGtwnNzHFa5NUtcNUVf3vJOkQ4+TPL88vce7106O+u4EzV8a2VUe1nt4FTKuSdJzs6MEFm8QPqDtUu09fYFYduNqCnl6iN0LB56Nr3uPgiDl1syJwejqEZb7UfejIjMVXaFa8PgIzCutNLqnX22halC0wKuipAcEzjCkIWTY9lawLPmPfhdGhl6xedWmVpty6QPKHOBgsmb/NJWjhV5SvYLO00Dz/+crDchD5JjveovRR/o0n3gVvScrePljUJ779Xj3o1Tp984mJqiF6IYf6sNQfQaYWSIIBAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22RTU/DMAyGfwv3NDAmAddtiAtCVAPOk9t4xWs+qjphqqr+d5K0iCFx8vM6zms7uZUP9/LmCs5c1KotNFVyfPNQtyKmDqMaLBinYvIdKo1id7QZJqHBVArk+BRs7cnZdHTJJfaGmKOaBIGR497N93MsnaZ6yHWZJsHrAzCjZ7lJIWq5DXWLfguMAjpqwOMZhmiE7DcdZa8FH7HTbjBofcpeqLhKk7vOEOtd6GvMnj9iMZr5Bf2nUym1ULR/xjzpQh8cnUoNecv/RSybpl//vFAagGyT6l6D74L/0zbyzllFPr+XdQrlia+/VndytY7fc2Kiog/Wk0G5n+M3XqdQyLoBAAA="
    },
    "Metadata": {
     "aws:cdk:path": "BasictestStack/CDKMetadata/Default"

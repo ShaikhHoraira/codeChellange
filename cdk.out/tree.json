@@ -214,7 +214,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "f18dc064f786335cfe57d5b62d2260cee1c91361c9d7306f35a190c6a831d320.zip"
+                      "s3Key": "ac65cb31d41abfbdc72349481317e2eae6fc033ff33303b96586d88347d4b24f.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -403,7 +403,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "f18dc064f786335cfe57d5b62d2260cee1c91361c9d7306f35a190c6a831d320.zip"
+                      "s3Key": "ac65cb31d41abfbdc72349481317e2eae6fc033ff33303b96586d88347d4b24f.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -492,7 +492,7 @@
                           "Ref": "TutestApiD8E43CAD"
                         },
                         "deploymentId": {
-                          "Ref": "TutestApiDeploymentF8A5EE7A7dd5346a05701cb789d8aad9b831f10f"
+                          "Ref": "TutestApiDeploymentF8A5EE7Aa65cb73d0a6b239aaced42390e867757"
                         },
                         "stageName": "prod"
                       }
@@ -658,6 +658,7 @@
                                 "restApiId": {
                                   "Ref": "TutestApiD8E43CAD"
                                 },
+                                "apiKeyRequired": true,
                                 "authorizationType": "NONE",
                                 "integration": {
                                   "type": "AWS_PROXY",
@@ -810,6 +811,7 @@
                                 "restApiId": {
                                   "Ref": "TutestApiD8E43CAD"
                                 },
+                                "apiKeyRequired": true,
                                 "authorizationType": "NONE",
                                 "integration": {
                                   "type": "AWS_PROXY",
@@ -860,6 +862,97 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_apigateway.ResourceBase",
+                  "version": "2.87.0"
+                }
+              },
+              "ApiKey": {
+                "id": "ApiKey",
+                "path": "BasictestStack/Tu_testApi/ApiKey",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BasictestStack/Tu_testApi/ApiKey/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::ApiKey",
+                      "aws:cdk:cloudformation:props": {
+                        "enabled": true,
+                        "name": "tuApiKey",
+                        "stageKeys": [
+                          {
+                            "restApiId": {
+                              "Ref": "TutestApiD8E43CAD"
+                            },
+                            "stageName": {
+                              "Ref": "TutestApiDeploymentStageprod7BA0F058"
+                            }
+                          }
+                        ],
+                        "value": "thisIsJustSampleAPi123"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnApiKey",
+                      "version": "2.87.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.ApiKey",
+                  "version": "2.87.0"
+                }
+              },
+              "mobile-push-notification-device-api-usage-plan": {
+                "id": "mobile-push-notification-device-api-usage-plan",
+                "path": "BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::UsagePlan",
+                      "aws:cdk:cloudformation:props": {
+                        "apiStages": [
+                          {
+                            "apiId": {
+                              "Ref": "TutestApiD8E43CAD"
+                            },
+                            "stage": {
+                              "Ref": "TutestApiDeploymentStageprod7BA0F058"
+                            },
+                            "throttle": {}
+                          }
+                        ],
+                        "usagePlanName": "api-usage-plan"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnUsagePlan",
+                      "version": "2.87.0"
+                    }
+                  },
+                  "UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17": {
+                    "id": "UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17",
+                    "path": "BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan/UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::UsagePlanKey",
+                      "aws:cdk:cloudformation:props": {
+                        "keyId": {
+                          "Ref": "TutestApiApiKeyAD0371B0"
+                        },
+                        "keyType": "API_KEY",
+                        "usagePlanId": {
+                          "Ref": "TutestApimobilepushnotificationdeviceapiusageplan81520C5E"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.CfnUsagePlanKey",
+                      "version": "2.87.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigateway.UsagePlan",
                   "version": "2.87.0"
                 }
               }

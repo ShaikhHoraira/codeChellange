@@ -17,7 +17,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e15f1622637e40ab497ccb712a636e8db6ecbc9f4cd3623ee54ee3490aedeafb.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/0c9fe04bffbf8ae0bf0ca725adfd27b241320c026e96118a46b620ab1bc8e7a5.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -84,7 +84,7 @@
         "/BasictestStack/Tu_testApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "TutestApiDeploymentF8A5EE7A7dd5346a05701cb789d8aad9b831f10f"
+            "data": "TutestApiDeploymentF8A5EE7Aa65cb73d0a6b239aaced42390e867757"
           }
         ],
         "/BasictestStack/Tu_testApi/DeploymentStage.prod/Resource": [
@@ -139,6 +139,24 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "TutestApiuserAddressPOST5F2B54C7"
+          }
+        ],
+        "/BasictestStack/Tu_testApi/ApiKey/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TutestApiApiKeyAD0371B0"
+          }
+        ],
+        "/BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TutestApimobilepushnotificationdeviceapiusageplan81520C5E"
+          }
+        ],
+        "/BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan/UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TutestApimobilepushnotificationdeviceapiusageplanUsagePlanKeyResourceBasictestStackTutestApiApiKeyD3D0FC17ED583281"
           }
         ],
         "/BasictestStack/API URL": [
