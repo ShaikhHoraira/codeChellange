@@ -11,7 +11,7 @@ export class BasictestStack extends cdk.Stack {
 
 
     const saveAddress = new Table(this, "Address", {
-      partitionKey: { name: "postcode", type: AttributeType.STRING },
+      partitionKey: { name: "UserId", type: AttributeType.STRING },
     });
 
 
@@ -50,7 +50,7 @@ export class BasictestStack extends cdk.Stack {
       apiKeyName: 'tuApiKey',
       value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
     })
-    const plan = api.addUsagePlan('mobile-push-notification-device-api-usage-plan', {
+    const plan = api.addUsagePlan('Tu_api-usage-plan', { // we can use rate limit and other usage plans 
       name: `api-usage-plan`,
       apiStages: [{ stage: api.deploymentStage }],
     });

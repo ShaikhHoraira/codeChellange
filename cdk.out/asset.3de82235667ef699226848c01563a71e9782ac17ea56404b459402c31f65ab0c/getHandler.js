@@ -1,0 +1,38 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.handler = void 0;
+const AWS = require("aws-sdk");
+const tableName = process.env.TODO_TABLE_NAME;
+const documentClient = new AWS.DynamoDB.DocumentClient({
+    region: process.env.region,
+});
+const handler = async (event) => {
+    const bodypram = JSON.parse(event.body);
+    const params = {
+        Key: {
+            postcode: bodypram.userId,
+        },
+        //AttributesToGet: ['pushNotification', 'notificationType', 'notificationSubType'],
+        TableName: tableName,
+    };
+    try {
+        let response;
+        if (event.httpMethod === "GET") {
+            response = await documentClient.get(params).promise();
+            console.info(response);
+            return response.Item;
+        }
+        return {
+            statusCode: 200,
+            body: response,
+        };
+    }
+    catch (e) {
+        return {
+            statusCode: 500,
+            body: e === 500 ? 'Invalid Request Body' : 'Something went wrong',
+        };
+    }
+};
+exports.handler = handler;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2V0SGFuZGxlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbImdldEhhbmRsZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQ0EsK0JBQThCO0FBRTlCLE1BQU0sU0FBUyxHQUFHLE9BQU8sQ0FBQyxHQUFHLENBQUMsZUFBZSxDQUFBO0FBRTdDLE1BQU0sY0FBYyxHQUFHLElBQUksR0FBRyxDQUFDLFFBQVEsQ0FBQyxjQUFjLENBQUM7SUFDckQsTUFBTSxFQUFFLE9BQU8sQ0FBQyxHQUFHLENBQUMsTUFBTTtDQUMzQixDQUFDLENBQUM7QUFDSSxNQUFNLE9BQU8sR0FBWSxLQUFLLEVBQUUsS0FBVyxFQUFFLEVBQUU7SUFDcEQsTUFBTSxRQUFRLEdBQUcsSUFBSSxDQUFDLEtBQUssQ0FBQyxLQUFLLENBQUMsSUFBSSxDQUFDLENBQUE7SUFDdkMsTUFBTSxNQUFNLEdBQUc7UUFDYixHQUFHLEVBQUU7WUFDSCxRQUFRLEVBQUUsUUFBUSxDQUFDLE1BQU07U0FDMUI7UUFDRCxtRkFBbUY7UUFDbkYsU0FBUyxFQUFFLFNBQVU7S0FDdEIsQ0FBQztJQUdGLElBQUk7UUFDRixJQUFJLFFBQVEsQ0FBQztRQUNaLElBQUksS0FBSyxDQUFDLFVBQVUsS0FBSyxLQUFLLEVBQUM7WUFDOUIsUUFBUSxHQUFHLE1BQU0sY0FBYyxDQUFDLEdBQUcsQ0FBQyxNQUFNLENBQUMsQ0FBQyxPQUFPLEVBQUUsQ0FBQztZQUN0RCxPQUFPLENBQUMsSUFBSSxDQUFDLFFBQVEsQ0FBQyxDQUFBO1lBQ3RCLE9BQU8sUUFBUSxDQUFDLElBQUksQ0FBQztTQUV0QjtRQUNELE9BQU87WUFDSCxVQUFVLEVBQUUsR0FBRztZQUNmLElBQUksRUFBRSxRQUFRO1NBQ2YsQ0FBQztLQUNMO0lBQUMsT0FBTyxDQUFDLEVBQUU7UUFDVixPQUFPO1lBQ0gsVUFBVSxFQUFHLEdBQUc7WUFDaEIsSUFBSSxFQUFFLENBQUMsS0FBSyxHQUFHLENBQUMsQ0FBQyxDQUFDLHNCQUFzQixDQUFDLENBQUMsQ0FBQyxzQkFBc0I7U0FDbEUsQ0FBQztLQUNMO0FBQ0gsQ0FBQyxDQUFDO0FBN0JXLFFBQUEsT0FBTyxXQTZCbEIiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBIYW5kbGVyIH0gZnJvbSBcImF3cy1jZGstbGliL2F3cy1sYW1iZGFcIjtcbmltcG9ydCAqIGFzIEFXUyBmcm9tIFwiYXdzLXNka1wiXG5cbmNvbnN0IHRhYmxlTmFtZSA9IHByb2Nlc3MuZW52LlRPRE9fVEFCTEVfTkFNRVxuXG5jb25zdCBkb2N1bWVudENsaWVudCA9IG5ldyBBV1MuRHluYW1vREIuRG9jdW1lbnRDbGllbnQoe1xuICByZWdpb246IHByb2Nlc3MuZW52LnJlZ2lvbixcbn0pO1xuZXhwb3J0IGNvbnN0IGhhbmRsZXI6IEhhbmRsZXIgPSBhc3luYyAoZXZlbnQgOiBhbnkpID0+IHtcbiAgY29uc3QgYm9keXByYW0gPSBKU09OLnBhcnNlKGV2ZW50LmJvZHkpXG4gIGNvbnN0IHBhcmFtcyA9IHtcbiAgICBLZXk6IHtcbiAgICAgIHBvc3Rjb2RlOiBib2R5cHJhbS51c2VySWQsXG4gICAgfSxcbiAgICAvL0F0dHJpYnV0ZXNUb0dldDogWydwdXNoTm90aWZpY2F0aW9uJywgJ25vdGlmaWNhdGlvblR5cGUnLCAnbm90aWZpY2F0aW9uU3ViVHlwZSddLFxuICAgIFRhYmxlTmFtZTogdGFibGVOYW1lISxcbiAgfTtcblxuXG4gIHRyeSB7XG4gICAgbGV0IHJlc3BvbnNlO1xuICAgICBpZiAoZXZlbnQuaHR0cE1ldGhvZCA9PT0gXCJHRVRcIil7XG4gICAgICByZXNwb25zZSA9IGF3YWl0IGRvY3VtZW50Q2xpZW50LmdldChwYXJhbXMpLnByb21pc2UoKTtcbiAgICAgIGNvbnNvbGUuaW5mbyhyZXNwb25zZSlcbiAgICAgIHJldHVybiByZXNwb25zZS5JdGVtO1xuXG4gICAgfVxuICAgIHJldHVybiB7XG4gICAgICAgIHN0YXR1c0NvZGU6IDIwMCxcbiAgICAgICAgYm9keTogcmVzcG9uc2UsXG4gICAgICB9O1xuICB9IGNhdGNoIChlKSB7XG4gICAgcmV0dXJuIHtcbiAgICAgICAgc3RhdHVzQ29kZTogIDUwMCxcbiAgICAgICAgYm9keTogZSA9PT0gNTAwID8gJ0ludmFsaWQgUmVxdWVzdCBCb2R5JyA6ICdTb21ldGhpbmcgd2VudCB3cm9uZycsXG4gICAgICB9O1xuICB9XG59OyJdfQ==

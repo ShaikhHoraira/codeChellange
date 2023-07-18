@@ -5,13 +5,13 @@
    "Properties": {
     "KeySchema": [
      {
-      "AttributeName": "postcode",
+      "AttributeName": "UserId",
       "KeyType": "HASH"
      }
     ],
     "AttributeDefinitions": [
      {
-      "AttributeName": "postcode",
+      "AttributeName": "UserId",
       "AttributeType": "S"
      }
     ],
@@ -114,7 +114,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "ac65cb31d41abfbdc72349481317e2eae6fc033ff33303b96586d88347d4b24f.zip"
+     "S3Key": "189dda44217fe64f642446cc95877edc8079720283f8ed18a1798d6e2015e734.zip"
     },
     "Role": {
      "Fn::GetAtt": [
@@ -138,7 +138,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "BasictestStack/GetAllTodosLambdaHandler/Resource",
-    "aws:asset:path": "asset.ac65cb31d41abfbdc72349481317e2eae6fc033ff33303b96586d88347d4b24f",
+    "aws:asset:path": "asset.189dda44217fe64f642446cc95877edc8079720283f8ed18a1798d6e2015e734",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -231,7 +231,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "ac65cb31d41abfbdc72349481317e2eae6fc033ff33303b96586d88347d4b24f.zip"
+     "S3Key": "189dda44217fe64f642446cc95877edc8079720283f8ed18a1798d6e2015e734.zip"
     },
     "Role": {
      "Fn::GetAtt": [
@@ -255,7 +255,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "BasictestStack/PutTodoLambdaHandler/Resource",
-    "aws:asset:path": "asset.ac65cb31d41abfbdc72349481317e2eae6fc033ff33303b96586d88347d4b24f",
+    "aws:asset:path": "asset.189dda44217fe64f642446cc95877edc8079720283f8ed18a1798d6e2015e734",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -596,7 +596,7 @@
     "aws:cdk:path": "BasictestStack/Tu_testApi/ApiKey/Resource"
    }
   },
-  "TutestApimobilepushnotificationdeviceapiusageplan81520C5E": {
+  "TutestApiTuapiusageplan57979E68": {
    "Type": "AWS::ApiGateway::UsagePlan",
    "Properties": {
     "ApiStages": [
@@ -613,10 +613,10 @@
     "UsagePlanName": "api-usage-plan"
    },
    "Metadata": {
-    "aws:cdk:path": "BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan/Resource"
+    "aws:cdk:path": "BasictestStack/Tu_testApi/Tu_api-usage-plan/Resource"
    }
   },
-  "TutestApimobilepushnotificationdeviceapiusageplanUsagePlanKeyResourceBasictestStackTutestApiApiKeyD3D0FC17ED583281": {
+  "TutestApiTuapiusageplanUsagePlanKeyResourceBasictestStackTutestApiApiKeyD3D0FC17C291082B": {
    "Type": "AWS::ApiGateway::UsagePlanKey",
    "Properties": {
     "KeyId": {
@@ -624,11 +624,11 @@
     },
     "KeyType": "API_KEY",
     "UsagePlanId": {
-     "Ref": "TutestApimobilepushnotificationdeviceapiusageplan81520C5E"
+     "Ref": "TutestApiTuapiusageplan57979E68"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan/UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17"
+    "aws:cdk:path": "BasictestStack/Tu_testApi/Tu_api-usage-plan/UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17"
    }
   },
   "CDKMetadata": {

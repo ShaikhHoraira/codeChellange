@@ -1,7 +1,6 @@
 import { Handler } from "aws-cdk-lib/aws-lambda";
 import * as AWS from "aws-sdk"
 
-
 const tableName = process.env.TODO_TABLE_NAME
 
 const documentClient = new AWS.DynamoDB.DocumentClient({
@@ -9,11 +8,11 @@ const documentClient = new AWS.DynamoDB.DocumentClient({
 });
 export const handler: Handler = async (event : any) => {
   console.info(event)
-  // const bodypram = JSON.parse(event.body)
+  const bodypram = JSON.parse(event.body)
   const params = {
-    // Key: {
-    //   UserId: bodypram.userId,
-    // },
+    Key: {
+      UserId: bodypram.userId,
+    },
     //AttributesToGet: ['pushNotification', 'notificationType', 'notificationSubType'],
     TableName: tableName!,
   };

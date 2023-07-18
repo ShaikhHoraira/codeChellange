@@ -20,13 +20,13 @@
                   "aws:cdk:cloudformation:props": {
                     "keySchema": [
                       {
-                        "attributeName": "postcode",
+                        "attributeName": "UserId",
                         "keyType": "HASH"
                       }
                     ],
                     "attributeDefinitions": [
                       {
-                        "attributeName": "postcode",
+                        "attributeName": "UserId",
                         "attributeType": "S"
                       }
                     ],
@@ -214,7 +214,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "ac65cb31d41abfbdc72349481317e2eae6fc033ff33303b96586d88347d4b24f.zip"
+                      "s3Key": "189dda44217fe64f642446cc95877edc8079720283f8ed18a1798d6e2015e734.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -403,7 +403,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "ac65cb31d41abfbdc72349481317e2eae6fc033ff33303b96586d88347d4b24f.zip"
+                      "s3Key": "189dda44217fe64f642446cc95877edc8079720283f8ed18a1798d6e2015e734.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -901,13 +901,13 @@
                   "version": "2.87.0"
                 }
               },
-              "mobile-push-notification-device-api-usage-plan": {
-                "id": "mobile-push-notification-device-api-usage-plan",
-                "path": "BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan",
+              "Tu_api-usage-plan": {
+                "id": "Tu_api-usage-plan",
+                "path": "BasictestStack/Tu_testApi/Tu_api-usage-plan",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan/Resource",
+                    "path": "BasictestStack/Tu_testApi/Tu_api-usage-plan/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::ApiGateway::UsagePlan",
                       "aws:cdk:cloudformation:props": {
@@ -932,7 +932,7 @@
                   },
                   "UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17": {
                     "id": "UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17",
-                    "path": "BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan/UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17",
+                    "path": "BasictestStack/Tu_testApi/Tu_api-usage-plan/UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::ApiGateway::UsagePlanKey",
                       "aws:cdk:cloudformation:props": {
@@ -941,7 +941,7 @@
                         },
                         "keyType": "API_KEY",
                         "usagePlanId": {
-                          "Ref": "TutestApimobilepushnotificationdeviceapiusageplan81520C5E"
+                          "Ref": "TutestApiTuapiusageplan57979E68"
                         }
                       }
                     },

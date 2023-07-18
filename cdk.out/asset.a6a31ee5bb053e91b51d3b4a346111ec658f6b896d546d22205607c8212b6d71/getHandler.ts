@@ -1,7 +1,6 @@
 import { Handler } from "aws-cdk-lib/aws-lambda";
 import * as AWS from "aws-sdk"
 
-
 const tableName = process.env.TODO_TABLE_NAME
 
 const documentClient = new AWS.DynamoDB.DocumentClient({

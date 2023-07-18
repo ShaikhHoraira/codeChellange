@@ -14,7 +14,7 @@ const bodypram = JSON.parse(event.body)
 var params = {
   TableName: tableName!,
   Item: {
-    UserId: bodypram.userId, // need to change it to userId as a priority key 
+    postcode: bodypram.userId, // need to change it to userId as a priority key 
     CustomerName : bodypram.customerName,
     AppartmentNo : bodypram.appartmentNo,
     Address: bodypram.address,
@@ -27,10 +27,11 @@ var params = {
 
   try {
      
-      await documentClient.put(params).promise();
+      const  response =  await documentClient.put(params).promise();
+      console.info(response + "this is line 55")
     return {
         statusCode: 200,
-        body: 'Success'
+        body: JSON.stringify(response)
       };
   } catch (e) {
     console.info(e + "this is line 55")

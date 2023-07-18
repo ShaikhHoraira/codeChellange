@@ -17,7 +17,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/0c9fe04bffbf8ae0bf0ca725adfd27b241320c026e96118a46b620ab1bc8e7a5.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/baf318b01018c7322ac99c82a169bcfd9325c604eed63cb160786b919ef1b53a.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -147,16 +147,16 @@
             "data": "TutestApiApiKeyAD0371B0"
           }
         ],
-        "/BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan/Resource": [
+        "/BasictestStack/Tu_testApi/Tu_api-usage-plan/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "TutestApimobilepushnotificationdeviceapiusageplan81520C5E"
+            "data": "TutestApiTuapiusageplan57979E68"
           }
         ],
-        "/BasictestStack/Tu_testApi/mobile-push-notification-device-api-usage-plan/UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17": [
+        "/BasictestStack/Tu_testApi/Tu_api-usage-plan/UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "TutestApimobilepushnotificationdeviceapiusageplanUsagePlanKeyResourceBasictestStackTutestApiApiKeyD3D0FC17ED583281"
+            "data": "TutestApiTuapiusageplanUsagePlanKeyResourceBasictestStackTutestApiApiKeyD3D0FC17C291082B"
           }
         ],
         "/BasictestStack/API URL": [

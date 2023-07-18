@@ -27,10 +27,11 @@ var params = {
 
   try {
      
-      await documentClient.put(params).promise();
+      const  response =  await documentClient.put(params).promise();
+      console.info(response + "this is line 55")
     return {
         statusCode: 200,
-        body: 'Success'
+        body: JSON.stringify(response)
       };
   } catch (e) {
     console.info(e + "this is line 55")
