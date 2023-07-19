@@ -4,18 +4,22 @@ import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Function, Runtime, Code } from "aws-cdk-lib/aws-lambda";
 import { RestApi, LambdaIntegration, ApiKeySourceType } from "aws-cdk-lib/aws-apigateway";
 import * as cdk from 'aws-cdk-lib';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 export class BasictestStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-
     const saveAddress = new Table(this, "Address", {
       partitionKey: { name: "UserId", type: AttributeType.STRING },
+      tableName: "Tu_Test_TableName",
+    });
+    saveAddress.addGlobalSecondaryIndex({
+      indexName: 'UserIdIndex',
+      partitionKey: { name: 'UserId', type: AttributeType.STRING },
     });
 
-
-    const getUserdataLambda = new Function(this, "GetAllTodosLambdaHandler", {
+    const getUserdataLambda = new Function(this, "GetCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_14_X,
       code: Code.fromAsset('handler'),
       handler: 'getHandler.handler',
@@ -24,7 +28,7 @@ export class BasictestStack extends cdk.Stack {
       },
     });
 
-     const saveUserdataLambda = new Function(this, "PutTodoLambdaHandler", {
+     const saveUserdataLambda = new Function(this, "PutCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_14_X,
       code: Code.fromAsset("handler"),
       handler: "saveHandler.handler",
@@ -32,8 +36,8 @@ export class BasictestStack extends cdk.Stack {
         TODO_TABLE_NAME: saveAddress.tableName,
       },
     });
-
-    saveAddress.grantReadWriteData(getUserdataLambda);
+    
+    getUserdataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
     saveAddress.grantReadWriteData(saveUserdataLambda);
 
     const api = new RestApi(this, "Tu_testApi", {
@@ -44,12 +48,12 @@ export class BasictestStack extends cdk.Stack {
     const userAddressApi = api.root.resourceForPath('userAddress');
 
     userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
-    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda))
+    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
     
     const apiKey = api.addApiKey('ApiKey',{
       apiKeyName: 'tuApiKey',
       value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
-    })
+    });
     const plan = api.addUsagePlan('Tu_api-usage-plan', { // we can use rate limit and other usage plans 
       name: `api-usage-plan`,
       apiStages: [{ stage: api.deploymentStage }],
@@ -61,5 +65,5 @@ export class BasictestStack extends cdk.Stack {
       value: api.url ?? "Something went wrong"
     });
 
-  }
+  };
 }

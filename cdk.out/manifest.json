@@ -17,7 +17,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/baf318b01018c7322ac99c82a169bcfd9325c604eed63cb160786b919ef1b53a.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/8ea2cdd9d4e1286ebcc5bcee0c0ba166686716b291598b1efb74c9b7ef358b60.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -33,46 +33,48 @@
         "BasictestStack.assets"
       ],
       "metadata": {
+        "/BasictestStack/Address": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "Address079826E9"
+            }
+          }
+        ],
         "/BasictestStack/Address/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "Address079826E9"
           }
         ],
-        "/BasictestStack/GetAllTodosLambdaHandler/ServiceRole/Resource": [
+        "/BasictestStack/GetCustomerAddressLambdaHandler/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "GetAllTodosLambdaHandlerServiceRoleF0585033"
+            "data": "GetCustomerAddressLambdaHandlerServiceRole786DF370"
           }
         ],
-        "/BasictestStack/GetAllTodosLambdaHandler/ServiceRole/DefaultPolicy/Resource": [
+        "/BasictestStack/GetCustomerAddressLambdaHandler/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "GetAllTodosLambdaHandlerServiceRoleDefaultPolicyC482C5E0"
+            "data": "GetCustomerAddressLambdaHandlerCCDB626B"
           }
         ],
-        "/BasictestStack/GetAllTodosLambdaHandler/Resource": [
+        "/BasictestStack/PutCustomerAddressLambdaHandler/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "GetAllTodosLambdaHandler2650293E"
+            "data": "PutCustomerAddressLambdaHandlerServiceRoleFE514554"
           }
         ],
-        "/BasictestStack/PutTodoLambdaHandler/ServiceRole/Resource": [
+        "/BasictestStack/PutCustomerAddressLambdaHandler/ServiceRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "PutTodoLambdaHandlerServiceRoleF5A85331"
+            "data": "PutCustomerAddressLambdaHandlerServiceRoleDefaultPolicy9C43330A"
           }
         ],
-        "/BasictestStack/PutTodoLambdaHandler/ServiceRole/DefaultPolicy/Resource": [
+        "/BasictestStack/PutCustomerAddressLambdaHandler/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "PutTodoLambdaHandlerServiceRoleDefaultPolicy8888D0EC"
-          }
-        ],
-        "/BasictestStack/PutTodoLambdaHandler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "PutTodoLambdaHandler12702868"
+            "data": "PutCustomerAddressLambdaHandler07E01801"
           }
         ],
         "/BasictestStack/Tu_testApi/Resource": [
@@ -84,7 +86,7 @@
         "/BasictestStack/Tu_testApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "TutestApiDeploymentF8A5EE7Aa65cb73d0a6b239aaced42390e867757"
+            "data": "TutestApiDeploymentF8A5EE7A0d283200b5d8a150fb59cc9c477ede8a"
           }
         ],
         "/BasictestStack/Tu_testApi/DeploymentStage.prod/Resource": [

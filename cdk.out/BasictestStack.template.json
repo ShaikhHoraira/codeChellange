@@ -15,10 +15,29 @@
       "AttributeType": "S"
      }
     ],
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "UserIdIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "UserId",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+       "ReadCapacityUnits": 5,
+       "WriteCapacityUnits": 5
+      }
+     }
+    ],
     "ProvisionedThroughput": {
      "ReadCapacityUnits": 5,
      "WriteCapacityUnits": 5
-    }
+    },
+    "TableName": "Tu_Test_TableName"
    },
    "UpdateReplacePolicy": "Retain",
    "DeletionPolicy": "Retain",
@@ -26,7 +45,7 @@
     "aws:cdk:path": "BasictestStack/Address/Resource"
    }
   },
-  "GetAllTodosLambdaHandlerServiceRoleF0585033": {
+  "GetCustomerAddressLambdaHandlerServiceRole786DF370": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -53,72 +72,37 @@
         ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
        ]
       ]
-     }
-    ]
-   },
-   "Metadata": {
-    "aws:cdk:path": "BasictestStack/GetAllTodosLambdaHandler/ServiceRole/Resource"
-   }
-  },
-  "GetAllTodosLambdaHandlerServiceRoleDefaultPolicyC482C5E0": {
-   "Type": "AWS::IAM::Policy",
-   "Properties": {
-    "PolicyDocument": {
-     "Statement": [
-      {
-       "Action": [
-        "dynamodb:BatchGetItem",
-        "dynamodb:BatchWriteItem",
-        "dynamodb:ConditionCheckItem",
-        "dynamodb:DeleteItem",
-        "dynamodb:DescribeTable",
-        "dynamodb:GetItem",
-        "dynamodb:GetRecords",
-        "dynamodb:GetShardIterator",
-        "dynamodb:PutItem",
-        "dynamodb:Query",
-        "dynamodb:Scan",
-        "dynamodb:UpdateItem"
-       ],
-       "Effect": "Allow",
-       "Resource": [
-        {
-         "Fn::GetAtt": [
-          "Address079826E9",
-          "Arn"
-         ]
-        },
-        {
-         "Ref": "AWS::NoValue"
-        }
-       ]
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "PolicyName": "GetAllTodosLambdaHandlerServiceRoleDefaultPolicyC482C5E0",
-    "Roles": [
+     },
      {
-      "Ref": "GetAllTodosLambdaHandlerServiceRoleF0585033"
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonDynamoDBFullAccess"
+       ]
+      ]
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "BasictestStack/GetAllTodosLambdaHandler/ServiceRole/DefaultPolicy/Resource"
+    "aws:cdk:path": "BasictestStack/GetCustomerAddressLambdaHandler/ServiceRole/Resource"
    }
   },
-  "GetAllTodosLambdaHandler2650293E": {
+  "GetCustomerAddressLambdaHandlerCCDB626B": {
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "189dda44217fe64f642446cc95877edc8079720283f8ed18a1798d6e2015e734.zip"
+     "S3Key": "b6c83574dfb7a84d250224601e1dad1f0fdb76c9816fdfa20c422e6fdc195e02.zip"
     },
     "Role": {
      "Fn::GetAtt": [
-      "GetAllTodosLambdaHandlerServiceRoleF0585033",
+      "GetCustomerAddressLambdaHandlerServiceRole786DF370",
       "Arn"
      ]
     },
@@ -133,17 +117,16 @@
     "Runtime": "nodejs14.x"
    },
    "DependsOn": [
-    "GetAllTodosLambdaHandlerServiceRoleDefaultPolicyC482C5E0",
-    "GetAllTodosLambdaHandlerServiceRoleF0585033"
+    "GetCustomerAddressLambdaHandlerServiceRole786DF370"
    ],
    "Metadata": {
-    "aws:cdk:path": "BasictestStack/GetAllTodosLambdaHandler/Resource",
-    "aws:asset:path": "asset.189dda44217fe64f642446cc95877edc8079720283f8ed18a1798d6e2015e734",
+    "aws:cdk:path": "BasictestStack/GetCustomerAddressLambdaHandler/Resource",
+    "aws:asset:path": "asset.b6c83574dfb7a84d250224601e1dad1f0fdb76c9816fdfa20c422e6fdc195e02",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
   },
-  "PutTodoLambdaHandlerServiceRoleF5A85331": {
+  "PutCustomerAddressLambdaHandlerServiceRoleFE514554": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -174,10 +157,10 @@
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "BasictestStack/PutTodoLambdaHandler/ServiceRole/Resource"
+    "aws:cdk:path": "BasictestStack/PutCustomerAddressLambdaHandler/ServiceRole/Resource"
    }
   },
-  "PutTodoLambdaHandlerServiceRoleDefaultPolicy8888D0EC": {
+  "PutCustomerAddressLambdaHandlerServiceRoleDefaultPolicy9C43330A": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
@@ -206,36 +189,47 @@
          ]
         },
         {
-         "Ref": "AWS::NoValue"
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "Address079826E9",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
         }
        ]
       }
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "PutTodoLambdaHandlerServiceRoleDefaultPolicy8888D0EC",
+    "PolicyName": "PutCustomerAddressLambdaHandlerServiceRoleDefaultPolicy9C43330A",
     "Roles": [
      {
-      "Ref": "PutTodoLambdaHandlerServiceRoleF5A85331"
+      "Ref": "PutCustomerAddressLambdaHandlerServiceRoleFE514554"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "BasictestStack/PutTodoLambdaHandler/ServiceRole/DefaultPolicy/Resource"
+    "aws:cdk:path": "BasictestStack/PutCustomerAddressLambdaHandler/ServiceRole/DefaultPolicy/Resource"
    }
   },
-  "PutTodoLambdaHandler12702868": {
+  "PutCustomerAddressLambdaHandler07E01801": {
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "189dda44217fe64f642446cc95877edc8079720283f8ed18a1798d6e2015e734.zip"
+     "S3Key": "b6c83574dfb7a84d250224601e1dad1f0fdb76c9816fdfa20c422e6fdc195e02.zip"
     },
     "Role": {
      "Fn::GetAtt": [
-      "PutTodoLambdaHandlerServiceRoleF5A85331",
+      "PutCustomerAddressLambdaHandlerServiceRoleFE514554",
       "Arn"
      ]
     },
@@ -250,12 +244,12 @@
     "Runtime": "nodejs14.x"
    },
    "DependsOn": [
-    "PutTodoLambdaHandlerServiceRoleDefaultPolicy8888D0EC",
-    "PutTodoLambdaHandlerServiceRoleF5A85331"
+    "PutCustomerAddressLambdaHandlerServiceRoleDefaultPolicy9C43330A",
+    "PutCustomerAddressLambdaHandlerServiceRoleFE514554"
    ],
    "Metadata": {
-    "aws:cdk:path": "BasictestStack/PutTodoLambdaHandler/Resource",
-    "aws:asset:path": "asset.189dda44217fe64f642446cc95877edc8079720283f8ed18a1798d6e2015e734",
+    "aws:cdk:path": "BasictestStack/PutCustomerAddressLambdaHandler/Resource",
+    "aws:asset:path": "asset.b6c83574dfb7a84d250224601e1dad1f0fdb76c9816fdfa20c422e6fdc195e02",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -269,7 +263,7 @@
     "aws:cdk:path": "BasictestStack/Tu_testApi/Resource"
    }
   },
-  "TutestApiDeploymentF8A5EE7Aa65cb73d0a6b239aaced42390e867757": {
+  "TutestApiDeploymentF8A5EE7A0d283200b5d8a150fb59cc9c477ede8a": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "RestApiId": {
@@ -293,7 +287,7 @@
      "Ref": "TutestApiD8E43CAD"
     },
     "DeploymentId": {
-     "Ref": "TutestApiDeploymentF8A5EE7Aa65cb73d0a6b239aaced42390e867757"
+     "Ref": "TutestApiDeploymentF8A5EE7A0d283200b5d8a150fb59cc9c477ede8a"
     },
     "StageName": "prod"
    },
@@ -325,7 +319,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "GetAllTodosLambdaHandler2650293E",
+      "GetCustomerAddressLambdaHandlerCCDB626B",
       "Arn"
      ]
     },
@@ -369,7 +363,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "GetAllTodosLambdaHandler2650293E",
+      "GetCustomerAddressLambdaHandlerCCDB626B",
       "Arn"
      ]
     },
@@ -433,7 +427,7 @@
         ":lambda:path/2015-03-31/functions/",
         {
          "Fn::GetAtt": [
-          "GetAllTodosLambdaHandler2650293E",
+          "GetCustomerAddressLambdaHandlerCCDB626B",
           "Arn"
          ]
         },
@@ -453,7 +447,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "PutTodoLambdaHandler12702868",
+      "PutCustomerAddressLambdaHandler07E01801",
       "Arn"
      ]
     },
@@ -497,7 +491,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "PutTodoLambdaHandler12702868",
+      "PutCustomerAddressLambdaHandler07E01801",
       "Arn"
      ]
     },
@@ -561,7 +555,7 @@
         ":lambda:path/2015-03-31/functions/",
         {
          "Fn::GetAtt": [
-          "PutTodoLambdaHandler12702868",
+          "PutCustomerAddressLambdaHandler07E01801",
           "Arn"
          ]
         },
@@ -634,7 +628,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22RTU/DMAyGfwv3NDAmAddtiAtCVAPOk9t4xWs+qjphqqr+d5K0iCFx8vM6zms7uZUP9/LmCs5c1KotNFVyfPNQtyKmDqMaLBinYvIdKo1id7QZJqHBVArk+BRs7cnZdHTJJfaGmKOaBIGR497N93MsnaZ6yHWZJsHrAzCjZ7lJIWq5DXWLfguMAjpqwOMZhmiE7DcdZa8FH7HTbjBofcpeqLhKk7vOEOtd6GvMnj9iMZr5Bf2nUym1ULR/xjzpQh8cnUoNecv/RSybpl//vFAagGyT6l6D74L/0zbyzllFPr+XdQrlia+/VndytY7fc2Kiog/Wk0G5n+M3XqdQyLoBAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22RTU/DMAyGfwv3NHxJg+s2xAUhqgHnyUtM8ZqPqnGYqqr/nSQtYkic/LyO89pObuT9nby6gFOolG4rQwc5vjKoVqTUftSDA+t1Sr7BwaDYfrgCkzBgDxrk+BidYvIuH51zjb2lEJKaBIGV487P90usvSE1lLpCkwi3ewgBOch1DknLTVQt8gYCCuioAcYTDMkIA687Kl4LPmBn/GDRcc6eqbRKU7rOkOp97BUWzx+xGM38jPzpdU4tlOyfsEy60HtITrWBsuX/IpVN069/WSgPQK7JdS+Ru8h/2ibeeqeJy3s5r1Eew+XX9Uqu0u8cA1HVR8dkUe7m+A35Kd5XuQEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "BasictestStack/CDKMetadata/Default"
