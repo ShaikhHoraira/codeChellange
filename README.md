@@ -41,6 +41,6 @@ Payload:
 }
 To retrieve a customer's address, send a GET request to the following endpoint of your REST API:
 
-GET: https://YOUR_REST_API/userAddress?userId=*** (use the API endpoint from API Gateway)
+GET: https://YOUR_REST_API/userAddress?userId=4 (use the API endpoint from API Gateway)
 It will return the address specific to the given userId.
 Please note that you need to replace "YOUR_REST_API" with the actual endpoint provided by API Gateway.

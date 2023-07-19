@@ -183,7 +183,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "b6c83574dfb7a84d250224601e1dad1f0fdb76c9816fdfa20c422e6fdc195e02.zip"
+                      "s3Key": "f18bed3af1da07569e794a9fc4c2a24adaa961dfd82149bd3a7375a8d9e2501d.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -193,7 +193,7 @@
                     },
                     "environment": {
                       "variables": {
-                        "TODO_TABLE_NAME": {
+                        "TABLE_NAME": {
                           "Ref": "Address079826E9"
                         }
                       }
@@ -383,7 +383,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "b6c83574dfb7a84d250224601e1dad1f0fdb76c9816fdfa20c422e6fdc195e02.zip"
+                      "s3Key": "f18bed3af1da07569e794a9fc4c2a24adaa961dfd82149bd3a7375a8d9e2501d.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -393,7 +393,7 @@
                     },
                     "environment": {
                       "variables": {
-                        "TODO_TABLE_NAME": {
+                        "TABLE_NAME": {
                           "Ref": "Address079826E9"
                         }
                       }

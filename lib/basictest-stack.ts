@@ -1,8 +1,8 @@
-import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
+import { CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Function, Runtime, Code } from "aws-cdk-lib/aws-lambda";
-import { RestApi, LambdaIntegration, ApiKeySourceType } from "aws-cdk-lib/aws-apigateway";
+import { RestApi, LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
@@ -24,7 +24,7 @@ export class BasictestStack extends cdk.Stack {
       code: Code.fromAsset('handler'),
       handler: 'getHandler.handler',
       environment: {
-        TODO_TABLE_NAME: saveAddress.tableName,
+        TABLE_NAME: saveAddress.tableName,
       },
     });
 
@@ -33,7 +33,7 @@ export class BasictestStack extends cdk.Stack {
       code: Code.fromAsset("handler"),
       handler: "saveHandler.handler",
       environment: {
-        TODO_TABLE_NAME: saveAddress.tableName,
+        TABLE_NAME: saveAddress.tableName,
       },
     });
     
