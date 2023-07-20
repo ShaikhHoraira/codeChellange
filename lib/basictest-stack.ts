@@ -38,7 +38,7 @@ export class BasictestStack extends cdk.Stack {
     });
     
     getUserdataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
-    saveAddress.grantReadWriteData(saveUserdataLambda);
+    saveAddress.grantWriteData(saveUserdataLambda);
 
     const api = new RestApi(this, "Tu_testApi", {
       defaultMethodOptions: {
