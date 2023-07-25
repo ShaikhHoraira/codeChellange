@@ -1,11 +1,6 @@
 import { Handler } from "aws-cdk-lib/aws-lambda";
-import * as AWS from "aws-sdk"
+import { GetCustomerAddress } from './getData';
 
-
-const tableName = process.env.TABLE_NAME
-const documentClient = new AWS.DynamoDB.DocumentClient({
-  region: process.env.region,
-});
 
 export const handler: Handler = async (event : any) => {
   try {
@@ -15,34 +10,16 @@ export const handler: Handler = async (event : any) => {
         body: "Missing userId, Please provide userId",
       };
     };
-    const params = {
-      IndexName: 'UserIdIndex',
-      KeyConditionExpression: 'UserId = :userId',
-      ExpressionAttributeValues: {
-        ':userId': event.queryStringParameters.userId,
-      },
-      TableName: tableName!,
-    };
-    let response;
-     if (event.httpMethod === "GET"){
-      const data = await documentClient.query(params).promise();
-      const items = data.Items;
-      const response = {
-        statusCode: 200,
-        body: JSON.stringify(items)
-      };
-      return response;
-    };
+    const manageDevice = new GetCustomerAddress(event.queryStringParameters.userId);
+    const result = await manageDevice.getData();
     return {
-        statusCode: 200,
-        body: response,
-      };
+      statusCode: 200,
+      body: JSON.stringify(result)
+    };
   } catch (e) {
-    console.info(e)
     return {
         statusCode:  500,
         body: e === 500 ? 'Invalid Request Body' : e,
       };
   };
 };
-
