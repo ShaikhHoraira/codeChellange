@@ -33,9 +33,9 @@ public async getData(){
         // Check if postcode parameter is provided and add it to the query
         if (this.postcode) {
           if (params.FilterExpression) {
-            params.FilterExpression += ' AND PostCode = :postcode';
+            params.FilterExpression += ' AND Postcode = :postcode';
           } else {
-            params.FilterExpression = 'PostCode = :postcode';
+            params.FilterExpression = 'Postcode = :postcode';
           }
           params.ExpressionAttributeValues![':postcode'] = this.postcode;
         }
