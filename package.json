@@ -11,8 +11,11 @@
     "cdk": "cdk"
   },
   "devDependencies": {
+    "@aws-cdk/core": "^1.204.0",
+    "@types/aws-lambda": "^8.10.137",
+    "@types/aws-sdk": "^2.7.0",
     "@types/jest": "^26.0.10",
-    "@types/node": "10.17.27",
+    "@types/node": "^10.17.60",
     "@types/prettier": "2.6.0",
     "@types/source-map-support": "^0.5.6",
     "aws-cdk": "2.21.1",
@@ -28,8 +31,8 @@
     "@aws-sdk/lib-dynamodb": "^3.342.0",
     "aws-cdk-lib": "^2.87.0",
     "aws-sdk": "^2.1416.0",
-    "aws-sdk-mock": "^5.8.0",
     "aws-sdk-client-mock": "^2.1.1",
+    "aws-sdk-mock": "^5.8.0",
     "axios": "^1.4.0",
     "constructs": "^10.2.69"
   }
