@@ -37,6 +37,9 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
+    - name: Setup SAM Action
+      uses: aws-actions/configure-aws-credentials@v1
+      
     - name: Setup AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
@@ -44,7 +47,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-southeast-2
 
-    - name: Deploy with SAM
-      run: |
-        sam build
-        sam deploy --stack-name <stack-name> --s3-bucket <your-s3-bucket> --capabilities CAPABILITY_IAM
+    # - name: Deploy with SAM
+    #   run: |
+    #     sam build
+    #     sam deploy --stack-name <stack-name> --s3-bucket <your-s3-bucket> --capabilities CAPABILITY_IAM
