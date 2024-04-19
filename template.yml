@@ -125,18 +125,6 @@ Resources:
       Value: thisIsJustSampleAPi123
     Metadata:
       'aws:cdk:path': BasictestStack/ApiKey
-  TuApiUsagePlan79FD400A:
-    Type: AWS::ApiGateway::UsagePlan
-    Properties:
-      ApiStages:
-        - ApiId: 
-            Ref: TuTestApiF56AD052
-          Stage: 
-            Ref: TuTestApiDeploymentStageprod1E5B055D
-      Description: api-usage-plan
-      UsagePlanName: api-usage-plan
-    Metadata:
-      'aws:cdk:path': BasictestStack/TuApiUsagePlan79FD400A
   APIURL:
     Type: AWS::CloudFormation::Output
     Properties:
