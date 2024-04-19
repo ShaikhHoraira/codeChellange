@@ -18,12 +18,6 @@
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
                   "aws:cdk:cloudformation:props": {
-                    "keySchema": [
-                      {
-                        "attributeName": "UserId",
-                        "keyType": "HASH"
-                      }
-                    ],
                     "attributeDefinitions": [
                       {
                         "attributeName": "UserId",
@@ -48,6 +42,12 @@
                         }
                       }
                     ],
+                    "keySchema": [
+                      {
+                        "attributeName": "UserId",
+                        "keyType": "HASH"
+                      }
+                    ],
                     "provisionedThroughput": {
                       "readCapacityUnits": 5,
                       "writeCapacityUnits": 5
@@ -57,7 +57,7 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               },
               "ScalingRole": {
@@ -65,13 +65,13 @@
                 "path": "BasictestStack/Address/ScalingRole",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_dynamodb.Table",
-              "version": "2.87.0"
+              "version": "2.138.0"
             }
           },
           "GetCustomerAddressLambdaHandler": {
@@ -87,7 +87,7 @@
                     "path": "BasictestStack/GetCustomerAddressLambdaHandler/ServiceRole/ImportServiceRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   },
                   "Resource": {
@@ -138,13 +138,13 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_iam.Role",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               },
               "Code": {
@@ -156,7 +156,7 @@
                     "path": "BasictestStack/GetCustomerAddressLambdaHandler/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   },
                   "AssetBucket": {
@@ -164,13 +164,13 @@
                     "path": "BasictestStack/GetCustomerAddressLambdaHandler/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               },
               "Resource": {
@@ -185,12 +185,6 @@
                       },
                       "s3Key": "a41f25d21c5f81b9e2c5cf2c6b10718452c854185e2918a28a2d952f44a9ce65.zip"
                     },
-                    "role": {
-                      "Fn::GetAtt": [
-                        "GetCustomerAddressLambdaHandlerServiceRole786DF370",
-                        "Arn"
-                      ]
-                    },
                     "environment": {
                       "variables": {
                         "TABLE_NAME": {
@@ -199,18 +193,24 @@
                       }
                     },
                     "handler": "getHandler.handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "GetCustomerAddressLambdaHandlerServiceRole786DF370",
+                        "Arn"
+                      ]
+                    },
                     "runtime": "nodejs14.x"
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda.Function",
-              "version": "2.87.0"
+              "version": "2.138.0"
             }
           },
           "PutCustomerAddressLambdaHandler": {
@@ -226,7 +226,7 @@
                     "path": "BasictestStack/PutCustomerAddressLambdaHandler/ServiceRole/ImportServiceRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   },
                   "Resource": {
@@ -265,7 +265,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   },
                   "DefaultPolicy": {
@@ -325,19 +325,19 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                          "version": "2.87.0"
+                          "version": "2.138.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Policy",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_iam.Role",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               },
               "Code": {
@@ -349,7 +349,7 @@
                     "path": "BasictestStack/PutCustomerAddressLambdaHandler/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   },
                   "AssetBucket": {
@@ -357,13 +357,13 @@
                     "path": "BasictestStack/PutCustomerAddressLambdaHandler/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               },
               "Resource": {
@@ -378,12 +378,6 @@
                       },
                       "s3Key": "a41f25d21c5f81b9e2c5cf2c6b10718452c854185e2918a28a2d952f44a9ce65.zip"
                     },
-                    "role": {
-                      "Fn::GetAtt": [
-                        "PutCustomerAddressLambdaHandlerServiceRoleFE514554",
-                        "Arn"
-                      ]
-                    },
                     "environment": {
                       "variables": {
                         "TABLE_NAME": {
@@ -392,18 +386,24 @@
                       }
                     },
                     "handler": "saveHandler.handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "PutCustomerAddressLambdaHandlerServiceRoleFE514554",
+                        "Arn"
+                      ]
+                    },
                     "runtime": "nodejs14.x"
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda.Function",
-              "version": "2.87.0"
+              "version": "2.138.0"
             }
           },
           "Tu_testApi": {
@@ -421,7 +421,7 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_apigateway.CfnRestApi",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               },
               "Deployment": {
@@ -434,21 +434,21 @@
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::ApiGateway::Deployment",
                       "aws:cdk:cloudformation:props": {
+                        "description": "Automatically created by the RestApi construct",
                         "restApiId": {
                           "Ref": "TutestApiD8E43CAD"
-                        },
-                        "description": "Automatically created by the RestApi construct"
+                        }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_apigateway.CfnDeployment",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_apigateway.Deployment",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               },
               "DeploymentStage.prod": {
@@ -461,24 +461,24 @@
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::ApiGateway::Stage",
                       "aws:cdk:cloudformation:props": {
-                        "restApiId": {
-                          "Ref": "TutestApiD8E43CAD"
-                        },
                         "deploymentId": {
                           "Ref": "TutestApiDeploymentF8A5EE7A0d283200b5d8a150fb59cc9c477ede8a"
+                        },
+                        "restApiId": {
+                          "Ref": "TutestApiD8E43CAD"
                         },
                         "stageName": "prod"
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_apigateway.CfnStage",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_apigateway.Stage",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               },
               "Endpoint": {
@@ -486,7 +486,7 @@
                 "path": "BasictestStack/Tu_testApi/Endpoint",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnOutput",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               },
               "Default": {
@@ -517,7 +517,7 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
-                          "version": "2.87.0"
+                          "version": "2.138.0"
                         }
                       },
                       "GET": {
@@ -570,7 +570,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
-                              "version": "2.87.0"
+                              "version": "2.138.0"
                             }
                           },
                           "ApiPermission.Test.BasictestStackTutestApi786CED28.GET..userAddress": {
@@ -615,7 +615,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
-                              "version": "2.87.0"
+                              "version": "2.138.0"
                             }
                           },
                           "Resource": {
@@ -624,15 +624,9 @@
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
                               "aws:cdk:cloudformation:props": {
-                                "httpMethod": "GET",
-                                "resourceId": {
-                                  "Ref": "TutestApiuserAddress62FCC9DD"
-                                },
-                                "restApiId": {
-                                  "Ref": "TutestApiD8E43CAD"
-                                },
                                 "apiKeyRequired": true,
                                 "authorizationType": "NONE",
+                                "httpMethod": "GET",
                                 "integration": {
                                   "type": "AWS_PROXY",
                                   "uri": {
@@ -659,18 +653,24 @@
                                     ]
                                   },
                                   "integrationHttpMethod": "POST"
+                                },
+                                "resourceId": {
+                                  "Ref": "TutestApiuserAddress62FCC9DD"
+                                },
+                                "restApiId": {
+                                  "Ref": "TutestApiD8E43CAD"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
-                              "version": "2.87.0"
+                              "version": "2.138.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_apigateway.Method",
-                          "version": "2.87.0"
+                          "version": "2.138.0"
                         }
                       },
                       "POST": {
@@ -723,7 +723,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
-                              "version": "2.87.0"
+                              "version": "2.138.0"
                             }
                           },
                           "ApiPermission.Test.BasictestStackTutestApi786CED28.POST..userAddress": {
@@ -768,7 +768,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
-                              "version": "2.87.0"
+                              "version": "2.138.0"
                             }
                           },
                           "Resource": {
@@ -777,15 +777,9 @@
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
                               "aws:cdk:cloudformation:props": {
-                                "httpMethod": "POST",
-                                "resourceId": {
-                                  "Ref": "TutestApiuserAddress62FCC9DD"
-                                },
-                                "restApiId": {
-                                  "Ref": "TutestApiD8E43CAD"
-                                },
                                 "apiKeyRequired": true,
                                 "authorizationType": "NONE",
+                                "httpMethod": "POST",
                                 "integration": {
                                   "type": "AWS_PROXY",
                                   "uri": {
@@ -812,30 +806,36 @@
                                     ]
                                   },
                                   "integrationHttpMethod": "POST"
+                                },
+                                "resourceId": {
+                                  "Ref": "TutestApiuserAddress62FCC9DD"
+                                },
+                                "restApiId": {
+                                  "Ref": "TutestApiD8E43CAD"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
-                              "version": "2.87.0"
+                              "version": "2.138.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_apigateway.Method",
-                          "version": "2.87.0"
+                          "version": "2.138.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_apigateway.Resource",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_apigateway.ResourceBase",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               },
               "ApiKey": {
@@ -865,13 +865,13 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_apigateway.CfnApiKey",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_apigateway.ApiKey",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               },
               "Tu_api-usage-plan": {
@@ -900,7 +900,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_apigateway.CfnUsagePlan",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   },
                   "UsagePlanKeyResource:BasictestStackTutestApiApiKeyD3D0FC17": {
@@ -920,19 +920,19 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_apigateway.CfnUsagePlanKey",
-                      "version": "2.87.0"
+                      "version": "2.138.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_apigateway.UsagePlan",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_apigateway.RestApi",
-              "version": "2.87.0"
+              "version": "2.138.0"
             }
           },
           "API URL": {
@@ -940,7 +940,7 @@
             "path": "BasictestStack/API URL",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
-              "version": "2.87.0"
+              "version": "2.138.0"
             }
           },
           "CDKMetadata": {
@@ -952,7 +952,7 @@
                 "path": "BasictestStack/CDKMetadata/Default",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               },
               "Condition": {
@@ -960,7 +960,7 @@
                 "path": "BasictestStack/CDKMetadata/Condition",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnCondition",
-                  "version": "2.87.0"
+                  "version": "2.138.0"
                 }
               }
             },
@@ -974,7 +974,7 @@
             "path": "BasictestStack/BootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnParameter",
-              "version": "2.87.0"
+              "version": "2.138.0"
             }
           },
           "CheckBootstrapVersion": {
@@ -982,13 +982,13 @@
             "path": "BasictestStack/CheckBootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnRule",
-              "version": "2.87.0"
+              "version": "2.138.0"
             }
           }
         },
         "constructInfo": {
           "fqn": "aws-cdk-lib.Stack",
-          "version": "2.87.0"
+          "version": "2.138.0"
         }
       },
       "Tree": {
@@ -1002,7 +1002,7 @@
     },
     "constructInfo": {
       "fqn": "aws-cdk-lib.App",
-      "version": "2.87.0"
+      "version": "2.138.0"
     }
   }
 }

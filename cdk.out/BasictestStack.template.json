@@ -3,12 +3,6 @@
   "Address079826E9": {
    "Type": "AWS::DynamoDB::Table",
    "Properties": {
-    "KeySchema": [
-     {
-      "AttributeName": "UserId",
-      "KeyType": "HASH"
-     }
-    ],
     "AttributeDefinitions": [
      {
       "AttributeName": "UserId",
@@ -31,6 +25,12 @@
        "ReadCapacityUnits": 5,
        "WriteCapacityUnits": 5
       }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "UserId",
+      "KeyType": "HASH"
      }
     ],
     "ProvisionedThroughput": {
@@ -100,12 +100,6 @@
      },
      "S3Key": "a41f25d21c5f81b9e2c5cf2c6b10718452c854185e2918a28a2d952f44a9ce65.zip"
     },
-    "Role": {
-     "Fn::GetAtt": [
-      "GetCustomerAddressLambdaHandlerServiceRole786DF370",
-      "Arn"
-     ]
-    },
     "Environment": {
      "Variables": {
       "TABLE_NAME": {
@@ -114,6 +108,12 @@
      }
     },
     "Handler": "getHandler.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "GetCustomerAddressLambdaHandlerServiceRole786DF370",
+      "Arn"
+     ]
+    },
     "Runtime": "nodejs14.x"
    },
    "DependsOn": [
@@ -220,12 +220,6 @@
      },
      "S3Key": "a41f25d21c5f81b9e2c5cf2c6b10718452c854185e2918a28a2d952f44a9ce65.zip"
     },
-    "Role": {
-     "Fn::GetAtt": [
-      "PutCustomerAddressLambdaHandlerServiceRoleFE514554",
-      "Arn"
-     ]
-    },
     "Environment": {
      "Variables": {
       "TABLE_NAME": {
@@ -234,6 +228,12 @@
      }
     },
     "Handler": "saveHandler.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "PutCustomerAddressLambdaHandlerServiceRoleFE514554",
+      "Arn"
+     ]
+    },
     "Runtime": "nodejs14.x"
    },
    "DependsOn": [
@@ -259,10 +259,10 @@
   "TutestApiDeploymentF8A5EE7A0d283200b5d8a150fb59cc9c477ede8a": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
+    "Description": "Automatically created by the RestApi construct",
     "RestApiId": {
      "Ref": "TutestApiD8E43CAD"
-    },
-    "Description": "Automatically created by the RestApi construct"
+    }
    },
    "DependsOn": [
     "TutestApiuserAddressGET6362999B",
@@ -276,11 +276,11 @@
   "TutestApiDeploymentStageprod7BA0F058": {
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
-    "RestApiId": {
-     "Ref": "TutestApiD8E43CAD"
-    },
     "DeploymentId": {
      "Ref": "TutestApiDeploymentF8A5EE7A0d283200b5d8a150fb59cc9c477ede8a"
+    },
+    "RestApiId": {
+     "Ref": "TutestApiD8E43CAD"
     },
     "StageName": "prod"
    },
@@ -393,15 +393,9 @@
   "TutestApiuserAddressGET6362999B": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
-    "HttpMethod": "GET",
-    "ResourceId": {
-     "Ref": "TutestApiuserAddress62FCC9DD"
-    },
-    "RestApiId": {
-     "Ref": "TutestApiD8E43CAD"
-    },
     "ApiKeyRequired": true,
     "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
     "Integration": {
      "IntegrationHttpMethod": "POST",
      "Type": "AWS_PROXY",
@@ -428,6 +422,12 @@
        ]
       ]
      }
+    },
+    "ResourceId": {
+     "Ref": "TutestApiuserAddress62FCC9DD"
+    },
+    "RestApiId": {
+     "Ref": "TutestApiD8E43CAD"
     }
    },
    "Metadata": {
@@ -521,15 +521,9 @@
   "TutestApiuserAddressPOST5F2B54C7": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
-    "HttpMethod": "POST",
-    "ResourceId": {
-     "Ref": "TutestApiuserAddress62FCC9DD"
-    },
-    "RestApiId": {
-     "Ref": "TutestApiD8E43CAD"
-    },
     "ApiKeyRequired": true,
     "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
     "Integration": {
      "IntegrationHttpMethod": "POST",
      "Type": "AWS_PROXY",
@@ -556,6 +550,12 @@
        ]
       ]
      }
+    },
+    "ResourceId": {
+     "Ref": "TutestApiuserAddress62FCC9DD"
+    },
+    "RestApiId": {
+     "Ref": "TutestApiD8E43CAD"
     }
    },
    "Metadata": {
@@ -621,7 +621,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22RTU/DMAyGfwv3NHxJg+s2xAUhqgHnyUtM8ZqPqnGYqqr/nSQtYkic/LyO89pObuT9nby6gFOolG4rQwc5vjKoVqTUftSDA+t1Sr7BwaDYfrgCkzBgDxrk+BidYvIuH51zjb2lEJKaBIGV487P90usvSE1lLpCkwi3ewgBOch1DknLTVQt8gYCCuioAcYTDMkIA687Kl4LPmBn/GDRcc6eqbRKU7rOkOp97BUWzx+xGM38jPzpdU4tlOyfsEy60HtITrWBsuX/IpVN069/WSgPQK7JdS+Ru8h/2ibeeqeJy3s5r1Eew+XX9Uqu0u8cA1HVR8dkUe7m+A35Kd5XuQEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22QTW+DMAyGf0vvwWvhsmvLtEs1raLbuTLEpS6QoNqsQoj/PhGY1kk7vY8/8tpODJvkGdYrvEtU2CqqOYfhqFhUBu9yGmzvsPE2h+ED85pMenYBRlNjk1uE4bVzhbJ3U+mRD3RrWIS9Gw1jA0Pm5/dBD77mog99gUYjyQlFSAW2kxhJYNcVFekOhQy2XKLSHXsYMhLdthy8FnyhtvZ9Q06n7EN0VCzD1BkyEt/dCgqeP8FiNPMb6cXbKbXQtuU9hU0X+hQs6VBjuPL/YE/9OP76h4OmBdiVU997p22nf8amZ5d6Z1nDfzlvCa7y9BWvYRNDvLoKc3TrnHJDkM36Dd2wLKm7AQAA"
    },
    "Metadata": {
     "aws:cdk:path": "BasictestStack/CDKMetadata/Default"
@@ -825,6 +825,22 @@
         {
          "Ref": "AWS::Region"
         },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
         "me-south-1"
        ]
       },
@@ -835,7 +851,11 @@
         },
         "sa-east-1"
        ]
-      },
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
       {
        "Fn::Equals": [
         {
@@ -851,11 +871,7 @@
         },
         "us-east-2"
        ]
-      }
-     ]
-    },
-    {
-     "Fn::Or": [
+      },
       {
        "Fn::Equals": [
         {
