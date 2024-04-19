@@ -37,8 +37,12 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Setup SAM Action
-      uses: aws-actions/setup-samv@1
+    - name: Set up SAM CLI
+      uses: aws-actions/setup-sam@v1
+      with:
+        # Optional: Specify the SAM CLI version to use
+        sam-version: 'latest'
+
 
     - name: configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
