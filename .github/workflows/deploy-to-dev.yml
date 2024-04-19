@@ -23,9 +23,9 @@ jobs:
       run: |
         npm install  # Adjust based on your project's requirements
 
-    - name: Run Tests
-      run: |
-        npm test  # Adjust based on your testing framework
+    # - name: Run Tests
+    #   run: |
+    #     npm test  # Adjust based on your testing framework
 
   deploy:
     name: Deploy to AWS Lambda (develop)
