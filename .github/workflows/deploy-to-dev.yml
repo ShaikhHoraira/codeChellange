@@ -28,34 +28,26 @@ jobs:
     #     npm test  # Adjust based on your testing framework
 
   deploy:
-    name: Deploy to AWS Lambda (develop)
+    name: Deploy to AWS using CDK (develop)
     runs-on: ubuntu-latest
     needs: build
     if: github.ref == 'refs/heads/develop'  # Only deploy on changes to development branch
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Set up SAM CLI
-      uses: aws-actions/setup-sam@v1
-      with:
-        # Optional: Specify the SAM CLI version to use
-        sam-version: 'latest'
+      - name: Install Node.js (if needed)  # Optional step if Node.js is not pre-installed
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.x'  # Or a compatible version for your npm
 
+      - name: Install AWS CDK CLI
+        uses: aws-actions/aws-cdk@v1  # This action installs CDK
+        with:
+          aws-region: ap-southeast-2  # Replace with your AWS region
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - name: configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ap-southeast-2
-    - name: sam build
-      run: sam build --use-container
-    - name: same deploy
-      run: cdk deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name BasictestStack
-
-    # - name: Deploy with SAM
-    #   run: |
-    #     sam build
-    #     sam deploy --stack-name <stack-name> --s3-bucket <your-s3-bucket> --capabilities CAPABILITY_IAM
+      - name: Deploy Stack with CDK
+        run: cdk deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name BasictestStack
