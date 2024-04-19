@@ -7,7 +7,7 @@ export const handler: Handler = async (event : any) => {
     if (!event.queryStringParameters.userId || !event.queryStringParameters ) {
       return {
         statusCode: 400,
-        body: "Missing userId, Please provide userId",
+        body: "Missing userId, Please provide userId, and this is the test",
       };
     };
     const manageDevice = new GetCustomerAddress(event.queryStringParameters.userId,event.queryStringParameters.suburb, event.queryStringParameters.postcode);
