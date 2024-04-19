@@ -22,7 +22,12 @@ jobs:
     - name: Install Dependencies
       run: |
         npm install  # Adjust based on your project's requirements
-        npm install aws-cdk-lib @types/aws-cdk-lib --save-dev  # Install aws-cdk-lib and its TypeScript definitions
+
+    - name: Install TypeScript
+      run: npm install -g typescript
+
+    - name: Compile TypeScript
+      run: tsc  # Assuming your TypeScript files are in the default 'src' directory
 
   deploy:
     name: Deploy to AWS Lambda (develop)
@@ -34,10 +39,8 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Install Dependencies
-      run: |
-        npm install  # Adjust based on your project's requirements
-        npm install aws-cdk-lib @types/aws-cdk-lib --save-dev  # Install aws-cdk-lib and its TypeScript definitions
+    - name: Install AWS CDK CLI
+      run: npm install -g aws-cdk
 
     - name: Set up SAM CLI
       uses: aws-actions/setup-sam@v1
