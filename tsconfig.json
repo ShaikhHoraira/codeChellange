@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2020",  // Adjust if targeting a specific ES version
     "module": "commonjs",
     "lib": [
       "es2020",
-      "dom"
+      "dom"  // Adjust for specific Node.js version if needed
     ],
     "declaration": true,
     "strict": true,
@@ -12,8 +12,8 @@
     "strictNullChecks": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedLocals": true,  // Enabled for better code hygiene
+    "noUnusedParameters": true,  // Enabled for better code hygiene
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": false,
     "inlineSourceMap": true,
