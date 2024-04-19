@@ -41,9 +41,12 @@ jobs:
 
     - name: Install AWS CDK CLI
       run: npm install -g aws-cdk
-      
+
     - name: Install TypeScript
       run: npm install -g typescript
+      
+    - name: Install Dependencies
+      run: npm install
 
     - name: Set up SAM CLI
       uses: aws-actions/setup-sam@v1
