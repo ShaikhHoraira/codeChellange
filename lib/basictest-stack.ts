@@ -21,17 +21,17 @@ export class BasictestStack extends cdk.Stack {
 
     const getUserdataLambda = new Function(this, "GetCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_14_X,
-      code: Code.fromAsset('handler'),
+      code: Code.fromAsset('handler'), // Adjusted path
       handler: 'getHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
     });
 
-     const saveUserdataLambda = new Function(this, "PutCustomerAddressLambdaHandler", {
+    const saveUserdataLambda = new Function(this, "PutCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_14_X,
-      code: Code.fromAsset("handler"),
-      handler: "saveHandler.handler",
+      code: Code.fromAsset("handler"), // Adjusted path
+      handler: 'saveHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
@@ -46,7 +46,6 @@ export class BasictestStack extends cdk.Stack {
       },
     });
     const userAddressApi = api.root.resourceForPath('userAddress');
-
     userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
     userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
     

@@ -114,7 +114,7 @@
       "Arn"
      ]
     },
-    "Runtime": "nodejs14.x"
+    "Runtime": "nodejs20.x"
    },
    "DependsOn": [
     "GetCustomerAddressLambdaHandlerServiceRole786DF370"
@@ -234,7 +234,7 @@
       "Arn"
      ]
     },
-    "Runtime": "nodejs14.x"
+    "Runtime": "nodejs20.x"
    },
    "DependsOn": [
     "PutCustomerAddressLambdaHandlerServiceRoleDefaultPolicy9C43330A",
