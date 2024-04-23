@@ -30,7 +30,7 @@
     "@aws-sdk/client-dynamodb": "^3.342.0",
     "@aws-sdk/lib-dynamodb": "^3.342.0",
     "aws-cdk-lib": "^2.138.0",
-    "aws-sdk": "^2.1602.0",
+    "aws-sdk": "^2.1604.0",
     "aws-sdk-client-mock": "^2.1.1",
     "aws-sdk-mock": "^5.8.0",
     "axios": "^1.4.0",
