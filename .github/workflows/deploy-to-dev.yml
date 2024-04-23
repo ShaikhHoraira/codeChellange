@@ -5,10 +5,12 @@ on:
     branches:
       - main  # Trigger pipeline on push to the main branch
       - develop  # Also trigger pipeline on push to the development branch
+      - feat/DirChange
   pull_request:
     branches:
       - main  # Trigger pipeline on pull requests to the main branch
       - develop  # Also trigger pipeline on pull requests to the development branch
+      - feat/DirChange
 
 jobs:
   build:
@@ -30,10 +32,10 @@ jobs:
         run: tsc  # Assuming your TypeScript files are in the default 'src' directory
 
   deploy:
-    name: Deploy to AWS Lambda (develop)
+    name: Deploy to AWS Lambda (feat/DirChange)
     runs-on: ubuntu-latest
     needs: build
-    if: github.ref == 'refs/heads/feat/develop'  # Only deploy on changes to development branch
+    if: github.ref == 'refs/heads/feat/feat/DirChange'  # Only deploy on changes to development branch
 
     steps:
       - name: Checkout Repository
