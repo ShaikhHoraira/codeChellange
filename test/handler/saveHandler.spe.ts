@@ -1,5 +1,5 @@
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
-import { Stack } from 'aws-cdk-lib';
+//import { Stack } from 'aws-cdk-lib';
 import * as AWS from "aws-sdk"
 import { mockClient } from 'aws-sdk-client-mock';
 import  * as AWSMock from 'aws-sdk-mock';

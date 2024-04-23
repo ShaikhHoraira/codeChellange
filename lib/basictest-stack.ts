@@ -46,7 +46,6 @@ export class BasictestStack extends cdk.Stack {
       },
     });
     const userAddressApi = api.root.resourceForPath('userAddress');
-    
     userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
     userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
     
