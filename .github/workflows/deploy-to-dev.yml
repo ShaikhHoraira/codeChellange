@@ -64,4 +64,4 @@ jobs:
         run: sam build --use-container
 
       - name: Deploy AWS CDK Stack
-        run: cdk deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name BasictestStack
+        run: cdk deploy --no-confirm-changeset --no-fail-on-empty-changeset --require-approval never --stack-name BasictestStack
