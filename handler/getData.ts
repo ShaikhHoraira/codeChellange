@@ -10,7 +10,6 @@ public userId : any;
 public suburb : any;
 public postcode : any;
     
-
 constructor(userId: any, suburb : any, postcode: any){
         this.userId = userId;
         this.suburb = suburb;

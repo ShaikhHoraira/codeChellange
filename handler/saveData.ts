@@ -1,6 +1,5 @@
 import * as AWS from "aws-sdk";
 
-
 const tableName = process.env.TABLE_NAME;
 const documentClient = new AWS.DynamoDB.DocumentClient({
   region: process.env.region,
