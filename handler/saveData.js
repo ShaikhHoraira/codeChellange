@@ -2,10 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SaveCustomerAddress = void 0;
 const AWS = require("aws-sdk");
+
+
 const tableName = process.env.TABLE_NAME;
+
 const documentClient = new AWS.DynamoDB.DocumentClient({
     region: process.env.region,
 });
+
+
 class SaveCustomerAddress {
     constructor(payLoad) {
         this.payload = payLoad;
