@@ -64,5 +64,5 @@ export class BasictestStack extends cdk.Stack {
   //   new CfnOutput(this, "API URL", {
   //     value: api.url ?? "Something went wrong"
   //   });
-  // };
+  };
 }
