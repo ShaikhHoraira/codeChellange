@@ -36,6 +36,9 @@ export class BasictestStack extends cdk.Stack {
         TABLE_NAME: saveAddress.tableName,
       },
     });
+
+    console.log(saveUserdataLambda)
+    console.log("*********************")
     getUserdataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
     saveAddress.grantWriteData(saveUserdataLambda);
 
