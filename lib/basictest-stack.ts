@@ -45,6 +45,13 @@ export class BasictestStack extends cdk.Stack {
       defaultMethodOptions: {
         apiKeyRequired: true,
       },
+      defaultCorsPreflightOptions:{
+        statusCode: 200,
+        allowOrigins: ['http://localhost:3000'],
+        allowHeaders: ['Content-Type' , 'Authorization'],
+        allowMethods: ['POST', 'GET']
+      }
+      
     });
     const userAddressApi = api.root.resourceForPath('userAddress');
     userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
