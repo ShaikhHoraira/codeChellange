@@ -36,8 +36,6 @@ export class BasictestStack extends cdk.Stack {
         TABLE_NAME: saveAddress.tableName,
       },
     });
-    console.log(saveUserdataLambda)
-    console.log("******************")
     getUserdataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
     saveAddress.grantWriteData(saveUserdataLambda);
 
@@ -48,7 +46,7 @@ export class BasictestStack extends cdk.Stack {
       defaultCorsPreflightOptions:{
         statusCode: 200,
         allowOrigins: ['http://localhost:3000'],
-        allowHeaders: ['Content-Type' , 'Authorization'],
+        allowHeaders: ['Content-Type' , 'Authorization', 'x-api-key'],
         allowMethods: ['POST', 'GET']
       }
       
