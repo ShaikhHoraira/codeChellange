@@ -20,7 +20,7 @@ export class BasictestStack extends cdk.Stack {
     });
 
     const getUserdataLambda = new Function(this, "GetCustomerAddressLambdaHandler", {
-      runtime: Runtime.NODEJS_14_X,
+      runtime: Runtime.NODEJS_20_X,
       code: Code.fromAsset('handler'), // Adjusted path
       handler: 'getHandler.handler',
       environment: {
@@ -29,7 +29,7 @@ export class BasictestStack extends cdk.Stack {
     });
 
     const saveUserdataLambda = new Function(this, "PutCustomerAddressLambdaHandler", {
-      runtime: Runtime.NODEJS_14_X,
+      runtime: Runtime.NODEJS_20_X,
       code: Code.fromAsset("handler"), // Adjusted path
       handler: 'saveHandler.handler',
       environment: {
