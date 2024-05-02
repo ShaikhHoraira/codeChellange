@@ -46,8 +46,8 @@ export class BasictestStack extends cdk.Stack {
       defaultCorsPreflightOptions:{
         statusCode: 200,
         allowOrigins: ['*'],
-        allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
-        allowMethods: ['POST', 'GET']
+        allowHeaders: ['*'],
+        allowMethods: ['*']
       }
       
     });
