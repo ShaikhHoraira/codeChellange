@@ -44,10 +44,10 @@ export class BasictestStack extends cdk.Stack {
         apiKeyRequired: true,
       },
       defaultCorsPreflightOptions:{
-        statusCode: 200,
+        statusCode: 204,
         allowOrigins: ['*'],
-        allowHeaders: ['*'],
-        allowMethods: ['*']
+        allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
+        allowMethods: ['POST', 'GET']
       }
       
     });
