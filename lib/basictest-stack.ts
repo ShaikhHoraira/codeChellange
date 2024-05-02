@@ -1,8 +1,8 @@
-import { CfnOutput } from 'aws-cdk-lib';
+//import { CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Function, Runtime, Code } from "aws-cdk-lib/aws-lambda";
-import { RestApi, LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
+//import { RestApi, LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
@@ -39,36 +39,36 @@ export class BasictestStack extends cdk.Stack {
     getUserdataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
     saveAddress.grantWriteData(saveUserdataLambda);
 
-    const api = new RestApi(this, "Tu_testApi", {
-      defaultMethodOptions: {
-        apiKeyRequired: true,
-      },
-      // defaultCorsPreflightOptions:{
-      //   statusCode: 200,
-      //   allowOrigins: ['http://localhost:3000'],
-      //   allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
-      //   allowMethods: ['POST', 'GET']
-      // }
+    // const api = new RestApi(this, "Tu_testApi", {
+    //   defaultMethodOptions: {
+    //     apiKeyRequired: true,
+    //   },
+    //   // defaultCorsPreflightOptions:{
+    //   //   statusCode: 200,
+    //   //   allowOrigins: ['http://localhost:3000'],
+    //   //   allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
+    //   //   allowMethods: ['POST', 'GET']
+    //   // }
       
-    });
-    const userAddressApi = api.root.resourceForPath('userAddress');
-    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
-    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
+    // });
+    // const userAddressApi = api.root.resourceForPath('userAddress');
+    // userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
+    // userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
     
-    const apiKey = api.addApiKey('ApiKey',{
-      apiKeyName: 'tuApiKey',
-      value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
-    });
-    const plan = api.addUsagePlan('Tu_api-usage-plan', { // we can use rate limit and other usage plans 
-      name: `api-usage-plan`,
-      apiStages: [{ stage: api.deploymentStage }],
-    });
+    // const apiKey = api.addApiKey('ApiKey',{
+    //   apiKeyName: 'tuApiKey',
+    //   value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
+    // });
+    // const plan = api.addUsagePlan('Tu_api-usage-plan', { // we can use rate limit and other usage plans 
+    //   name: `api-usage-plan`,
+    //   apiStages: [{ stage: api.deploymentStage }],
+    // });
   
-    plan.addApiKey(apiKey);
+    // plan.addApiKey(apiKey);
   
-    new CfnOutput(this, "API URL", {
-      value: api.url ?? "Something went wrong"
-    });
+    // new CfnOutput(this, "API URL", {
+    //   value: api.url ?? "Something went wrong"
+    // });
 
   };
 }
