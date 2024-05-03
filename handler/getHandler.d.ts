@@ -1,2 +1,2 @@
-import { Handler } from "aws-cdk-lib/aws-lambda";
+import { Handler } from "aws-lambda";
 export declare const handler: Handler;

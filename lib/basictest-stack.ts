@@ -45,33 +45,15 @@ export class BasictestStack extends cdk.Stack {
       },
       defaultCorsPreflightOptions:{
         statusCode: 204,
-        allowOrigins: ['https://master.df0uziwirgry6.amplifyapp.com'],
+        allowOrigins: ['*'],
         allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
         allowMethods: ['POST', 'GET']
       }
       
     });
     const userAddressApi = api.root.resourceForPath('userAddress');
-    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda), {
-      methodResponses: [{
-        statusCode: '204',
-        responseParameters: {
-          'method.response.header.Access-Control-Allow-Origin': true,
-          'method.response.header.Access-Control-Allow-Methods': true,
-          'method.response.header.Access-Control-Allow-Headers': true,
-          'method.response.header.Vary': true,
-        },
-      }],});
-    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda), {
-      methodResponses: [{
-        statusCode: '204',
-        responseParameters: {
-          'method.response.header.Access-Control-Allow-Origin': true,
-          'method.response.header.Access-Control-Allow-Methods': true,
-          'method.response.header.Access-Control-Allow-Headers': true,
-          'method.response.header.Vary': true,
-        },
-      }],});
+    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
+    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
     
     const apiKey = api.addApiKey('ApiKey',{
       apiKeyName: 'tuApiKey',
