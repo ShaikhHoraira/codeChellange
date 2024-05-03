@@ -40,9 +40,11 @@ export class BasictestStack extends cdk.Stack {
     saveAddress.grantWriteData(saveUserdataLambda);
 
     const api = new RestApi(this, "Tu_testApi", {
-     
+      defaultMethodOptions: {
+        apiKeyRequired: true,
+      },
       defaultCorsPreflightOptions:{
-        statusCode: 200,
+        statusCode: 204,
         allowOrigins: ['*'],
         allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
         allowMethods: ['POST', 'GET']
@@ -50,23 +52,8 @@ export class BasictestStack extends cdk.Stack {
       
     });
     const userAddressApi = api.root.resourceForPath('userAddress');
-    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda),{
-      methodResponses: [{
-        statusCode: '200',
-        responseParameters: {
-          'method.response.header.Access-Control-Allow-Origin': true
-        }
-      }]
-    });
-    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda),{
-
-      methodResponses: [{
-        statusCode: '200',
-        responseParameters: {
-          'method.response.header.Access-Control-Allow-Origin': true
-        }
-      }]
-    });
+    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
+    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
     
     const apiKey = api.addApiKey('ApiKey',{
       apiKeyName: 'tuApiKey',
