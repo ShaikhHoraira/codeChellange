@@ -1,46 +1,74 @@
+import { CfnOutput } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
+import { Function, Runtime, Code } from "aws-cdk-lib/aws-lambda";
+import { RestApi, LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
 import * as cdk from 'aws-cdk-lib';
-import * as apigateway from 'aws-cdk-lib/aws-apigateway';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as iam from 'aws-cdk-lib/aws-iam';
-import * as apigatewayv2 from 'aws-cdk-lib/aws-apigatewayv2';
-import * as apigatewayv2Integrations from 'aws-cdk-lib/aws-apigatewayv2-integrations';
 
 export class BasictestStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // Lambda function for handling GET requests
-    const getUserdataLambda = new lambda.Function(this, 'GetUserDataLambda', {
-      runtime: lambda.Runtime.NODEJS_14_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset('lambda/get-userdata'),
+    const saveAddress = new Table(this, "Address", {
+      partitionKey: { name: "UserId", type: AttributeType.STRING },
+      tableName: "Tu_Test_TableName",
+    });
+    saveAddress.addGlobalSecondaryIndex({
+      indexName: 'UserIdIndex',
+      partitionKey: { name: 'UserId', type: AttributeType.STRING },
     });
 
-    // Lambda function for handling POST requests
-    const saveUserdataLambda = new lambda.Function(this, 'SaveUserDataLambda', {
-      runtime: lambda.Runtime.NODEJS_14_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset('lambda/save-userdata'),
+    const getUserdataLambda = new Function(this, "GetCustomerAddressLambdaHandler", {
+      runtime: Runtime.NODEJS_14_X,
+      code: Code.fromAsset('handler'), // Adjusted path
+      handler: 'getHandler.handler',
+      environment: {
+        TABLE_NAME: saveAddress.tableName,
+      },
     });
 
-    // API Gateway REST API
-    const api = new apigateway.RestApi(this, 'Tu_testApi', {
-      defaultCorsPreflightOptions: {
+    const saveUserdataLambda = new Function(this, "PutCustomerAddressLambdaHandler", {
+      runtime: Runtime.NODEJS_14_X,
+      code: Code.fromAsset("handler"), // Adjusted path
+      handler: 'saveHandler.handler',
+      environment: {
+        TABLE_NAME: saveAddress.tableName,
+      },
+    });
+    getUserdataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
+    saveAddress.grantWriteData(saveUserdataLambda);
+
+    const api = new RestApi(this, "Tu_testApi", {
+      defaultMethodOptions: {
+        apiKeyRequired: true,
+      },
+      defaultCorsPreflightOptions:{
         statusCode: 200,
         allowOrigins: ['*'],
-        allowHeaders: ['Content-Type', 'Authorization', 'X-Api-Key'],
+        allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
         allowMethods: ['POST', 'GET']
       }
+      
     });
-
-    // Define resources and methods
     const userAddressApi = api.root.resourceForPath('userAddress');
-    userAddressApi.addMethod('GET', new apigateway.LambdaIntegration(getUserdataLambda));
-    userAddressApi.addMethod('POST', new apigateway.LambdaIntegration(saveUserdataLambda));
-
-    // Output API URL
-    new cdk.CfnOutput(this, 'API URL', {
-      value: api.url ?? 'Something went wrong'
+    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
+    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
+    
+    const apiKey = api.addApiKey('ApiKey',{
+      apiKeyName: 'tuApiKey',
+      value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
     });
-  }
+    const plan = api.addUsagePlan('Tu_api-usage-plan', { // we can use rate limit and other usage plans 
+      name: `api-usage-plan`,
+      apiStages: [{ stage: api.deploymentStage }],
+    });
+  
+    plan.addApiKey(apiKey);
+  
+    new CfnOutput(this, "API URL", {
+      value: api.url ?? "Something went wrong"
+    });
+
+  };
 }
