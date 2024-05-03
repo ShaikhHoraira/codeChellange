@@ -40,9 +40,7 @@ export class BasictestStack extends cdk.Stack {
     saveAddress.grantWriteData(saveUserdataLambda);
 
     const api = new RestApi(this, "Tu_testApi", {
-      defaultMethodOptions: {
-        apiKeyRequired: true,
-      },
+     
       defaultCorsPreflightOptions:{
         statusCode: 200,
         allowOrigins: ['*'],
