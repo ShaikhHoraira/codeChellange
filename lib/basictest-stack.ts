@@ -52,8 +52,23 @@ export class BasictestStack extends cdk.Stack {
       
     });
     const userAddressApi = api.root.resourceForPath('userAddress');
-    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
-    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
+    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda),{
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true
+        }
+      }]
+    });
+    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda),{
+
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true
+        }
+      }]
+    });
     
     const apiKey = api.addApiKey('ApiKey',{
       apiKeyName: 'tuApiKey',
