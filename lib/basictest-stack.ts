@@ -2,7 +2,7 @@ import { CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Function, Runtime, Code } from "aws-cdk-lib/aws-lambda";
-import { RestApi, LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
+import { RestApi, LambdaIntegration, MockIntegration, PassthroughBehavior } from "aws-cdk-lib/aws-apigateway";
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
@@ -44,7 +44,7 @@ export class BasictestStack extends cdk.Stack {
         apiKeyRequired: true,
       },
       defaultCorsPreflightOptions:{
-        statusCode: 204,
+        statusCode: 200,
         allowOrigins: ['*'],
         allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
         allowMethods: ['POST', 'GET']
@@ -54,6 +54,29 @@ export class BasictestStack extends cdk.Stack {
     const userAddressApi = api.root.resourceForPath('userAddress');
     userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
     userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
+    userAddressApi.addMethod('OPTIONS', new MockIntegration({
+      integrationResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Headers': "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+          'method.response.header.Access-Control-Allow-Methods': "'OPTIONS,GET,POST'",
+          'method.response.header.Access-Control-Allow-Origin': "'*'",
+        },
+      }],
+      passthroughBehavior: PassthroughBehavior.NEVER,
+      requestTemplates: {
+        'application/json': '{"statusCode": 200}',
+      },
+    }), {
+      methodResponses: [{
+        statusCode: '200',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Headers': true,
+          'method.response.header.Access-Control-Allow-Methods': true,
+          'method.response.header.Access-Control-Allow-Origin': true,
+        },
+      }],
+    });
     
     const apiKey = api.addApiKey('ApiKey',{
       apiKeyName: 'tuApiKey',
