@@ -21,7 +21,7 @@ export class BasictestStack extends cdk.Stack {
 
     const getUserdataLambda = new Function(this, "GetCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_14_X,
-      code: Code.fromAsset('handler'),
+      code: Code.fromAsset('handler'), // Adjusted path
       handler: 'getHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
@@ -30,7 +30,7 @@ export class BasictestStack extends cdk.Stack {
 
     const saveUserdataLambda = new Function(this, "PutCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_14_X,
-      code: Code.fromAsset("handler"),
+      code: Code.fromAsset("handler"), // Adjusted path
       handler: 'saveHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
@@ -43,22 +43,41 @@ export class BasictestStack extends cdk.Stack {
       defaultMethodOptions: {
         apiKeyRequired: true,
       },
-      defaultCorsPreflightOptions: {
-        allowOrigins: ['https://master.df0uziwirgry6.amplifyapp.com'], // Adjusted origin
-        allowMethods: ['POST', 'GET'],
-        allowHeaders: ['Content-Type', 'Authorization', 'X-Api-Key'],
+      defaultCorsPreflightOptions:{
+        statusCode: 204,
+        allowOrigins: ['https://master.df0uziwirgry6.amplifyapp.com'],
+        allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
+        allowMethods: ['POST', 'GET']
       }
+      
     });
-
     const userAddressApi = api.root.resourceForPath('userAddress');
-    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
-    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
+    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda), {
+      methodResponses: [{
+        statusCode: '204',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+          'method.response.header.Access-Control-Allow-Methods': true,
+          'method.response.header.Access-Control-Allow-Headers': true,
+          'method.response.header.Vary': true,
+        },
+      }],});
+    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda), {
+      methodResponses: [{
+        statusCode: '204',
+        responseParameters: {
+          'method.response.header.Access-Control-Allow-Origin': true,
+          'method.response.header.Access-Control-Allow-Methods': true,
+          'method.response.header.Access-Control-Allow-Headers': true,
+          'method.response.header.Vary': true,
+        },
+      }],});
     
     const apiKey = api.addApiKey('ApiKey',{
       apiKeyName: 'tuApiKey',
-      value: 'thisIsJustSampleAPi123'
+      value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
     });
-    const plan = api.addUsagePlan('Tu_api-usage-plan', {
+    const plan = api.addUsagePlan('Tu_api-usage-plan', { // we can use rate limit and other usage plans 
       name: `api-usage-plan`,
       apiStages: [{ stage: api.deploymentStage }],
     });
@@ -68,5 +87,6 @@ export class BasictestStack extends cdk.Stack {
     new CfnOutput(this, "API URL", {
       value: api.url ?? "Something went wrong"
     });
-  }
+
+  };
 }
