@@ -43,12 +43,12 @@ export class BasictestStack extends cdk.Stack {
       defaultMethodOptions: {
         apiKeyRequired: true,
       },
-      // defaultCorsPreflightOptions:{
-      //   statusCode: 204,
-      //   allowOrigins: ['*'],
-      //   allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
-      //   allowMethods: ['POST', 'GET']
-      // }
+      defaultCorsPreflightOptions:{
+        statusCode: 204,
+        allowOrigins: ['*'],
+        allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
+        allowMethods: ['POST', 'GET']
+      }
       
     });
     const userAddressApi = api.root.resourceForPath('userAddress');
