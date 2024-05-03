@@ -45,7 +45,7 @@ export class BasictestStack extends cdk.Stack {
       },
       defaultCorsPreflightOptions:{
         statusCode: 204,
-        allowOrigins: ['*'],
+        allowOrigins: ['https://master.df0uziwirgry6.amplifyapp.com'],
         allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
         allowMethods: ['POST', 'GET']
       }
