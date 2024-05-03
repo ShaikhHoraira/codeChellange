@@ -1,6 +1,7 @@
 {
   "name": "tucodetest",
   "version": "0.1.0",
+  "proxy": "http://localhost:3000",
   "bin": {
     "tu code test": "bin/tu_code_test.js"
   },
