@@ -21,7 +21,7 @@ export class BasictestStack extends cdk.Stack {
 
     const getUserdataLambda = new Function(this, "GetCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_14_X,
-      code: Code.fromAsset('handler'), // Adjusted path
+      code: Code.fromAsset('handler'),
       handler: 'getHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
@@ -30,7 +30,7 @@ export class BasictestStack extends cdk.Stack {
 
     const saveUserdataLambda = new Function(this, "PutCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_14_X,
-      code: Code.fromAsset("handler"), // Adjusted path
+      code: Code.fromAsset("handler"),
       handler: 'saveHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
@@ -43,23 +43,22 @@ export class BasictestStack extends cdk.Stack {
       defaultMethodOptions: {
         apiKeyRequired: true,
       },
-      defaultCorsPreflightOptions:{
-        statusCode: 204,
-        allowOrigins: ['https://master.df0uziwirgry6.amplifyapp.com'],
-        allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
-        allowMethods: ['POST', 'GET']
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['https://master.df0uziwirgry6.amplifyapp.com'], // Adjusted origin
+        allowMethods: ['POST', 'GET'],
+        allowHeaders: ['Content-Type', 'Authorization', 'X-Api-Key'],
       }
-      
     });
+
     const userAddressApi = api.root.resourceForPath('userAddress');
     userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
     userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
     
     const apiKey = api.addApiKey('ApiKey',{
       apiKeyName: 'tuApiKey',
-      value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
+      value: 'thisIsJustSampleAPi123'
     });
-    const plan = api.addUsagePlan('Tu_api-usage-plan', { // we can use rate limit and other usage plans 
+    const plan = api.addUsagePlan('Tu_api-usage-plan', {
       name: `api-usage-plan`,
       apiStages: [{ stage: api.deploymentStage }],
     });
@@ -69,6 +68,5 @@ export class BasictestStack extends cdk.Stack {
     new CfnOutput(this, "API URL", {
       value: api.url ?? "Something went wrong"
     });
-
-  };
+  }
 }
