@@ -25,10 +25,6 @@
     ],
   },
   "include": [
-    "src/**/*.ts" // Include all TypeScript files in src directory and its subdirectories
-  ],
-  "exclude": [
-    "node_modules",
-    "cdk.out"
+    "src"
   ]
 }
