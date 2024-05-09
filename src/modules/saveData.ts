@@ -5,7 +5,7 @@ const documentClient = new AWS.DynamoDB.DocumentClient({
   region: process.env.region,
 });
 
-export default class SaveCustomerAddress {
+export class SaveCustomerAddress {
 public payload : any;
 
 constructor(payLoad: any){
