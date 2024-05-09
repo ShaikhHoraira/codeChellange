@@ -2,6 +2,7 @@ import { Handler } from "aws-lambda";
 import { GetCustomerAddress } from './getData';
 
 export const handler: Handler = async (event: any) => {
+  console.log("received UserId:", event)
   try {
     if (!event.queryStringParameters.userId || !event.queryStringParameters) {
       return {
