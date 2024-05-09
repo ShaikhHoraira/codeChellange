@@ -1,11 +1,11 @@
 import { Handler } from "aws-cdk-lib/aws-lambda";
-import  SaveCustomerAddress  from '../modules/saveData';
+const saveData = require('../modules/saveData');
 
 export const handler: Handler = async (event: any) => {
   try { 
     if (event.httpMethod === "POST"){
-    const manageDevice = new SaveCustomerAddress(event);
-    const response = await manageDevice.saveData();
+    //const manageDevice = new SaveCustomerAddress(event);
+    const response = await saveData();
     console.log(response)
     }
     return {
