@@ -1,5 +1,5 @@
 import { Handler } from "aws-cdk-lib/aws-lambda";
-const saveData = require('../modules/saveData');
+const saveData = require('../modules/saveData.ts');
 
 export const handler: Handler = async (event: any) => {
   try { 
