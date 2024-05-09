@@ -5,7 +5,8 @@ export const handler: Handler = async (event: any) => {
   try { 
     if (event.httpMethod === "POST"){
       const manageDevice = new SaveCustomerAddress(event);
-      await manageDevice.saveData();
+      let reply = await manageDevice.saveData();
+      console.log(reply)
     }
 
     // Construct the response
