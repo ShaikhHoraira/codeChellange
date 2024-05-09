@@ -1,5 +1,5 @@
 import { Handler } from "aws-cdk-lib/aws-lambda";
-import { SaveCustomerAddress } from './saveData';
+import { SaveCustomerAddress } from '../modules/saveData';
 
 export const handler: Handler = async (event: any) => {
   try { 

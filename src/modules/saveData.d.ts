@@ -1,5 +1,8 @@
-export declare class ManageDevice {
-    payload: object;
-    constructor(payLooad: object);
-    saveData(): Promise<void>;
+export declare class SaveCustomerAddress {
+    payload: any;
+    constructor(payLoad: any);
+    saveData(): Promise<true | {
+        statusCode: number;
+        body: unknown;
+    }>;
 }
