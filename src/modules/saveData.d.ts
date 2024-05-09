@@ -1,4 +1,4 @@
-export declare class SaveCustomerAddress {
+export default class SaveCustomerAddress {
     payload: any;
     constructor(payLoad: any);
     saveData(): Promise<true | {
