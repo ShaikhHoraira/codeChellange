@@ -7,6 +7,7 @@ export const handler: Handler = async (event: any) => {
       const manageDevice = new SaveCustomerAddress(event);
       await manageDevice.saveData();
     }
+    
 
     // Construct the response
     const response = {
