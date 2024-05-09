@@ -1,5 +1,5 @@
 import { Handler } from "aws-cdk-lib/aws-lambda";
-import { GetCustomerAddress } from '../modules/getData';
+import { GetCustomerAddress } from './getData';
 
 
 export const handler: Handler = async (event : any) => {
