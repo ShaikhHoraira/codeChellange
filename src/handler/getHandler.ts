@@ -2,6 +2,7 @@ import { Handler } from "aws-cdk-lib/aws-lambda";
 import { GetCustomerAddress } from './getData';
 
 
+
 export const handler: Handler = async (event : any) => {
   try {
     if (!event.queryStringParameters.userId || !event.queryStringParameters ) {
