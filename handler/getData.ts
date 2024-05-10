@@ -26,7 +26,6 @@ public async getData(){
              },
             TableName: tableName!,
          };
-         console.log("🚀 ~ GetCustomerAddress ~ getData ~ params:", params)
          if (this.suburb) {
           params.FilterExpression = 'Suburb = :suburb';
           params.ExpressionAttributeValues![':suburb'] = this.suburb;

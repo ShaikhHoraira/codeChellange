@@ -9,13 +9,11 @@ export class SaveCustomerAddress {
 public payload : any;
 
 constructor(payLoad: any){
-    console.log("🚀 ~ SaveCustomerAddress ~ constructor ~ payLoad:", payLoad)
     this.payload = payLoad;
 };
 
 public async saveData(){
     const bodypram = JSON.parse(this.payload.body);
-    console.log("🚀 ~ SaveCustomerAddress ~ saveData ~ bodypram:", bodypram)
     let params = {
         TableName: tableName!,
         Item: {
