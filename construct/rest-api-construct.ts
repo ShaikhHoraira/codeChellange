@@ -8,6 +8,7 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 
 // Import the AWS SDK module
 import * as AWS from 'aws-sdk';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 
 export class RestApiConstruct extends Construct {
   constructor(scope: Construct, id: string,stack : Stack) {
@@ -33,6 +34,12 @@ export class RestApiConstruct extends Construct {
         TABLE_NAME: saveAddress.tableName,
       },
     });
+    getUserdataLambda.grantPrincipal.addToPrincipalPolicy(
+      new PolicyStatement({
+        resources: ['*'],
+        actions: ['dynamodb:getItem', 'secretsmanager:GetSecretValue'],
+      }),
+    );
 
     const saveUserdataLambda = new Function(stack, "PutCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_20_X,
@@ -42,6 +49,12 @@ export class RestApiConstruct extends Construct {
         TABLE_NAME: saveAddress.tableName,
       },
     });
+    saveUserdataLambda.grantPrincipal.addToPrincipalPolicy(
+      new PolicyStatement({
+        resources: ['*'],
+        actions: ['dynamodb:PutItem', 'secretsmanager:GetSecretValue'],
+      }),
+    );
     getUserdataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
     saveAddress.grantWriteData(saveUserdataLambda);
 
