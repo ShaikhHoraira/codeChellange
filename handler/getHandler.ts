@@ -2,20 +2,19 @@ import { Handler } from "aws-lambda";
 import { GetCustomerAddress } from './getData';
 
 export const handler: Handler = async (event: any) => {
-  
   console.log("received UserId:", event)
   try {
     if (!event.queryStringParameters.userId || !event.queryStringParameters) {
-      const response = {
-        statusCode: 204,
+      return {
+        statusCode: 400,
+        body: "Missing userId, Please provide userId",
         headers: {
-            "Access-Control-Allow-Headers" : "*",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+          'Access-Control-Allow-Origin': '*', // or specific origin(s)
+          'Access-Control-Allow-Methods': 'OPTIONS, GET', // Include OPTIONS for preflight requests
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key',
+          'Vary': 'Origin',
         },
-        body: JSON.stringify('Hello from Lambda!'),
-    };
-    return response;
+      };
     };
 
     const manageDevice = new GetCustomerAddress(event.queryStringParameters.userId, event.queryStringParameters.suburb, event.queryStringParameters.postcode);
@@ -27,7 +26,7 @@ export const handler: Handler = async (event: any) => {
       headers: {
         'Access-Control-Allow-Origin': '*', // or specific origin(s)
         'Access-Control-Allow-Methods': 'OPTIONS, GET',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key',
         'Vary': 'Origin',
       },
     };
@@ -38,7 +37,7 @@ export const handler: Handler = async (event: any) => {
       headers: {
         'Access-Control-Allow-Origin': '*', // or specific origin(s)
         'Access-Control-Allow-Methods': 'OPTIONS, GET',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key',
         'Vary': 'Origin',
       },
     };
