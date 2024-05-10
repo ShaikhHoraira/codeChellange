@@ -17,7 +17,7 @@ export class RestApiConstruct extends Construct {
 
   constructor(scope: Construct, id: string,stack : Stack) {
     super(scope, id);
-    const stackName = Stack.of(this).stackName;
+    //const stackName = Stack.of(this).stackName;
     // Configure the AWS SDK with region
     AWS.config.update({ region: process.env.AWS_REGION });
 
@@ -62,6 +62,8 @@ export class RestApiConstruct extends Construct {
     getUserdataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
     saveAddress.grantWriteData(saveUserdataLambda);
 
+
+
     const restApi = new RestApi(this, "UserContacts", {
       defaultMethodOptions: {
         apiKeyRequired: true,
@@ -79,23 +81,23 @@ export class RestApiConstruct extends Construct {
     userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
     userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
     
-    // const apiKey = api.addApiKey('ApiKey',{
-    //   apiKeyName: 'tuApiKey',
-    //   value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
-    // });
-    // console.log("🚀 ~ RestApiConstruct ~ constructor ~ apiKey:", apiKey)
-    // const plan = api.addUsagePlan('Tu_api-usage-plan', { // we can use rate limit and other usage plans 
-    //   name: `api-usage-plan`,
-    //   apiStages: [{ stage: api.deploymentStage }],
-    // });
+    const apiKey = restApi.addApiKey('ApiKey',{
+      apiKeyName: 'tuApiKey',
+      value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
+    });
+    console.log("🚀 ~ RestApiConstruct ~ constructor ~ apiKey:", apiKey)
+    const plan = restApi.addUsagePlan('Tu_api-usage-plan', { // we can use rate limit and other usage plans 
+      name: `api-usage-plan`,
+      apiStages: [{ stage: restApi.deploymentStage }],
+    });
 
   
-    // plan.addApiKey(apiKey);
+    plan.addApiKey(apiKey);
   
     // new CfnOutput(this, "API URL", {
     //   value: api.url ?? "Something went wrong"
     // });
-    this.addApiKey(stackName, restApi);
+    // this.addApiKey(stackName, restApi);
     this.addApiResponses(restApi);
 
     restApi.methods
@@ -106,36 +108,36 @@ export class RestApiConstruct extends Construct {
       });
   };
 
-addApiKey(stackName: string, restApi: RestApi) {
-    // API Gateway API Key
-    // const secret = new Secret(this, 'UserContacts-userAddress-api-secret', {
-    //   secretName: `${stackName}/api-key`,
-    //   description: 'Mobile push notification API Gateway API Key',
-    //   generateSecretString: {
-    //     generateStringKey: 'key',
-    //     secretStringTemplate: JSON.stringify({}),
-    //     excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
-    //   },
-    // });
+// addApiKey(stackName: string, restApi: RestApi) {
+//     // API Gateway API Key
+//     // const secret = new Secret(this, 'UserContacts-userAddress-api-secret', {
+//     //   secretName: `${stackName}/api-key`,
+//     //   description: 'Mobile push notification API Gateway API Key',
+//     //   generateSecretString: {
+//     //     generateStringKey: 'key',
+//     //     secretStringTemplate: JSON.stringify({}),
+//     //     excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
+//     //   },
+//     // });
 
-    const apiKey = restApi.addApiKey('ApiKey', {
-      apiKeyName: 'this._apiKeyName',
-      value: 'secret.secretValueFromJson',
-    });
+//     const apiKey = restApi.addApiKey('ApiKey', {
+//       apiKeyName: 'this._apiKeyName',
+//       value: 'secret.secretValueFromJson',
+//     });
 
-    // this.restAPIKeyArn = secret.secretArn;
+//     // this.restAPIKeyArn = secret.secretArn;
 
-    // new CfnOutput(this, 'restAPIKeyArnAtSource', {
-    //   value: this.restAPIKeyArn ?? '',
-    // });
+//     // new CfnOutput(this, 'restAPIKeyArnAtSource', {
+//     //   value: this.restAPIKeyArn ?? '',
+//     // });
 
-    const plan = restApi.addUsagePlan('userAPi-address-usage-plan', {
-      name: `${stackName}-api-usage-plan`,
-      apiStages: [{ stage: restApi.deploymentStage }],
-    });
+//     const plan = restApi.addUsagePlan('userAPi-address-usage-plan', {
+//       name: `${stackName}-api-usage-plan`,
+//       apiStages: [{ stage: restApi.deploymentStage }],
+//     });
 
-    plan.addApiKey(apiKey);
-  }
+//     plan.addApiKey(apiKey);
+//   }
 
   addApiResponses(restApi: RestApi) {
     const commonResponse = new ApiCommonResponse();
