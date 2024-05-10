@@ -9,7 +9,7 @@ export const handler: Handler = async (event: any) => {
         statusCode: 400,
         body: "Missing userId, Please provide userId",
         headers: {
-          'Access-Control-Allow-Origin': "'*'", // or specific origin(s)
+          'Access-Control-Allow-Origin': '*', // or specific origin(s)
           'Access-Control-Allow-Methods': 'OPTIONS, GET',
           'Access-Control-Allow-Headers': 'Content-Type, Authorization',
           'Vary': 'Origin',
@@ -24,7 +24,7 @@ export const handler: Handler = async (event: any) => {
       statusCode: 200,
       body: JSON.stringify(result),
       headers: {
-        'Access-Control-Allow-Origin': "'*'", // or specific origin(s)
+        'Access-Control-Allow-Origin': '*', // or specific origin(s)
         'Access-Control-Allow-Methods': 'OPTIONS, GET',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Vary': 'Origin',
@@ -38,7 +38,7 @@ export const handler: Handler = async (event: any) => {
         statusCode: 400,
         body: e.message,
         headers: {
-          'Access-Control-Allow-Origin': "'*'", // or specific origin(s)
+          'Access-Control-Allow-Origin': '*', // or specific origin(s)
           'Access-Control-Allow-Methods': 'OPTIONS, GET',
           'Access-Control-Allow-Headers': 'Content-Type, Authorization',
           'Vary': 'Origin',
@@ -50,7 +50,7 @@ export const handler: Handler = async (event: any) => {
         statusCode: 403,
         body: 'Forbidden access',
         headers: {
-          'Access-Control-Allow-Origin': "'*'", // or specific origin(s)
+          'Access-Control-Allow-Origin': '*', // or specific origin(s)
           'Access-Control-Allow-Methods': 'OPTIONS, GET',
           'Access-Control-Allow-Headers': 'Content-Type, Authorization',
           'Vary': 'Origin',

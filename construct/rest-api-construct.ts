@@ -67,7 +67,7 @@ export class RestApiConstruct extends Construct {
       },
       defaultCorsPreflightOptions:{
         statusCode: 204,
-        allowOrigins: ['*'],
+        allowOrigins: ["'*'"],
         allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
         allowMethods: ['POST', 'GET']
       }
