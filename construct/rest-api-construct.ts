@@ -63,7 +63,7 @@ export class RestApiConstruct extends Construct {
       name: `api-usage-plan`,
       apiStages: [{ stage: api.deploymentStage }],
     });
-    console.log("🚀 ~ RestApiConstruct ~ constructor ~ plan:", plan)
+
   
     plan.addApiKey(apiKey);
   
