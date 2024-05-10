@@ -7,6 +7,7 @@ export class BasictestStack extends Stack {
     super(scope, id, props);
     
     const restApiConstruct = new RestApiConstruct(this, 'rest-api-construct', this);
+    console.log("🚀 ~ BasictestStack ~ constructor ~ restApiConstruct:", restApiConstruct)
     console.log(restApiConstruct);
   }
 }
