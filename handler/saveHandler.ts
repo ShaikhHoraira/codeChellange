@@ -15,7 +15,7 @@ export const handler: Handler = async (event: any) => {
       headers: {
         'Access-Control-Allow-Origin': '*', // or specific origin(s)
         'Access-Control-Allow-Methods': 'OPTIONS, POST', // Include OPTIONS for preflight requests
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key',
         'Vary': 'Origin',
       },
       body: JSON.stringify('Success')
@@ -29,7 +29,7 @@ export const handler: Handler = async (event: any) => {
       headers: {
         'Access-Control-Allow-Origin': '*', // or specific origin(s)
         'Access-Control-Allow-Methods': 'OPTIONS, POST',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key',
         'Vary': 'Origin',
       },
       body: (typeof e === 'string') ? e : 'Invalid Request Body'

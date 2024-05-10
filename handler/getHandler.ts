@@ -11,7 +11,7 @@ export const handler: Handler = async (event: any) => {
         headers: {
           'Access-Control-Allow-Origin': '*', // or specific origin(s)
           'Access-Control-Allow-Methods': 'OPTIONS, GET',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key',
           'Vary': 'Origin',
         },
       };
@@ -26,7 +26,7 @@ export const handler: Handler = async (event: any) => {
       headers: {
         'Access-Control-Allow-Origin': '*', // or specific origin(s)
         'Access-Control-Allow-Methods': 'OPTIONS, GET',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key',
         'Vary': 'Origin',
       },
     };
@@ -40,7 +40,7 @@ export const handler: Handler = async (event: any) => {
         headers: {
           'Access-Control-Allow-Origin': '*', // or specific origin(s)
           'Access-Control-Allow-Methods': 'OPTIONS, GET',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key',
           'Vary': 'Origin',
         },
       };
@@ -52,7 +52,7 @@ export const handler: Handler = async (event: any) => {
         headers: {
           'Access-Control-Allow-Origin': '*', // or specific origin(s)
           'Access-Control-Allow-Methods': 'OPTIONS, GET',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key',
           'Vary': 'Origin',
         },
       };
