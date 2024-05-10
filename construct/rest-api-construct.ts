@@ -10,7 +10,7 @@ import { ApiCommonResponse } from '../modules/Common/api-common-response';
 // Import the AWS SDK module
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
+//import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
 export class RestApiConstruct extends Construct {
   public restApi: RestApi;
@@ -108,19 +108,19 @@ export class RestApiConstruct extends Construct {
 
 addApiKey(stackName: string, restApi: RestApi) {
     // API Gateway API Key
-    const secret = new Secret(this, 'UserContacts-userAddress-api-secret', {
-      secretName: `${stackName}/api-key`,
-      description: 'Mobile push notification API Gateway API Key',
-      generateSecretString: {
-        generateStringKey: 'key',
-        secretStringTemplate: JSON.stringify({}),
-        excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
-      },
-    });
+    // const secret = new Secret(this, 'UserContacts-userAddress-api-secret', {
+    //   secretName: `${stackName}/api-key`,
+    //   description: 'Mobile push notification API Gateway API Key',
+    //   generateSecretString: {
+    //     generateStringKey: 'key',
+    //     secretStringTemplate: JSON.stringify({}),
+    //     excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
+    //   },
+    // });
 
     const apiKey = restApi.addApiKey('ApiKey', {
       apiKeyName: 'this._apiKeyName',
-      value: secret.secretValueFromJson('key').toString(),
+      value: 'secret.secretValueFromJson',
     });
 
     // this.restAPIKeyArn = secret.secretArn;
