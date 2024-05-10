@@ -2,7 +2,7 @@
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Function, Runtime, Code } from "aws-cdk-lib/aws-lambda";
-import { RestApi, LambdaIntegration, ResponseType } from "aws-cdk-lib/aws-apigateway";
+import { RestApi, LambdaIntegration, ResponseType, CfnMethod } from "aws-cdk-lib/aws-apigateway";
 import { Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApiCommonResponse } from '../modules/Common/api-common-response';
@@ -13,11 +13,11 @@ import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
 export class RestApiConstruct extends Construct {
-
+  public restApi: RestApi;
 
   constructor(scope: Construct, id: string,stack : Stack) {
     super(scope, id);
-
+    const stackName = Stack.of(this).stackName;
     // Configure the AWS SDK with region
     AWS.config.update({ region: process.env.AWS_REGION });
 
@@ -62,7 +62,7 @@ export class RestApiConstruct extends Construct {
     getUserdataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
     saveAddress.grantWriteData(saveUserdataLambda);
 
-    const api = new RestApi(this, "UserContacts", {
+    const restApi = new RestApi(this, "UserContacts", {
       defaultMethodOptions: {
         apiKeyRequired: true,
       },
@@ -74,7 +74,8 @@ export class RestApiConstruct extends Construct {
       }
       
     });
-    const userAddressApi = api.root.resourceForPath('userDetails');
+    this.restApi = restApi;
+    const userAddressApi = restApi.root.resourceForPath('userDetails');
     userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
     userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
     
@@ -94,7 +95,15 @@ export class RestApiConstruct extends Construct {
     // new CfnOutput(this, "API URL", {
     //   value: api.url ?? "Something went wrong"
     // });
+    this.addApiKey(stackName, restApi);
+    this.addApiResponses(restApi);
 
+    restApi.methods
+      .filter(method => method.httpMethod === 'OPTIONS')
+      .forEach(method => {
+        const cfnMethod = method.node.defaultChild as CfnMethod;
+        cfnMethod.apiKeyRequired = false;
+      });
   };
 
 addApiKey(stackName: string, restApi: RestApi) {
