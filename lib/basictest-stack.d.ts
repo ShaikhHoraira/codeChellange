@@ -1,4 +1,5 @@
 import { Construct } from 'constructs';
-export declare class BasictestStack extends Construct {
-    constructor(scope: Construct, id: string);
+import { Stack } from 'aws-cdk-lib';
+export declare class BasictestStack extends Stack {
+    constructor(scope: Construct, id: string, props?: any);
 }

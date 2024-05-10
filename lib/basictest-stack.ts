@@ -1,14 +1,12 @@
 import { Construct } from 'constructs';
-//import {Stack} from 'aws-cdk-lib';
+import { Stack} from 'aws-cdk-lib';
 import { RestApiConstruct } from '../construct/rest-api-construct';
 
-export class BasictestStack extends Construct {
-  constructor(scope: Construct, id: string,) {
-    super(scope, id);
-    //const stackName = Stack.of(this).stackName;
-    const restApiConstruct = new RestApiConstruct(this, 'rest-api-construct');
-    console.log(restApiConstruct);
+export class BasictestStack extends Stack {
+  constructor(scope: Construct, id: string, props?: any) {
+    super(scope, id, props);
     
-
-  };
+    const restApiConstruct = new RestApiConstruct(this, 'rest-api-construct', this);
+    console.log(restApiConstruct);
+  }
 }
