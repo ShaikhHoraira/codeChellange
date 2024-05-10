@@ -9,8 +9,8 @@ export const handler: Handler = async (event: any) => {
       const response = {
         statusCode: 204,
         headers: {
-            "Access-Control-Allow-Headers" : "Content-Type",
-            "Access-Control-Allow-Origin": "https://www.example.com",
+            "Access-Control-Allow-Headers" : "*",
+            "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
         },
         body: JSON.stringify('Hello from Lambda!'),
