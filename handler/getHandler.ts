@@ -5,7 +5,7 @@ export const handler: Handler = async (event: any) => {
   try {
     if (!event.queryStringParameters.userId || !event.queryStringParameters) {
       return {
-        statusCode: 400,
+        statusCode: 403,
         body: "Missing userId, Please provide userId",
         headers: {
           'Access-Control-Allow-Origin': '*', // or specific origin(s)

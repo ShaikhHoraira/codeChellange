@@ -113,6 +113,7 @@ export class RestApiConstruct extends Construct {
       type: ResponseType.WAF_FILTERED,
       responseHeaders: {
         'Access-Control-Allow-Origin': "'*'",
+
       },
       templates: {
         'application/json': commonResponse.setResponseWithOutReason(403, 'Forbidden', '$context.requestId').body,
@@ -158,6 +159,9 @@ export class RestApiConstruct extends Construct {
       type: ResponseType.MISSING_AUTHENTICATION_TOKEN,
       responseHeaders: {
         'Access-Control-Allow-Origin': "'*'",
+        'Access-Control-Allow-Methods': 'OPTIONS, GET',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Vary': 'Origin',
       },
       templates: {
         'application/json': commonResponse.setResponseWithOutReason(403, 'Forbidden', '$context.requestId').body,
