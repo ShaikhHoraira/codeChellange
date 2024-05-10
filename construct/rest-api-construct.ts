@@ -65,6 +65,7 @@ export class RestApiConstruct extends Construct {
       apiKeyName: 'tuApiKey',
       value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
     });
+    console.log("🚀 ~ RestApiConstruct ~ constructor ~ apiKey:", apiKey)
     const plan = api.addUsagePlan('Tu_api-usage-plan', { // we can use rate limit and other usage plans 
       name: `api-usage-plan`,
       apiStages: [{ stage: api.deploymentStage }],
