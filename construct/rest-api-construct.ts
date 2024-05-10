@@ -2,15 +2,18 @@ import { CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Function, Runtime, Code } from "aws-cdk-lib/aws-lambda";
-import { RestApi, LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
+import { RestApi, LambdaIntegration, ResponseType } from "aws-cdk-lib/aws-apigateway";
 import { Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import { ApiCommonResponse } from '../modules/Common/api-common-response';
 
 // Import the AWS SDK module
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 
 export class RestApiConstruct extends Construct {
+
+
   constructor(scope: Construct, id: string,stack : Stack) {
     super(scope, id);
 
@@ -92,4 +95,112 @@ export class RestApiConstruct extends Construct {
     });
 
   };
+
+  addApiResponses(restApi: RestApi) {
+    const commonResponse = new ApiCommonResponse();
+    // ***************** Error 400
+    restApi.addGatewayResponse('BAD_REQUEST_BODY', {
+      type: ResponseType.BAD_REQUEST_BODY,
+      responseHeaders: {
+        'Access-Control-Allow-Origin': '\'*\'',
+      },
+      templates: {
+        'application/json': commonResponse.setResponseWithOutReason(400, 'Bad Request', '$context.requestId').body,
+      },
+    });
+    // *****************Error 403
+    restApi.addGatewayResponse('WAF_FILTERED', {
+      type: ResponseType.WAF_FILTERED,
+      responseHeaders: {
+        'Access-Control-Allow-Origin': "'*'",
+      },
+      templates: {
+        'application/json': commonResponse.setResponseWithOutReason(403, 'Forbidden', '$context.requestId').body,
+      },
+    });
+    restApi.addGatewayResponse('EXPIRED_TOKEN', {
+      type: ResponseType.EXPIRED_TOKEN,
+      responseHeaders: {
+        'Access-Control-Allow-Origin': "'*'",
+      },
+      templates: {
+        'application/json': commonResponse.setResponseWithOutReason(403, 'Forbidden', '$context.requestId').body,
+      },
+    });
+    restApi.addGatewayResponse('INVALID_API_KEY', {
+      type: ResponseType.INVALID_API_KEY,
+      responseHeaders: {
+        'Access-Control-Allow-Origin': "'*'",
+      },
+      templates: {
+        'application/json': commonResponse.setResponseWithOutReason(403, 'Forbidden', '$context.requestId').body,
+      },
+    });
+    restApi.addGatewayResponse('ACCESS_DENIED', {
+      type: ResponseType.ACCESS_DENIED,
+      responseHeaders: {
+        'Access-Control-Allow-Origin': "'*'",
+      },
+      templates: {
+        'application/json': commonResponse.setResponseWithOutReason(403, 'Forbidden', '$context.requestId').body,
+      },
+    });
+    restApi.addGatewayResponse('INVALID_SIGNATURE', {
+      type: ResponseType.INVALID_SIGNATURE,
+      responseHeaders: {
+        'Access-Control-Allow-Origin': "'*'",
+      },
+      templates: {
+        'application/json': commonResponse.setResponseWithOutReason(403, 'Forbidden', '$context.requestId').body,
+      },
+    });
+    restApi.addGatewayResponse('MISSING_AUTHENTICATION_TOKEN', {
+      type: ResponseType.MISSING_AUTHENTICATION_TOKEN,
+      responseHeaders: {
+        'Access-Control-Allow-Origin': "'*'",
+      },
+      templates: {
+        'application/json': commonResponse.setResponseWithOutReason(403, 'Forbidden', '$context.requestId').body,
+      },
+    });
+    // *****************Error 5xx
+    restApi.addGatewayResponse('DEFAULT_5XX', {
+      type: ResponseType.DEFAULT_5XX,
+      responseHeaders: {
+        'Access-Control-Allow-Origin': "'*'",
+      },
+      templates: {
+        'application/json': commonResponse.setResponseWithOutReason(500, 'Internal Server Error', '$context.requestId').body,
+      },
+    });
+    // ***************** Error 401
+    restApi.addGatewayResponse('UNAUTHORIZED', {
+      type: ResponseType.UNAUTHORIZED,
+      responseHeaders: {
+        'Access-Control-Allow-Origin': "'*'",
+      },
+      templates: {
+        'application/json': commonResponse.setResponseWithOutReason(401, 'Unauthorized', '$context.requestId').body,
+      },
+    });
+    // ***************** Error for 429
+    restApi.addGatewayResponse('QUOTA_EXCEEDED', {
+      type: ResponseType.QUOTA_EXCEEDED,
+      responseHeaders: {
+        'Access-Control-Allow-Origin': "'*'",
+      },
+      templates: {
+        'application/json': commonResponse.setResponseWithOutReason(429, 'Limit Exceeded', '$context.requestId').body,
+      },
+    });
+    restApi.addGatewayResponse('THROTTLED', {
+      type: ResponseType.THROTTLED,
+      responseHeaders: {
+        'Access-Control-Allow-Origin': "'*'",
+      },
+      templates: {
+        'application/json': commonResponse.setResponseWithOutReason(429, 'Limit Exceeded', '$context.requestId').body,
+      },
+    });
+  }
 }
