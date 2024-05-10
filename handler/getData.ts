@@ -1,6 +1,7 @@
 import * as AWS from "aws-sdk"
 import { DynamoDB } from "aws-sdk";
 const tableName = process.env.TABLE_NAME;
+console.log("🚀 ~ tableName:", tableName)
 const documentClient = new AWS.DynamoDB.DocumentClient({
   region: process.env.region,
 });
@@ -25,6 +26,7 @@ public async getData(){
              },
             TableName: tableName!,
          };
+         console.log("🚀 ~ GetCustomerAddress ~ getData ~ params:", params)
          if (this.suburb) {
           params.FilterExpression = 'Suburb = :suburb';
           params.ExpressionAttributeValues![':suburb'] = this.suburb;
