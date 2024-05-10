@@ -1,58 +1,67 @@
-import * as AWS from "aws-sdk"
-import { DynamoDB } from "aws-sdk";
-const tableName = process.env.TABLE_NAME;
-const documentClient = new AWS.DynamoDB.DocumentClient({
-  region: process.env.region,
-});
+import { DynamoDBClient, QueryCommand } from "@aws-sdk/client-dynamodb";
+
+const TABLE_NAME = process.env.TABLE_NAME || '';
+const region = process.env.REGION;
+
+const ddbClient = new DynamoDBClient({ region });
 
 export class GetCustomerAddress {
-public userId : any;
-public suburb : any;
-public postcode : any;
-    
-constructor(userId: any, suburb : any, postcode: any){
-        this.userId = userId;
-        this.suburb = suburb;
-        this.postcode = postcode;
+  public userId: string;
+  public suburb?: string; // Optional parameter
+  public postcode?: string; // Optional parameter
+
+  constructor(userId: string, suburb?: string, postcode?: string) {
+    this.userId = userId;
+    this.suburb = suburb;
+    this.postcode = postcode;
+  }
+
+  public async getData(): Promise<any[]> {
+    const params: QueryCommandInput = {
+      TableName: TABLE_NAME,
+      IndexName: "UserIdIndex", // Assuming your secondary index name
+      KeyConditionExpression: "UserId = :userId",
+      ExpressionAttributeValues: {
+        ":userId": { S: this.userId }, // Specifying string type for userId
+      },
     };
-public async getData(){
-    let item;
-    const params: DynamoDB.DocumentClient.QueryInput = {
-            IndexName: 'UserIdIndex',
-            KeyConditionExpression: 'UserId = :userId',
-            ExpressionAttributeValues: {
-            ':userId': this.userId,
-             },
-            TableName: tableName!,
-         };
-         if (this.suburb) {
-          params.FilterExpression = 'Suburb = :suburb';
-          params.ExpressionAttributeValues![':suburb'] = this.suburb;
-        }
-    
-        // Check if postcode parameter is provided and add it to the query
-        if (this.postcode) {
-          if (params.FilterExpression) {
-            params.FilterExpression += ' AND PostCode = :postcode';
-          } else {
-            params.FilterExpression = 'PostCode = :postcode';
-          }
-          params.ExpressionAttributeValues![':postcode'] = this.postcode;
-        }
-        try{
-            console.info('inside try', this.userId);
-            const data = await documentClient.query(params).promise();
-            item = data.Items;
-            return item;
-         }catch(e){
-            return {
-                statusCode:  500,
-                body: e === 500 ? 'Invalid Request Body' : e, // here we can create and import a commomn error function or specific error handling function where the out put can be organise 
-              };
-         }
+
+    // Add filter expression for suburb if provided
+    if (this.suburb) {
+      params.FilterExpression = "Suburb = :suburb";
+      params.ExpressionAttributeValues[":suburb"] = { S: this.suburb };
     }
+
+    // Add filter expression for postcode if provided (append AND if suburb filter exists)
+    if (this.postcode) {
+      if (params.FilterExpression) {
+        params.FilterExpression += " AND PostCode = :postcode";
+      } else {
+        params.FilterExpression = "PostCode = :postcode";
+      }
+      params.ExpressionAttributeValues[":postcode"] = { S: this.postcode };
+    }
+
+    try {
+      const data = await ddbClient.send(new QueryCommand(params));
+      return data.Items ?? []; // Return empty array if no items found
+    } catch (error) {
+      console.error("Error querying DynamoDB:", error);
+      // Implement your specific error handling logic here
+      return []; // Return empty array to avoid potential downstream errors
+    }
+  }
 }
 
+interface QueryCommandInput {
+  TableName: string;
+  IndexName?: string;
+  KeyConditionExpression: string;
+  ExpressionAttributeValues: { [key: string]: DynamoDBAttributeValue }; // Interface for type safety
+  FilterExpression?: string;
+}
 
-
-    
+interface DynamoDBAttributeValue {
+  S: string; // Example: String data type
+  // Add other data types as needed (e.g., N for number)
+}
