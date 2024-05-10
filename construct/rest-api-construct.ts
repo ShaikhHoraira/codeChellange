@@ -13,7 +13,7 @@ import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 //import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
 export class RestApiConstruct extends Construct {
-  public restApi: RestApi;
+
 
   constructor(scope: Construct, id: string,stack : Stack) {
     super(scope, id);
@@ -76,7 +76,7 @@ export class RestApiConstruct extends Construct {
       }
       
     });
-    this.restApi = restApi;
+
     const userAddressApi = restApi.root.resourceForPath('userDetails');
     userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
     userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
