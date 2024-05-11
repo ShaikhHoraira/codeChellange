@@ -99,7 +99,7 @@ export class RestApiConstruct extends Construct {
     //   value: api.url ?? "Something went wrong"
     // });
     this.addApiKey(stackName, restApi);
-    // this.addApiResponses(restApi);
+    this.addApiResponses(restApi);
 
     restApi.methods
       .filter(method => method.httpMethod === 'OPTIONS')
