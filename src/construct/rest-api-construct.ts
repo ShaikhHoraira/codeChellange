@@ -82,6 +82,7 @@ export class RestApiConstruct extends Construct {
     userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
     
     // const apiKey = api.addApiKey('ApiKey',{
+    console.log("🚀 ~ RestApiConstruct ~ constructor ~ restApi:", restApi)
     //   apiKeyName: 'tuApiKey',
     //   value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
     // });
