@@ -12,7 +12,7 @@ export const handler: Handler = async (event: any) => {
     const response = {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': '*', // or specific origin(s)
+        'Access-Control-Allow-Origin': "'*'", // or specific origin(s)
         'Access-Control-Allow-Methods': 'OPTIONS, POST', // Include OPTIONS for preflight requests
         'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key',
         'Vary': 'Origin',
@@ -26,7 +26,7 @@ export const handler: Handler = async (event: any) => {
     const errorResponse = {
       statusCode: 500,
       headers: {
-        'Access-Control-Allow-Origin': '*', // or specific origin(s)
+        'Access-Control-Allow-Origin': "'*'", // or specific origin(s)
         'Access-Control-Allow-Methods': 'OPTIONS, POST',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key',
         'Vary': 'Origin',
