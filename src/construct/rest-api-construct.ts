@@ -99,7 +99,7 @@ export class RestApiConstruct extends Construct {
     //   value: api.url ?? "Something went wrong"
     // });
     this.addApiKey(stackName, restApi);
-    this.addApiResponses(restApi);
+    // this.addApiResponses(restApi);
 
     restApi.methods
       .filter(method => method.httpMethod === 'OPTIONS')
@@ -146,7 +146,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     restApi.addGatewayResponse('BAD_REQUEST_BODY', {
       type: ResponseType.BAD_REQUEST_BODY,
       responseHeaders: {
-        'Access-Control-Allow-Origin': "'*'",
+        'Access-Control-Allow-Origin': '\'*\'',
       },
       templates: {
         'application/json': commonResponse.setResponseWithOutReason(400, 'Bad Request', '$context.requestId').body,
