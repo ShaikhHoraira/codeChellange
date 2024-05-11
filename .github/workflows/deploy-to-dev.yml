@@ -5,12 +5,10 @@ on:
     branches:
       - main  # Trigger pipeline on push to the main branch
       - develop  # Also trigger pipeline on push to the development branch
-      - feat/updeteDirChange
   pull_request:
     branches:
       - main  # Trigger pipeline on pull requests to the main branch
       - develop  # Also trigger pipeline on pull requests to the development branch
-      - feat/updeteDirChange
 
 jobs:
   build:
