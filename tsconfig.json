@@ -6,6 +6,8 @@
       "es2020",
       "dom"
     ],
+    "rootDir": "src",
+    "outDir": "lib",
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
@@ -19,11 +21,11 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": true,
-    "typeRoots": [
-      "./node_modules/@types"
-    ]
+    "strictPropertyInitialization": true
   },
+  "include": [
+    "src/**/*.ts"
+  ],
   "exclude": [
     "node_modules",
     "cdk.out"

@@ -3,7 +3,7 @@ import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import * as AWS from "aws-sdk"
 import { mockClient } from 'aws-sdk-client-mock';
 import  * as AWSMock from 'aws-sdk-mock';
-import { SaveCustomerAddress } from '../../handler/saveData';
+import { SaveCustomerAddress } from '../../src/handler/saveData';
 const ddbMock = mockClient(DynamoDBDocumentClient);
 AWS.config.update({ region: 'local' });
 
