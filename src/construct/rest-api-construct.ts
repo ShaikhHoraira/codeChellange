@@ -70,7 +70,7 @@ export class RestApiConstruct extends Construct {
       },
       defaultCorsPreflightOptions:{
         statusCode: 200,
-        allowOrigins: ["'*'"],
+        allowOrigins: ['*'],
         allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
         allowMethods: ['POST', 'GET']
       }
@@ -99,7 +99,7 @@ export class RestApiConstruct extends Construct {
     //   value: api.url ?? "Something went wrong"
     // });
     this.addApiKey(stackName, restApi);
-    // this.addApiResponses(restApi);
+    //this.addApiResponses(restApi);
 
     restApi.methods
       .filter(method => method.httpMethod === 'OPTIONS')
@@ -146,7 +146,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     restApi.addGatewayResponse('BAD_REQUEST_BODY', {
       type: ResponseType.BAD_REQUEST_BODY,
       responseHeaders: {
-        'Access-Control-Allow-Origin': '\'*\'',
+        'Access-Control-Allow-Origin': '*',
       },
       templates: {
         'application/json': commonResponse.setResponseWithOutReason(400, 'Bad Request', '$context.requestId').body,
@@ -156,7 +156,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     restApi.addGatewayResponse('WAF_FILTERED', {
       type: ResponseType.WAF_FILTERED,
       responseHeaders: {
-        'Access-Control-Allow-Origin': "'*'",
+        'Access-Control-Allow-Origin': '*',
 
       },
       templates: {
@@ -166,7 +166,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     restApi.addGatewayResponse('EXPIRED_TOKEN', {
       type: ResponseType.EXPIRED_TOKEN,
       responseHeaders: {
-        'Access-Control-Allow-Origin': "'*'",
+        'Access-Control-Allow-Origin': '*',
       },
       templates: {
         'application/json': commonResponse.setResponseWithOutReason(403, 'Forbidden', '$context.requestId').body,
@@ -175,7 +175,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     restApi.addGatewayResponse('INVALID_API_KEY', {
       type: ResponseType.INVALID_API_KEY,
       responseHeaders: {
-        'Access-Control-Allow-Origin': "'*'",
+        'Access-Control-Allow-Origin': '*',
       },
       templates: {
         'application/json': commonResponse.setResponseWithOutReason(403, 'Forbidden', '$context.requestId').body,
@@ -184,7 +184,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     restApi.addGatewayResponse('ACCESS_DENIED', {
       type: ResponseType.ACCESS_DENIED,
       responseHeaders: {
-        'Access-Control-Allow-Origin': "'*'",
+        'Access-Control-Allow-Origin': '*',
       },
       templates: {
         'application/json': commonResponse.setResponseWithOutReason(403, 'Forbidden', '$context.requestId').body,
@@ -193,7 +193,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     restApi.addGatewayResponse('INVALID_SIGNATURE', {
       type: ResponseType.INVALID_SIGNATURE,
       responseHeaders: {
-        'Access-Control-Allow-Origin': "'*'",
+        'Access-Control-Allow-Origin': '*',
       },
       templates: {
         'application/json': commonResponse.setResponseWithOutReason(403, 'Forbidden', '$context.requestId').body,
@@ -202,7 +202,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     restApi.addGatewayResponse('MISSING_AUTHENTICATION_TOKEN', {
       type: ResponseType.MISSING_AUTHENTICATION_TOKEN,
       responseHeaders: {
-        'Access-Control-Allow-Origin': "'*'",
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'OPTIONS, GET',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Vary': 'Origin',
@@ -215,7 +215,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     restApi.addGatewayResponse('DEFAULT_5XX', {
       type: ResponseType.DEFAULT_5XX,
       responseHeaders: {
-        'Access-Control-Allow-Origin': "'*'",
+        'Access-Control-Allow-Origin': '*',
       },
       templates: {
         'application/json': commonResponse.setResponseWithOutReason(500, 'Internal Server Error', '$context.requestId').body,
@@ -225,7 +225,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     restApi.addGatewayResponse('UNAUTHORIZED', {
       type: ResponseType.UNAUTHORIZED,
       responseHeaders: {
-        'Access-Control-Allow-Origin': "'*'",
+        'Access-Control-Allow-Origin': '*',
       },
       templates: {
         'application/json': commonResponse.setResponseWithOutReason(401, 'Unauthorized', '$context.requestId').body,
@@ -235,7 +235,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     restApi.addGatewayResponse('QUOTA_EXCEEDED', {
       type: ResponseType.QUOTA_EXCEEDED,
       responseHeaders: {
-        'Access-Control-Allow-Origin': "'*'",
+        'Access-Control-Allow-Origin': '*',
       },
       templates: {
         'application/json': commonResponse.setResponseWithOutReason(429, 'Limit Exceeded', '$context.requestId').body,
@@ -244,7 +244,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     restApi.addGatewayResponse('THROTTLED', {
       type: ResponseType.THROTTLED,
       responseHeaders: {
-        'Access-Control-Allow-Origin': "'*'",
+        'Access-Control-Allow-Origin': '*',
       },
       templates: {
         'application/json': commonResponse.setResponseWithOutReason(429, 'Limit Exceeded', '$context.requestId').body,
