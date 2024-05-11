@@ -1,12 +1,12 @@
 // import { CfnOutput } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
-import { Function, Runtime, Code } from "aws-cdk-lib/aws-lambda";
+import { Runtime, Code, Function } from 'aws-cdk-lib/aws-lambda';
 import { RestApi, LambdaIntegration, ResponseType, CfnMethod } from "aws-cdk-lib/aws-apigateway";
 import { Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApiCommonResponse } from '../modules/Common/api-common-response';
-
+import path = require('path');
 // Import the AWS SDK module
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
@@ -32,8 +32,8 @@ export class RestApiConstruct extends Construct {
 
     const getUserdataLambda = new Function(stack, "GetCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_20_X,
-      code: Code.fromAsset('./'), 
-      handler: './handler/getHandler.handler',
+      code: Code.fromAsset(path.join(__dirname, 'handler')), 
+      handler: 'getHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
@@ -45,14 +45,16 @@ export class RestApiConstruct extends Construct {
       }),
     );
 
+
     const saveUserdataLambda = new Function(stack, "PutCustomerAddressLambdaHandler", {
-      runtime: Runtime.NODEJS_20_X,
-      code: Code.fromAsset('./'),
-      handler: './handler/saveHandler.handler',
+      runtime: Runtime.NODEJS_20_X, // Adjust runtime if necessary
+      code: Code.fromAsset(path.join(__dirname, 'handler')),
+      handler: 'saveHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
     });
+
     saveUserdataLambda.grantPrincipal.addToPrincipalPolicy(
       new PolicyStatement({
         resources: ['*'],
