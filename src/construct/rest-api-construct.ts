@@ -29,10 +29,10 @@ export class RestApiConstruct extends Construct {
       indexName: 'UserIdIndex',
       partitionKey: { name: 'UserId', type: AttributeType.STRING },
     });
-
+    const handlerDir = path.resolve(__dirname, 'handler');
     const getUserdataLambda = new Function(stack, "GetCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_20_X,
-      code: Code.fromAsset(path.join(__dirname, 'handler')), 
+      code: Code.fromAsset(handlerDir), 
       handler: 'getHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
@@ -44,11 +44,11 @@ export class RestApiConstruct extends Construct {
         actions: ['dynamodb:getItem', 'secretsmanager:GetSecretValue'],
       }),
     );
-
+    
 
     const saveUserdataLambda = new Function(stack, "PutCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_20_X, // Adjust runtime if necessary
-      code: Code.fromAsset(path.join(__dirname, 'handler')),
+      code: Code.fromAsset(handlerDir),
       handler: 'saveHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
