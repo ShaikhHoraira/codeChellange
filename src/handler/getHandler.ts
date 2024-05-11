@@ -9,7 +9,7 @@ export const handler: Handler = async (event: any) => {
     const result = await manageDevice.getData();
 
     return {
-      statusCode: 204,
+      statusCode: 200,
       body: JSON.stringify(result),
       headers: {
         'Access-Control-Allow-Origin': '*', // or specific origin(s)

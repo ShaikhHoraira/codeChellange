@@ -10,7 +10,7 @@ export const handler: Handler = async (event: any) => {
 
     // Construct the response
     const response = {
-      statusCode: 204,
+      statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*', // or specific origin(s)
         'Access-Control-Allow-Methods': 'OPTIONS, POST', // Include OPTIONS for preflight requests
