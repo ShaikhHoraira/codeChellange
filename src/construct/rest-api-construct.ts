@@ -40,7 +40,7 @@ export class RestApiConstruct extends Construct {
     });
     getUserdataLambda.grantPrincipal.addToPrincipalPolicy(
       new PolicyStatement({
-        resources: ["'*'"],
+        resources: ['*'],
         actions: ['dynamodb:getItem', 'secretsmanager:GetSecretValue'],
       }),
     );
@@ -57,7 +57,7 @@ export class RestApiConstruct extends Construct {
 
     saveUserdataLambda.grantPrincipal.addToPrincipalPolicy(
       new PolicyStatement({
-        resources: ["'*'"],
+        resources: ['*'],
         actions: ['dynamodb:PutItem', 'secretsmanager:GetSecretValue'],
       }),
     );
