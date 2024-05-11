@@ -29,7 +29,7 @@ export class RestApiConstruct extends Construct {
       indexName: 'UserIdIndex',
       partitionKey: { name: 'UserId', type: AttributeType.STRING },
     });
-    const handlerDir = path.resolve(__dirname, 'handler');
+    const handlerDir = path.resolve(__dirname, '../lib/handler');
     const getUserdataLambda = new Function(stack, "GetCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_20_X,
       code: Code.fromAsset(handlerDir), 
