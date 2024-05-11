@@ -1,9 +1,0 @@
-#!/usr/bin/env node
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-require("source-map-support/register");
-const aws_cdk_lib_1 = require("aws-cdk-lib");
-const basictest_stack_1 = require("../lib/basictest-stack");
-const app = new aws_cdk_lib_1.App();
-new basictest_stack_1.BasictestStack(app, 'BasictestStack');
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYmFzaWN0ZXN0LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiYmFzaWN0ZXN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUNBLHVDQUFxQztBQUNyQyw2Q0FBa0M7QUFDbEMsNERBQXdEO0FBRXhELE1BQU0sR0FBRyxHQUFHLElBQUksaUJBQUcsRUFBRSxDQUFDO0FBQ3RCLElBQUksZ0NBQWMsQ0FBQyxHQUFHLEVBQUUsZ0JBQWdCLENBQUMsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIiMhL3Vzci9iaW4vZW52IG5vZGVcbmltcG9ydCAnc291cmNlLW1hcC1zdXBwb3J0L3JlZ2lzdGVyJztcbmltcG9ydCB7IEFwcCB9IGZyb20gJ2F3cy1jZGstbGliJztcbmltcG9ydCB7IEJhc2ljdGVzdFN0YWNrIH0gZnJvbSAnLi4vbGliL2Jhc2ljdGVzdC1zdGFjayc7XG5cbmNvbnN0IGFwcCA9IG5ldyBBcHAoKTtcbm5ldyBCYXNpY3Rlc3RTdGFjayhhcHAsICdCYXNpY3Rlc3RTdGFjaycpOyJdfQ==
