@@ -32,8 +32,8 @@ export class RestApiConstruct extends Construct {
 
     const getUserdataLambda = new Function(stack, "GetCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_20_X,
-      code: Code.fromAsset('./handler'), 
-      handler: 'getHandler.handler',
+      code: Code.fromAsset('./'), 
+      handler: './handler/getHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
@@ -47,8 +47,8 @@ export class RestApiConstruct extends Construct {
 
     const saveUserdataLambda = new Function(stack, "PutCustomerAddressLambdaHandler", {
       runtime: Runtime.NODEJS_20_X,
-      code: Code.fromAsset('./handler'),
-      handler: 'saveHandler.handler',
+      code: Code.fromAsset('./'),
+      handler: './handler/saveHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
