@@ -4,24 +4,12 @@ import { GetCustomerAddress } from '../modules/getData';
 export const handler: Handler = async (event: any) => {
   try {
     // Validate presence of userId
-    if (!event.queryStringParameters || !event.queryStringParameters.userId) {
-      return {
-        statusCode: 400,
-        body: "Missing userId, Please provide userId",
-        headers: {
-          'Access-Control-Allow-Origin': '*', // or specific origin(s)
-          'Access-Control-Allow-Methods': 'OPTIONS, GET',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key',
-          'Vary': 'Origin',
-        },
-      };
-    }
 
     const manageDevice = new GetCustomerAddress(event.queryStringParameters.userId, event.queryStringParameters.suburb, event.queryStringParameters.postcode);
     const result = await manageDevice.getData();
 
     return {
-      statusCode: 200,
+      statusCode: 204,
       body: JSON.stringify(result),
       headers: {
         'Access-Control-Allow-Origin': '*', // or specific origin(s)
