@@ -13,7 +13,8 @@ export const handler: Handler = async (event: any) => {
     //   body: JSON.stringify('Success')
     // };
     // return response;
-    console.log(event)
+    console.log("")
+    console.log(" THis is poroductionCostLambda",event)
     return {
         statusCode: 200,
         body: event
