@@ -2,7 +2,7 @@
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Runtime, Code, Function } from 'aws-cdk-lib/aws-lambda';
-import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors, MethodLoggingLevel } from "aws-cdk-lib/aws-apigateway";
+import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors } from "aws-cdk-lib/aws-apigateway";
 import { Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApiCommonResponse } from '../modules/Common/api-common-response';
@@ -69,7 +69,7 @@ export class RestApiConstruct extends Construct {
           dataTraceEnabled: true,
           tracingEnabled: true,
           stageName: 'v1',
-          loggingLevel: MethodLoggingLevel.INFO,
+          // loggingLevel: MethodLoggingLevel.INFO,
       },
     defaultMethodOptions: {
       apiKeyRequired: true,
