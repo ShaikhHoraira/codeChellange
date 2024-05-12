@@ -12,7 +12,7 @@ import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 //import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
-export class operatingcost extends Construct {
+export class Operatingcost extends Construct {
   public restApi: RestApi;
 
   constructor(scope: Construct, id: string,stack : Stack) {
@@ -33,7 +33,7 @@ export class operatingcost extends Construct {
     const getEmployeedataLambda = new Function(stack, "GetEmployeeLambda", {
       runtime: Runtime.NODEJS_20_X,
       code: Code.fromAsset(handlerDir), 
-      handler: 'handler/getHandler.handler',
+      handler: 'handler/getEmployeeHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
@@ -49,7 +49,7 @@ export class operatingcost extends Construct {
     const saveEmployeedataLambda = new Function(stack, "PutEmployeeLambda", {
       runtime: Runtime.NODEJS_20_X, // Adjust runtime if necessary
       code: Code.fromAsset(handlerDir),
-      handler: 'handler/saveHandler.handler',
+      handler: 'handler/saveEmployeeHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
@@ -84,9 +84,17 @@ export class operatingcost extends Construct {
     });
     this.restApi = restApi;
     
-    const EmployeeApi = restApi.root.resourceForPath('Employee');
-    EmployeeApi.addMethod('GET', new LambdaIntegration(getEmployeedataLambda));
-    EmployeeApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
+    const EmployeeCostApi = restApi.root.resourceForPath('Employee');
+    const RentCostApi = restApi.root.resourceForPath('Rent');
+    const UtilitiesCostApi = restApi.root.resourceForPath('Utilities');
+    const MaintenanceCostApi = restApi.root.resourceForPath('Maintenance');
+    const RepairsCosteApi = restApi.root.resourceForPath('Repairs');
+    EmployeeCostApi.addMethod('GET', new LambdaIntegration(getEmployeedataLambda));
+    EmployeeCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
+    RentCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
+    UtilitiesCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
+    MaintenanceCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
+    RepairsCosteApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
     
     // const apiKey = api.addApiKey('ApiKey',{
 
