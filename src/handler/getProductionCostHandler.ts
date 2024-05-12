@@ -1,5 +1,5 @@
 import { Handler } from "aws-lambda";
-//import { GetCustomerAddress } from '../modules/getData';
+// import { GetCustomerAddress } from '../modules/getData';
 
 export const handler: Handler = async (event: any) => {
   try {
@@ -9,7 +9,6 @@ export const handler: Handler = async (event: any) => {
     // }
     // const manageDevice = new GetCustomerAddress(userId, suburb, postcode);
     // const result = await manageDevice.getData();
-
     console.log(event)
     return {
       statusCode: 200,
