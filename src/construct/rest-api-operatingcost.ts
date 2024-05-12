@@ -138,7 +138,7 @@ addApiKey(stackName: string, restApi: RestApi) {
 
     const apiKey = restApi.addApiKey('ApiKey', {
       apiKeyName: 'this._apiKeyName_Operation',
-      value: 'secret.secretValueFromJson',
+      value: 'secret.secretValueFromJsonForOperationcost',
     });
 
     // this.restAPIKeyArn = secret.secretArn;
