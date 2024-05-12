@@ -64,7 +64,7 @@ export class ProductionCostcost extends Construct {
     getProductionCostdataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
     saveAddress.grantWriteData(saveProductionCostdataLambda);
 
-    const restApi = new RestApi(this, "OperationCost", {
+    const restApi = new RestApi(this, "ProductionCost", {
         deployOptions:{
             dataTraceEnabled: true,
             tracingEnabled: true,
