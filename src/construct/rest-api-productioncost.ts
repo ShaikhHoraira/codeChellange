@@ -85,16 +85,16 @@ export class ProductionCostcost extends Construct {
     this.restApi = restApi;
     
     const ProductionCostApi = restApi.root.resourceForPath('ProductionCost');
-    const RentCostApi = restApi.root.resourceForPath('Rent');
-    const UtilitiesCostApi = restApi.root.resourceForPath('Utilities');
-    const MaintenanceCostApi = restApi.root.resourceForPath('Maintenance');
-    const RepairsCosteApi = restApi.root.resourceForPath('Repairs');
+    // const RentCostApi = restApi.root.resourceForPath('Rent');
+    // const UtilitiesCostApi = restApi.root.resourceForPath('Utilities');
+    // const MaintenanceCostApi = restApi.root.resourceForPath('Maintenance');
+    // const RepairsCosteApi = restApi.root.resourceForPath('Repairs');
     ProductionCostApi.addMethod('GET', new LambdaIntegration(getProductionCostdataLambda));
     ProductionCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
-    RentCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
-    UtilitiesCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
-    MaintenanceCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
-    RepairsCosteApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
+    // RentCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
+    // UtilitiesCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
+    // MaintenanceCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
+    // RepairsCosteApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
     
     // const apiKey = api.addApiKey('ApiKey',{
 
