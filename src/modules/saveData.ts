@@ -8,9 +8,11 @@ export class SaveCustomerAddress {
   public payload: any;
 
   constructor(payload: any) {
+    console.log("🚀 ~ SaveCustomerAddress ~ constructor ~ payload:", payload)
     this.ddbClient = new DynamoDBClient({ region });
     this.payload = payload;
   }
+
 
   public async saveData(): Promise<boolean> {
     try {
