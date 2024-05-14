@@ -13,7 +13,7 @@ export const handler: Handler = async (event: any) => {
     //   body: JSON.stringify('Success')
     // };
     // return response;
-    console.log("lambda called", event)
+    console.log("lambda called", event.path)
     return {
         statusCode: 200,
         body: event
