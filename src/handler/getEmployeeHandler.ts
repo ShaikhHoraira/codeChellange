@@ -1,13 +1,13 @@
 import { Handler } from "aws-lambda";
-import { GetCustomerAddress } from '../modules/getData';
+import { GetCustomerAddress } from '../modules/getEmployeeData';
 
 export const handler: Handler = async (event: any) => {
   try {
-    const { userId, suburb, postcode } = event.queryStringParameters;
-    if (!userId) {
-      throw new Error("Missing parameter: userId");
+    const { employeeId } = event.queryStringParameters;
+    if (!employeeId) {
+      throw new Error("Missing parameter: employeeId");
     }
-    const manageDevice = new GetCustomerAddress(userId, suburb, postcode);
+    const manageDevice = new GetCustomerAddress(employeeId);
     const result = await manageDevice.getData();
 
     console.log(result)
