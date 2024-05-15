@@ -19,7 +19,7 @@ export class SaveCustomerAddress {
       const params: PutItemCommandInput = {
         TableName: tableName,
         Item: {
-          UserId: { S: bodyParams.userId },  // Specifying string type for UserId
+          EmployeeId: { S: bodyParams.employeeId },  // Specifying string type for UserId
           CustomerName: { S: bodyParams.customerName },
           AppartmentNo: { S: bodyParams.appartmentNo },
           Address: { S: bodyParams.address },
