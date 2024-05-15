@@ -33,7 +33,7 @@ export class Operatingcost extends Construct {
     const getEmployeedataLambda = new Function(stack, "GetEmployeeLambda", {
       runtime: Runtime.NODEJS_20_X,
       code: Code.fromAsset(handlerDir), 
-      handler: 'handler/getEmployeeHandler.handler',
+      handler: 'handler/OPC/getEmployeeHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
@@ -49,7 +49,7 @@ export class Operatingcost extends Construct {
     const saveEmployeedataLambda = new Function(stack, "PutEmployeeLambda", {
       runtime: Runtime.NODEJS_20_X, // Adjust runtime if necessary
       code: Code.fromAsset(handlerDir),
-      handler: 'handler/saveEmployeeHandler.handler',
+      handler: 'handler/OPC/saveEmployeeHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },

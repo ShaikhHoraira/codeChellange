@@ -1,5 +1,5 @@
 import { Handler } from "aws-lambda";
-import { GetCustomerAddress } from '../modules/getEmployeeData';
+import { GetCustomerAddress } from '../../modules/OPC/getEmployeeData';
 
 export const handler: Handler = async (event: any) => {
   try {
