@@ -85,7 +85,7 @@ export class ProductionCostcost extends Construct {
     this.restApi = restApi;
     
     const ProductionCostApi = restApi.root.resourceForPath('Materials');
-    restApi.root.resourceForPath('Technology');
+    //restApi.root.resourceForPath('Technology');
     // const RentCostApi = restApi.root.resourceForPath('Technology');
     // const UtilitiesCostApi = restApi.root.resourceForPath('Utilities');
     // const MaintenanceCostApi = restApi.root.resourceForPath('Maintenance');
