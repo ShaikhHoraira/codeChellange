@@ -33,7 +33,7 @@ export class ProductionCostcost extends Construct {
     const getProductionCostdataLambda = new Function(stack, "GetProductionCostLambda", {
       runtime: Runtime.NODEJS_20_X,
       code: Code.fromAsset(handlerDir), 
-      handler: 'handler/getProductionCostHandler.handler',
+      handler: 'handler/PDC/getProductionCostHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
@@ -49,7 +49,7 @@ export class ProductionCostcost extends Construct {
     const saveProductionCostdataLambda = new Function(stack, "PutProductionCostLambda", {
       runtime: Runtime.NODEJS_20_X, // Adjust runtime if necessary
       code: Code.fromAsset(handlerDir),
-      handler: 'handler/saveProductionCostHandler.handler',
+      handler: 'handler/PDC/saveProductionCostHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
