@@ -29,7 +29,6 @@ export class Operatingcost extends Construct {
       indexName: 'EmployeeIdIndex',
       partitionKey: { name: 'EmployeeId', type: AttributeType.STRING },
     });
-
     const handlerDir = path.resolve(__dirname, '../../lib');
     const getEmployeedataLambda = new Function(stack, "GetEmployeeLambda", {
       runtime: Runtime.NODEJS_20_X,
@@ -47,23 +46,23 @@ export class Operatingcost extends Construct {
     );
     
 
-    // const saveEmployeedataLambda = new Function(stack, "PutEmployeeLambda", {
-    //   runtime: Runtime.NODEJS_20_X, // Adjust runtime if necessary
-    //   code: Code.fromAsset(handlerDir),
-    //   handler: 'handler/saveEmployeeHandler.handler',
-    //   environment: {
-    //     TABLE_NAME: saveAddress.tableName,
-    //   },
-    // });
+    const saveEmployeedataLambda = new Function(stack, "PutEmployeeLambda", {
+      runtime: Runtime.NODEJS_20_X, // Adjust runtime if necessary
+      code: Code.fromAsset(handlerDir),
+      handler: 'handler/saveEmployeeHandler.handler',
+      environment: {
+        TABLE_NAME: saveAddress.tableName,
+      },
+    });
 
-    // saveEmployeedataLambda.grantPrincipal.addToPrincipalPolicy(
-    //   new PolicyStatement({
-    //     resources: ['*'],
-    //     actions: ['dynamodb:PutItem', 'secretsmanager:GetSecretValue'],
-    //   }),
-    // );
+    saveEmployeedataLambda.grantPrincipal.addToPrincipalPolicy(
+      new PolicyStatement({
+        resources: ['*'],
+        actions: ['dynamodb:PutItem', 'secretsmanager:GetSecretValue'],
+      }),
+    );
     getEmployeedataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
-    // saveAddress.grantWriteData(saveEmployeedataLambda);
+    saveAddress.grantWriteData(saveEmployeedataLambda);
 
     const restApi = new RestApi(this, "OperationCost", {
         deployOptions:{
@@ -91,7 +90,7 @@ export class Operatingcost extends Construct {
     // const MaintenanceCostApi = restApi.root.resourceForPath('Maintenance');
     // const RepairsCosteApi = restApi.root.resourceForPath('Repairs');
     EmployeeCostApi.addMethod('GET', new LambdaIntegration(getEmployeedataLambda));
-    //EmployeeCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
+    EmployeeCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
     // RentCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
     // UtilitiesCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
     // MaintenanceCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
