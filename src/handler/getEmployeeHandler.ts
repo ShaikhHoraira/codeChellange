@@ -13,7 +13,7 @@ export const handler: Handler = async (event: any) => {
     console.log(result)
     return {
       statusCode: 200,
-      body: JSON.stringify(event),
+      body: JSON.stringify(result),
     };
   } catch (e: any) {
     if (e.message.includes('Missing parameter') || e.message.includes('Invalid format')) {
