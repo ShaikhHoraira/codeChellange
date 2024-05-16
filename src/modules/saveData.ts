@@ -14,7 +14,7 @@ export class SaveCustomerAddress {
   }
 
 
-  public async saveData(): Promise<boolean> {
+  public async saveData(): Promise<any> {
     try {
       const bodyParams = JSON.parse(this.payload.body);
       const params: PutItemCommandInput = {
@@ -31,8 +31,8 @@ export class SaveCustomerAddress {
         },
       };
 
-      await this.ddbClient.send(new PutItemCommand(params)); // Use this.ddbClient here
-      return true;
+      const result = await this.ddbClient.send(new PutItemCommand(params)); // Use this.ddbClient here
+      return result;
     } catch (error) {
       console.error("Error saving data to DynamoDB:", error);
       return false;

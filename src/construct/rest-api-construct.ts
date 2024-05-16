@@ -2,7 +2,7 @@
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Runtime, Code, Function } from 'aws-cdk-lib/aws-lambda';
-import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors } from "aws-cdk-lib/aws-apigateway";
+import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors, RequestValidator, AuthorizationType } from "aws-cdk-lib/aws-apigateway";
 import { Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApiCommonResponse } from '../modules/Common/api-common-response';
@@ -10,6 +10,7 @@ import path = require('path');
 // Import the AWS SDK module
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import RegistrationSchema from '../schema/registrationSchema'
 //import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
 export class RestApiConstruct extends Construct {
@@ -82,40 +83,35 @@ export class RestApiConstruct extends Construct {
       allowHeaders: Cors.DEFAULT_HEADERS.concat(['x-api-key']),
     },
   });
-    // const restApi = new RestApi(this, "UserContacts", {
-    //   defaultMethodOptions: {
-    //     apiKeyRequired: true,
-    //   },
-    //   defaultCorsPreflightOptions:{
-    //     statusCode: 200,
-    //     allowOrigins: ['*'],
-    //     allowHeaders: ['Content-Type','Authorization','X-Api-Key'],
-    //     allowMethods: ['POST', 'GET']
-    //   }
-      
-    // });
+  
     this.restApi = restApi;
     const userAddressApi = restApi.root.resourceForPath('userDetails');
-    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
-    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda));
     
-    // const apiKey = api.addApiKey('ApiKey',{
-    console.log("🚀 ~ RestApiConstruct ~ constructor ~ restApi:", restApi)
-    //   apiKeyName: 'tuApiKey',
-    //   value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
-    // });
-    // console.log("🚀 ~ RestApiConstruct ~ constructor ~ apiKey:", apiKey)
-    // const plan = api.addUsagePlan('Tu_api-usage-plan', { // we can use rate limit and other usage plans 
-    //   name: `api-usage-plan`,
-    //   apiStages: [{ stage: api.deploymentStage }],
-    // });
+    const requestValidator = new RequestValidator(this, 'user-registerdb-request-validator', {
+      restApi: this.restApi,
+      validateRequestBody: true,
+      validateRequestParameters: true,
+    });
 
-  
-    // plan.addApiKey(apiKey);
-  
-    // new CfnOutput(this, "API URL", {
-    //   value: api.url ?? "Something went wrong"
-    // });
+    const userRegistrationModel = restApi.addModel(
+      'register-User-data-model',
+      {
+        schema: RegistrationSchema, // change
+        description: 'Request model for userRegistration data ',
+        modelName: 'userRegistrationDataInputDB',
+        contentType: 'application/json',
+      },
+    );
+    
+    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
+    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda),{
+      authorizationType: AuthorizationType.NONE,
+      requestModels: {
+        'application/json': userRegistrationModel,
+      },
+      requestValidator,
+    });
+    
     this.addApiKey(stackName, restApi);
     this.addApiResponses(restApi);
 
