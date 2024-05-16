@@ -15,6 +15,7 @@
     "@types/aws-lambda": "^8.10.137",
     "@types/aws-sdk": "^2.7.0",
     "@types/jest": "^26.0.10",
+    "@types/jsonschema": "^1.1.1",
     "@types/node": "^10.17.60",
     "@types/prettier": "2.6.0",
     "@types/source-map-support": "^0.5.6",
@@ -37,6 +38,7 @@
     "aws-sdk-client-mock": "^2.1.1",
     "aws-sdk-mock": "^5.8.0",
     "axios": "^1.4.0",
-    "constructs": "^10.2.69"
+    "constructs": "^10.2.69",
+    "jsonschema": "^1.4.1"
   }
 }

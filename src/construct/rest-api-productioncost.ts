@@ -2,7 +2,7 @@
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Runtime, Code, Function } from 'aws-cdk-lib/aws-lambda';
-import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors } from "aws-cdk-lib/aws-apigateway";
+import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors, AuthorizationType, RequestValidator } from "aws-cdk-lib/aws-apigateway";
 import { Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApiCommonResponse } from '../modules/Common/api-common-response';
@@ -10,6 +10,7 @@ import path = require('path');
 // Import the AWS SDK module
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import RegistrationSchema from '../schema/registrationSchema'
 //import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
 export class ProductionCostcost extends Construct {
@@ -63,7 +64,7 @@ export class ProductionCostcost extends Construct {
     );
     getProductionCostdataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
     saveAddress.grantWriteData(saveProductionCostdataLambda);
-
+    
     const restApi = new RestApi(this, "ProductionCost", {
         deployOptions:{
             dataTraceEnabled: true,
@@ -83,7 +84,20 @@ export class ProductionCostcost extends Construct {
       },
     });
     this.restApi = restApi;
-    
+    const requestValidator = new RequestValidator(this, 'user-registerdb-request-validator', {
+      restApi: this.restApi,
+      validateRequestBody: true,
+      validateRequestParameters: true,
+    });
+    const userRegistrationModel = restApi.addModel(
+      'register-User-data-model',
+      {
+        schema: RegistrationSchema, // change
+        description: 'Request model for userRegistration data ',
+        modelName: 'userRegistrationDataInputDB',
+        contentType: 'application/json',
+      },
+    );
     const ProductionCostApi = restApi.root.resourceForPath('Materials');
     //restApi.root.resourceForPath('Technology');
     // const RentCostApi = restApi.root.resourceForPath('Technology');
@@ -91,7 +105,14 @@ export class ProductionCostcost extends Construct {
     // const MaintenanceCostApi = restApi.root.resourceForPath('Maintenance');
     // const RepairsCosteApi = restApi.root.resourceForPath('Repairs');
     ProductionCostApi.addMethod('GET', new LambdaIntegration(getProductionCostdataLambda));
-    ProductionCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
+    
+    ProductionCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda),{
+      authorizationType: AuthorizationType.NONE,
+      requestModels: {
+        'application/json': userRegistrationModel,
+      },
+      requestValidator,
+    });
     // RentCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
     // UtilitiesCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
     // MaintenanceCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
