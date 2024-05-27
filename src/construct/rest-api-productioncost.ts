@@ -106,7 +106,7 @@ export class ProductionCostcost extends Construct {
     // const MaintenanceCostApi = restApi.root.resourceForPath('Maintenance');
     // const RepairsCosteApi = restApi.root.resourceForPath('Repairs');
     ProductionCostApi.addMethod('GET', new LambdaIntegration(getProductionCostdataLambda));
-    
+    ProductionCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda))
     // ProductionCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda),{
     //   authorizationType: AuthorizationType.NONE,
     //   requestModels: {
