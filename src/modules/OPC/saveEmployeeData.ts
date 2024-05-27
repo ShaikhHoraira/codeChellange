@@ -3,24 +3,23 @@ import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 const tableName = process.env.TABLE_NAME || "";
 const region = process.env.REGION;
 
+const ddbClient = new DynamoDBClient({ region });
+
 export class SaveCustomerAddress {
-  private ddbClient: DynamoDBClient;
   public payload: any;
 
   constructor(payload: any) {
-    console.log("🚀 ~ SaveCustomerAddress ~ constructor ~ payload:", payload)
-    this.ddbClient = new DynamoDBClient({ region });
     this.payload = payload;
   }
 
-
-  public async saveData(): Promise<any> {
+  public async saveData(): Promise<boolean> {
     try {
       const bodyParams = JSON.parse(this.payload.body);
+
       const params: PutItemCommandInput = {
         TableName: tableName,
         Item: {
-          UserId: { S: bodyParams.userId },
+          EmployeeId: { S: bodyParams.employeeId },  // Specifying string type for UserId
           CustomerName: { S: bodyParams.customerName },
           AppartmentNo: { S: bodyParams.appartmentNo },
           Address: { S: bodyParams.address },
@@ -31,20 +30,22 @@ export class SaveCustomerAddress {
         },
       };
 
-      const result = await this.ddbClient.send(new PutItemCommand(params)); // Use this.ddbClient here
-      return result;
+      await ddbClient.send(new PutItemCommand(params));
+      return true;
     } catch (error) {
       console.error("Error saving data to DynamoDB:", error);
-      return false;
+      // Implement your specific error handling logic here
+      return false; // Indicate failure
     }
   }
 }
 
 interface PutItemCommandInput {
   TableName: string;
-  Item: { [key: string]: DynamoDBAttributeValue };
+  Item: { [key: string]: DynamoDBAttributeValue }; // Interface for type safety
 }
 
 interface DynamoDBAttributeValue {
-  S: string;
+  S: string; // Example: String data type
+  // Add other data types as needed (e.g., N for number)
 }

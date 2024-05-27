@@ -5,10 +5,12 @@ on:
     branches:
       - main  # Trigger pipeline on push to the main branch
       - develop  # Also trigger pipeline on push to the development branch
+      - branchingApi
   pull_request:
     branches:
       - main  # Trigger pipeline on pull requests to the main branch
       - develop  # Also trigger pipeline on pull requests to the development branch
+      - branchingApi
 
 jobs:
   build:
@@ -28,7 +30,22 @@ jobs:
 
       - name: Compile TypeScript
         run: tsc  # Assuming your TypeScript files are in the default 'src' directory
+  test:
+    name: Unit Test
+    runs-on: ubuntu-latest
+    needs: build
 
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: |
+          npm install  # Adjust based on your project's requirements
+
+      - name: Run Tests
+        run: npm run test  # Adjust based on your project's testing command
+        
   deploy:
     name: Deploy to AWS Lambda (main)
     runs-on: ubuntu-latest

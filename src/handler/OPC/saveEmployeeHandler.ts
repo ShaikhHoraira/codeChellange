@@ -1,11 +1,13 @@
 import { Handler } from "aws-lambda";
-import { SaveCustomerAddress } from '../modules/saveData';
+import { SaveCustomerAddress } from '../../modules/OPC/saveEmployeeData';
 
 export const handler: Handler = async (event: any) => {
+  console.log("We are in saveEmployeeHandler")
   try { 
     if (event.httpMethod === "POST"){
       const manageDevice = new SaveCustomerAddress(event);
-      await manageDevice.saveData();
+      const responseData = await manageDevice.saveData();
+      console.log("🚀 ~ consthandler:Handler= ~ responseData:", responseData)
     }
     // Construct the response
     const response = {
@@ -13,6 +15,11 @@ export const handler: Handler = async (event: any) => {
       body: JSON.stringify('Success')
     };
     return response;
+    // console.log("lambda called", event.path)
+    // return {
+    //     statusCode: 200,
+    //     body: event
+    // }
   } catch (e) {
     // Construct the error response
     const errorResponse = {
