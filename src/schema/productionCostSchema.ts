@@ -54,7 +54,7 @@ const ProductionCostcostSchema: JsonSchema = {
         minLength: 1,
       },
   },
-  required: ['userId', 'customerName','address',],
+  required: ['productionCostId', 'customerName','address',],
   additionalProperties: false,
 };
 export default ProductionCostcostSchema;
