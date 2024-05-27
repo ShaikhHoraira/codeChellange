@@ -9,7 +9,7 @@ import { ApiCommonResponse } from '../modules/Common/api-common-response';
 import path = require('path');
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import ProductionCostcostSchema from '../schema/registrationSchema'
+import ProductionCostcostSchema from '../schema/productionCostSchema'
 //import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
 export class ProductionCostcost extends Construct {
