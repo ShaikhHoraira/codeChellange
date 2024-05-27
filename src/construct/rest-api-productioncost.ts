@@ -83,7 +83,7 @@ export class ProductionCostcost extends Construct {
       },
     });
     this.restApi = restApi;
-    const requestValidator = new RequestValidator(this, 'user-registerdb-request-validator', {
+    const requestValidator = new RequestValidator(this, 'production-cost-request-validator', {
       restApi: this.restApi,
       validateRequestBody: true,
       validateRequestParameters: true,
@@ -92,7 +92,7 @@ export class ProductionCostcost extends Construct {
       'production-cost-data-model',
       {
         schema: ProductionCostcostSchema, // change
-        description: 'Request model for userRegistration data ',
+        description: 'Request model for productionCost data ',
         modelName: 'ProductionCostcostSchemaInput',
         contentType: 'application/json',
       },
