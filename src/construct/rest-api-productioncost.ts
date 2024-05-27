@@ -7,7 +7,6 @@ import { Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApiCommonResponse } from '../modules/Common/api-common-response';
 import path = require('path');
-// Import the AWS SDK module
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import ProductionCostcostSchema from '../schema/registrationSchema'
@@ -89,12 +88,12 @@ export class ProductionCostcost extends Construct {
       validateRequestBody: true,
       validateRequestParameters: true,
     });
-    const userRegistrationModel = restApi.addModel(
-      'register-User-data-model',
+    const productionCostModel = restApi.addModel(
+      'production-cost-data-model',
       {
         schema: ProductionCostcostSchema, // change
         description: 'Request model for userRegistration data ',
-        modelName: 'userRegistrationDataInputDB',
+        modelName: 'ProductionCostcostSchemaInput',
         contentType: 'application/json',
       },
     );
@@ -109,7 +108,7 @@ export class ProductionCostcost extends Construct {
     ProductionCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda),{
       authorizationType: AuthorizationType.NONE,
       requestModels: {
-        'application/json': userRegistrationModel,
+        'application/json': productionCostModel,
       },
       requestValidator,
     });
