@@ -10,7 +10,7 @@ import path = require('path');
 // Import the AWS SDK module
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import RegistrationSchema from '../schema/registrationSchema'
+//import RegistrationSchema from '../schema/registrationSchema'
 //import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
 export class ProductionCostcost extends Construct {
@@ -89,15 +89,15 @@ export class ProductionCostcost extends Construct {
       validateRequestBody: true,
       validateRequestParameters: true,
     });
-    const userRegistrationModel = restApi.addModel(
-      'register-User-data-model',
-      {
-        schema: RegistrationSchema, // change
-        description: 'Request model for userRegistration data ',
-        modelName: 'userRegistrationDataInputDB',
-        contentType: 'application/json',
-      },
-    );
+    // const userRegistrationModel = restApi.addModel(
+    //   'register-User-data-model',
+    //   {
+    //     schema: RegistrationSchema, // change
+    //     description: 'Request model for userRegistration data ',
+    //     modelName: 'userRegistrationDataInputDB',
+    //     contentType: 'application/json',
+    //   },
+    // );
     const ProductionCostApi = restApi.root.resourceForPath('Materials');
     //restApi.root.resourceForPath('Technology');
     // const RentCostApi = restApi.root.resourceForPath('Technology');
@@ -106,13 +106,13 @@ export class ProductionCostcost extends Construct {
     // const RepairsCosteApi = restApi.root.resourceForPath('Repairs');
     ProductionCostApi.addMethod('GET', new LambdaIntegration(getProductionCostdataLambda));
     
-    ProductionCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda),{
-      authorizationType: AuthorizationType.NONE,
-      requestModels: {
-        'application/json': userRegistrationModel,
-      },
-      requestValidator,
-    });
+    // ProductionCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda),{
+    //   authorizationType: AuthorizationType.NONE,
+    //   requestModels: {
+    //     'application/json': userRegistrationModel,
+    //   },
+    //   requestValidator,
+    // });
     // RentCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
     // UtilitiesCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
     // MaintenanceCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
