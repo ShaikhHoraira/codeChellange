@@ -12,7 +12,7 @@ import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import ProductionCostcostSchema from '../schema/productionCostSchema'
 //import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
-export class ProductionCostcost extends Construct {
+export class ProductionCostConstruct extends Construct {
   public restApi: RestApi;
 
   constructor(scope: Construct, id: string,stack : Stack) {
@@ -97,7 +97,7 @@ export class ProductionCostcost extends Construct {
         contentType: 'application/json',
       },
     );
-    const ProductionCostApi = restApi.root.resourceForPath('Materials');
+    const ProductionCostApi = restApi.root.resourceForPath('Materials'); // here we can make more endpoint based on out future need
     //restApi.root.resourceForPath('Technology');
     // const RentCostApi = restApi.root.resourceForPath('Technology');
     // const UtilitiesCostApi = restApi.root.resourceForPath('Utilities');

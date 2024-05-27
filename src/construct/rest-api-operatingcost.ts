@@ -13,7 +13,7 @@ import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import OperationCostSchema from '../schema/operationCostSchema'
 //import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
-export class Operatingcost extends Construct {
+export class OperatingcostConstruct extends Construct {
   public restApi: RestApi;
 
   constructor(scope: Construct, id: string,stack : Stack) {
@@ -98,7 +98,7 @@ export class Operatingcost extends Construct {
         contentType: 'application/json',
       },
     );
-    const EmployeeCostApi = restApi.root.resourceForPath('Employee');
+    const EmployeeCostApi = restApi.root.resourceForPath('Employee'); // here we can make more endpoint based on out future need
     // const RentCostApi = restApi.root.resourceForPath('Rent');
     // const UtilitiesCostApi = restApi.root.resourceForPath('Utilities');
     // const MaintenanceCostApi = restApi.root.resourceForPath('Maintenance');
