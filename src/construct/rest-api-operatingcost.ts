@@ -2,7 +2,7 @@
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Runtime, Code, Function } from 'aws-cdk-lib/aws-lambda';
-import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors } from "aws-cdk-lib/aws-apigateway";
+import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors, AuthorizationType, RequestValidator } from "aws-cdk-lib/aws-apigateway";
 import { Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApiCommonResponse } from '../modules/Common/api-common-response';
@@ -10,6 +10,7 @@ import path = require('path');
 // Import the AWS SDK module
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import OperationCostSchema from '../schema/operationCostSchema'
 //import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
 export class Operatingcost extends Construct {
@@ -83,14 +84,35 @@ export class Operatingcost extends Construct {
       },
     });
     this.restApi = restApi;
-    
+    const requestValidator = new RequestValidator(this, 'operation-cost-request-validator', {
+      restApi: this.restApi,
+      validateRequestBody: true,
+      validateRequestParameters: true,
+    });
+    const operationCostModel = restApi.addModel(
+      'operation-cost-data-model',
+      {
+        schema: OperationCostSchema, // change
+        description: 'Request model for operationCost data ',
+        modelName: 'OperationCostcostSchemaInput',
+        contentType: 'application/json',
+      },
+    );
     const EmployeeCostApi = restApi.root.resourceForPath('Employee');
     // const RentCostApi = restApi.root.resourceForPath('Rent');
     // const UtilitiesCostApi = restApi.root.resourceForPath('Utilities');
     // const MaintenanceCostApi = restApi.root.resourceForPath('Maintenance');
     // const RepairsCosteApi = restApi.root.resourceForPath('Repairs');
     EmployeeCostApi.addMethod('GET', new LambdaIntegration(getEmployeedataLambda));
-    EmployeeCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
+    EmployeeCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda),{
+      authorizationType: AuthorizationType.NONE,
+      requestModels: {
+        'application/json': operationCostModel,
+      },
+      requestValidator,
+    }
+  
+  );
     // RentCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
     // UtilitiesCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
     // MaintenanceCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
