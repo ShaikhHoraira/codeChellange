@@ -3,12 +3,12 @@ import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 const tableName = process.env.TABLE_NAME || "";
 const region = process.env.REGION;
 
-export class SaveCustomerAddress {
+export class saveProductionCostData {
   private ddbClient: DynamoDBClient;
   public payload: any;
 
   constructor(payload: any) {
-    console.log("🚀 ~ SaveCustomerAddress ~ constructor ~ payload:", payload)
+    console.log("🚀 ~ saveProductionCostData ~ constructor ~ payload:", payload)
     this.ddbClient = new DynamoDBClient({ region });
     this.payload = payload;
   }
@@ -20,7 +20,7 @@ export class SaveCustomerAddress {
       const params: PutItemCommandInput = {
         TableName: tableName,
         Item: {
-          UserId: { S: bodyParams.userId },
+          ProductionCostId: { S: bodyParams.productionCostId },  // Specifying string type for UserId
           CustomerName: { S: bodyParams.customerName },
           AppartmentNo: { S: bodyParams.appartmentNo },
           Address: { S: bodyParams.address },

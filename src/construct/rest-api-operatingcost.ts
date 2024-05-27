@@ -2,7 +2,7 @@
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Runtime, Code, Function } from 'aws-cdk-lib/aws-lambda';
-import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors, RequestValidator, AuthorizationType } from "aws-cdk-lib/aws-apigateway";
+import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors } from "aws-cdk-lib/aws-apigateway";
 import { Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApiCommonResponse } from '../modules/Common/api-common-response';
@@ -10,10 +10,9 @@ import path = require('path');
 // Import the AWS SDK module
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import RegistrationSchema from '../schema/registrationSchema'
 //import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
-export class RestApiConstruct extends Construct {
+export class Operatingcost extends Construct {
   public restApi: RestApi;
 
   constructor(scope: Construct, id: string,stack : Stack) {
@@ -22,24 +21,24 @@ export class RestApiConstruct extends Construct {
     // Configure the AWS SDK with region
     AWS.config.update({ region: process.env.AWS_REGION });
 
-    const saveAddress = new Table(stack, "Details", {
-      partitionKey: { name: "UserId", type: AttributeType.STRING },
-      tableName: "CustomerDB",
+    const saveAddress = new Table(stack, "EmployeeDetails", {
+      partitionKey: { name: "EmployeeId", type: AttributeType.STRING },
+      tableName: "EmployeeDB",
     });
     saveAddress.addGlobalSecondaryIndex({
-      indexName: 'UserIdIndex',
-      partitionKey: { name: 'UserId', type: AttributeType.STRING },
+      indexName: 'EmployeeIdIndex',
+      partitionKey: { name: 'EmployeeId', type: AttributeType.STRING },
     });
     const handlerDir = path.resolve(__dirname, '../../lib');
-    const getUserdataLambda = new Function(stack, "GetCustomerAddressLambdaHandler", {
+    const getEmployeedataLambda = new Function(stack, "GetEmployeeLambda", {
       runtime: Runtime.NODEJS_20_X,
       code: Code.fromAsset(handlerDir), 
-      handler: 'handler/getHandler.handler',
+      handler: 'handler/OPC/getEmployeeHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
     });
-    getUserdataLambda.grantPrincipal.addToPrincipalPolicy(
+    getEmployeedataLambda.grantPrincipal.addToPrincipalPolicy(
       new PolicyStatement({
         resources: ['*'],
         actions: ['dynamodb:getItem', 'secretsmanager:GetSecretValue'],
@@ -47,71 +46,73 @@ export class RestApiConstruct extends Construct {
     );
     
 
-    const saveUserdataLambda = new Function(stack, "PutCustomerAddressLambdaHandler", {
+    const saveEmployeedataLambda = new Function(stack, "PutEmployeeLambda", {
       runtime: Runtime.NODEJS_20_X, // Adjust runtime if necessary
       code: Code.fromAsset(handlerDir),
-      handler: 'handler/saveHandler.handler',
+      handler: 'handler/OPC/saveEmployeeHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
     });
 
-    saveUserdataLambda.grantPrincipal.addToPrincipalPolicy(
+    saveEmployeedataLambda.grantPrincipal.addToPrincipalPolicy(
       new PolicyStatement({
         resources: ['*'],
         actions: ['dynamodb:PutItem', 'secretsmanager:GetSecretValue'],
       }),
     );
-    getUserdataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
-    saveAddress.grantWriteData(saveUserdataLambda);
+    getEmployeedataLambda.role?.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
+    saveAddress.grantWriteData(saveEmployeedataLambda);
 
-    const restApi = new RestApi(this, "UserContacts", {
-      deployOptions:{
-          dataTraceEnabled: true,
-          tracingEnabled: true,
-          stageName: 'v1',
-          // loggingLevel: MethodLoggingLevel.INFO,
+    const restApi = new RestApi(this, "OperationCost", {
+        deployOptions:{
+            dataTraceEnabled: true,
+            tracingEnabled: true,
+            stageName: 'v1',
+            // loggingLevel: MethodLoggingLevel.INFO,
+        },
+      defaultMethodOptions: {
+        apiKeyRequired: true,
       },
-    defaultMethodOptions: {
-      apiKeyRequired: true,
-    },
-    defaultCorsPreflightOptions: {
-      allowOrigins: [
-        '*',
-        // support localhost as an origin only in non-prod environments
-      ],
-      allowHeaders: Cors.DEFAULT_HEADERS.concat(['x-api-key']),
-    },
-  });
-  
+      defaultCorsPreflightOptions: {
+        allowOrigins: [
+          '*',
+          // support localhost as an origin only in non-prod environments
+        ],
+        allowHeaders: Cors.DEFAULT_HEADERS.concat(['x-api-key']),
+      },
+    });
     this.restApi = restApi;
-    const userAddressApi = restApi.root.resourceForPath('userDetails');
     
-    const requestValidator = new RequestValidator(this, 'user-registerdb-request-validator', {
-      restApi: this.restApi,
-      validateRequestBody: true,
-      validateRequestParameters: true,
-    });
+    const EmployeeCostApi = restApi.root.resourceForPath('Employee');
+    // const RentCostApi = restApi.root.resourceForPath('Rent');
+    // const UtilitiesCostApi = restApi.root.resourceForPath('Utilities');
+    // const MaintenanceCostApi = restApi.root.resourceForPath('Maintenance');
+    // const RepairsCosteApi = restApi.root.resourceForPath('Repairs');
+    EmployeeCostApi.addMethod('GET', new LambdaIntegration(getEmployeedataLambda));
+    EmployeeCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
+    // RentCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
+    // UtilitiesCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
+    // MaintenanceCostApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
+    // RepairsCosteApi.addMethod('POST', new LambdaIntegration(saveEmployeedataLambda));
+    
+    // const apiKey = api.addApiKey('ApiKey',{
 
-    const userRegistrationModel = restApi.addModel(
-      'register-User-data-model',
-      {
-        schema: RegistrationSchema, // change
-        description: 'Request model for userRegistration data ',
-        modelName: 'userRegistrationDataInputDB',
-        contentType: 'application/json',
-      },
-    );
-    
-    userAddressApi.addMethod('GET', new LambdaIntegration(getUserdataLambda));
-    userAddressApi.addMethod('POST', new LambdaIntegration(saveUserdataLambda),{
-      authorizationType: AuthorizationType.NONE,
-      requestModels: {
-        'application/json': userRegistrationModel,
-      },
-      requestValidator,
-    });
-    
+    //   apiKeyName: 'tuApiKey',
+    //   value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
+    // });
+  
+    // const plan = api.addUsagePlan('Tu_api-usage-plan', { // we can use rate limit and other usage plans 
+    //   name: `api-usage-plan`,
+    //   apiStages: [{ stage: api.deploymentStage }],
+    // });
+
+  
+    // plan.addApiKey(apiKey);
+  
+    // new CfnOutput(this, "API URL", {
+    //   value: api.url ?? "Something went wrong"
+    // });
     this.addApiKey(stackName, restApi);
     this.addApiResponses(restApi);
 
@@ -127,7 +128,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     // API Gateway API Key
     // const secret = new Secret(this, 'UserContacts-userAddress-api-secret', {
     //   secretName: `${stackName}/api-key`,
-    //   description: 'Mobile push notification API Gateway API Key',
+    //   description: 'API Gateway API Key',
     //   generateSecretString: {
     //     generateStringKey: 'key',
     //     secretStringTemplate: JSON.stringify({}),
@@ -136,8 +137,8 @@ addApiKey(stackName: string, restApi: RestApi) {
     // });
 
     const apiKey = restApi.addApiKey('ApiKey', {
-      apiKeyName: 'this._apiKeyName',
-      value: 'secret.secretValueFromJson',
+      apiKeyName: 'this._apiKeyName_Operation',
+      value: 'secret.secretValueFromJsonForOperationcost',
     });
 
     // this.restAPIKeyArn = secret.secretArn;
@@ -146,7 +147,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     //   value: this.restAPIKeyArn ?? '',
     // });
 
-    const plan = restApi.addUsagePlan('userAPi-address-usage-plan', {
+    const plan = restApi.addUsagePlan('EmployeeAPi-address-usage-plan', {
       name: `${stackName}-api-usage-plan`,
       apiStages: [{ stage: restApi.deploymentStage }],
     });
