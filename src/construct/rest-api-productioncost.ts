@@ -85,11 +85,11 @@ export class ProductionCostcost extends Construct {
       },
     });
     this.restApi = restApi;
-    const requestValidator = new RequestValidator(this, 'user-registerdb-request-validator', {
-      restApi: this.restApi,
-      validateRequestBody: true,
-      validateRequestParameters: true,
-    });
+    // const requestValidator = new RequestValidator(this, 'user-registerdb-request-validator', {
+    //   restApi: this.restApi,
+    //   validateRequestBody: true,
+    //   validateRequestParameters: true,
+    // });
     // const userRegistrationModel = restApi.addModel(
     //   'register-User-data-model',
     //   {
