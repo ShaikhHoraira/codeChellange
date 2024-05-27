@@ -54,7 +54,7 @@ const InfrastructureCostSchema: JsonSchema = {
         minLength: 1,
       },
   },
-  required: ['employeeId', 'customerName','address',],
+  required: ['rentId', 'customerName','address',],
   additionalProperties: false,
 };
 export default InfrastructureCostSchema;
