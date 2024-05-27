@@ -1,12 +1,12 @@
 import { Handler } from "aws-lambda";
-import { SaveCustomerAddress } from '../../modules/PDC/saveProductionCostData';
+import { saveProductionCostData } from '../../modules/PDC/saveProductionCostData';
 
 export const handler: Handler = async (event: any) => {
-  console.log("")
+  console.log(event)
   console.log(" THis is poroductionCostLambda")
   try { 
     if (event.httpMethod === "POST"){
-      const manageDevice = new SaveCustomerAddress(event);
+      const manageDevice = new saveProductionCostData(event);
       await manageDevice.saveData();
     }
     // Construct the response
