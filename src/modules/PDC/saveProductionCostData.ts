@@ -20,7 +20,7 @@ export class saveProductionCostData {
       const params: PutItemCommandInput = {
         TableName: tableName,
         Item: {
-          UserId: { S: bodyParams.userId },
+          ProductionCostId: { S: bodyParams.productionCostId },  // Specifying string type for UserId
           CustomerName: { S: bodyParams.customerName },
           AppartmentNo: { S: bodyParams.appartmentNo },
           Address: { S: bodyParams.address },
