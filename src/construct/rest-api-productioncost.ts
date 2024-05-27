@@ -10,7 +10,7 @@ import path = require('path');
 // Import the AWS SDK module
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import RegistrationSchema from '../schema/registrationSchema'
+import ProductionCostcostSchema from '../schema/registrationSchema'
 //import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
 export class ProductionCostcost extends Construct {
@@ -92,7 +92,7 @@ export class ProductionCostcost extends Construct {
     const userRegistrationModel = restApi.addModel(
       'register-User-data-model',
       {
-        schema: RegistrationSchema, // change
+        schema: ProductionCostcostSchema, // change
         description: 'Request model for userRegistration data ',
         modelName: 'userRegistrationDataInputDB',
         contentType: 'application/json',
