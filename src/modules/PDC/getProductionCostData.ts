@@ -6,12 +6,12 @@ const region = process.env.REGION;
 const ddbClient = new DynamoDBClient({ region });
 
 export class GetCustomerAddress {
-  public productionCostId: string;
+  public rentId: string;
   // public suburb?: string; // Optional parameter
   // public postcode?: string; // Optional parameter
 
-  constructor(productionCostId: string) {
-    this.productionCostId = productionCostId;
+  constructor(rentId: string) {
+    this.rentId = rentId;
     // this.suburb = suburb;
     // this.postcode = postcode;
   }
@@ -19,10 +19,10 @@ export class GetCustomerAddress {
   public async getData(): Promise<any[]> {
     const params: QueryCommandInput = {
       TableName: TABLE_NAME,
-      IndexName: "ProductionCostIdIndex", // Assuming your secondary index name
-      KeyConditionExpression: "ProductionCostId = :productionCostId",
+      IndexName: "RentId", // Assuming your secondary index name
+      KeyConditionExpression: "RentId = :rentId",
       ExpressionAttributeValues: {
-        ":productionCostId": { S: this.productionCostId }, // Specifying string type for userId
+        ":rentId": { S: this.rentId }, // Specifying string type for rentId
       },
     };
 
