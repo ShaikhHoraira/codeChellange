@@ -33,7 +33,7 @@ export class InfrastructureCostConstruct extends Construct {
     const getRentCostdataLambda = new Function(stack, "GetRentIdDetailsLambda", {
       runtime: Runtime.NODEJS_20_X,
       code: Code.fromAsset(handlerDir), 
-      handler: 'handler/getRentIdHandler.handler',
+      handler: 'handler/InfrastructureCost/getRentIdHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },
@@ -49,7 +49,7 @@ export class InfrastructureCostConstruct extends Construct {
     const saveRentCostdataLambda = new Function(stack, "SaveRentIdDetailsLambda", {
       runtime: Runtime.NODEJS_20_X, // Adjust runtime if necessary
       code: Code.fromAsset(handlerDir),
-      handler: 'handler/saveRentIdHandler.handler',
+      handler: 'handler/InfrastructureCost/saveRentIdHandler.handler',
       environment: {
         TABLE_NAME: saveAddress.tableName,
       },

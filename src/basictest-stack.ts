@@ -13,6 +13,5 @@ export class BasictestStack extends Stack {
     new OperatingcostConstruct(this, 'rest-api-operationcost', this);
     new ProductionCostConstruct(this, 'rest-api-productioncost', this);
     new InfrastructureCostConstruct(this, 'rest-api-infrastructureCost', this);
-
   }
 }
