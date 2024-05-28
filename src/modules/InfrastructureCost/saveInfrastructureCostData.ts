@@ -3,7 +3,7 @@ import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 const tableName = process.env.TABLE_NAME || "";
 const region = process.env.REGION;
 
-export class saveInfrastructureCostData {
+export class SaveInfrastructureCostData {
   private ddbClient: DynamoDBClient;
   public payload: any;
 

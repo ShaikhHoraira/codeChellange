@@ -5,7 +5,7 @@ const region = process.env.REGION;
 
 const ddbClient = new DynamoDBClient({ region });
 
-export class GetCustomerAddress {
+export class GetInfrastructureCostData {
   public productionCostId: string;
   // public suburb?: string; // Optional parameter
   // public postcode?: string; // Optional parameter
@@ -16,7 +16,7 @@ export class GetCustomerAddress {
     // this.postcode = postcode;
   }
 
-  public async getData(): Promise<any[]> {
+  public async getRentData(): Promise<any[]> {
     const params: QueryCommandInput = {
       TableName: TABLE_NAME,
       IndexName: "ProductionCostIdIndex", // Assuming your secondary index name
