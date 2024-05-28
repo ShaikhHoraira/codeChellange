@@ -5,6 +5,7 @@ export const handler: Handler = async (event: any) => {
   console.log("We are in getRentID")
   try {
     const { rentId } = event.queryStringParameters;
+    console.log(event.queryStringParameters)
     if (!rentId) {
       throw new Error("Missing parameter: rentId");
     }
