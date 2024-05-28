@@ -46,7 +46,7 @@ export class InfrastructureCostConstruct extends Construct {
     );
     
 
-    const saveRentCostdataLambda = new Function(stack, "PutRentIdDetailsLambda", {
+    const saveRentCostdataLambda = new Function(stack, "SaveRentIdDetailsLambda", {
       runtime: Runtime.NODEJS_20_X, // Adjust runtime if necessary
       code: Code.fromAsset(handlerDir),
       handler: 'handler/saveRentIdHandler.handler',
