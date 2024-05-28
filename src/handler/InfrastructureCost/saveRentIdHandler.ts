@@ -1,12 +1,12 @@
 import { Handler } from "aws-lambda";
-import { SaveCustomerAddress } from '../../modules/OPC/saveEmployeeData';
+import { saveInfrastructureCostData } from '../../modules/InfrastructureCost/saveInfrastructureCostData';
 
 export const handler: Handler = async (event: any) => {
   console.log("We are in saveRentId")
   try { 
     if (event.httpMethod === "POST"){
-      const manageDevice = new SaveCustomerAddress(event);
-      const responseData = await manageDevice.saveData();
+      const manageDevice = new saveInfrastructureCostData(event);
+      const responseData = await manageDevice.saveRentData();
       console.log("🚀 ~ consthandler:Handler= ~ responseData:", responseData)
     }
     // Construct the response
