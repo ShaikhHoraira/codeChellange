@@ -1,5 +1,5 @@
 export declare class GetInfrastructureCostData {
-    productionCostId: string;
-    constructor(productionCostId: string);
+    rentId: string;
+    constructor(rentId: string);
     getRentData(): Promise<any[]>;
 }

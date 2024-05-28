@@ -1,5 +1,5 @@
 export declare class GetCustomerAddress {
-    rentId: string;
-    constructor(rentId: string);
+    productionCostId: string;
+    constructor(productionCostId: string);
     getData(): Promise<any[]>;
 }
