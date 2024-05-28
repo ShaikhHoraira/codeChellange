@@ -4,11 +4,11 @@ import { GetInfrastructureCostData } from '../../modules/InfrastructureCost/getI
 export const handler: Handler = async (event: any) => {
   console.log("We are in getRentID")
   try {
-    const { employeeId } = event.queryStringParameters;
-    if (!employeeId) {
+    const { rentID } = event.queryStringParameters;
+    if (!rentID) {
       throw new Error("Missing parameter: rentID");
     }
-    const manageDevice = new GetInfrastructureCostData(employeeId);
+    const manageDevice = new GetInfrastructureCostData(rentID);
     const result = await manageDevice.getRentData();
 
     console.log(result)
