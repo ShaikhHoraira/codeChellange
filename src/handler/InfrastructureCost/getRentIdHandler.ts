@@ -1,27 +1,21 @@
 import { Handler } from "aws-lambda";
-//import { GetCustomerAddress } from '../../modules/OPC/getEmployeeData';
+import { GetCustomerAddress } from '../../modules/OPC/getEmployeeData';
 
 export const handler: Handler = async (event: any) => {
+  console.log("We are in getRentID")
   try {
-    // const { employeeId } = event.queryStringParameters;
-    // if (!employeeId) {
-    //   throw new Error("Missing parameter: employeeId");
-    // }
-    // const manageDevice = new GetCustomerAddress(employeeId);
-    // const result = await manageDevice.getData();
-
-    // console.log(result)
-    // return {
-    //   statusCode: 200,
-    //   body: JSON.stringify(result),
-    // };
-    console.log("this is console log from save rent id from infracture construct")
-    console.log(event)
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify(event)
+    const { employeeId } = event.queryStringParameters;
+    if (!employeeId) {
+      throw new Error("Missing parameter: employeeId");
     }
-    return response;
+    const manageDevice = new GetCustomerAddress(employeeId);
+    const result = await manageDevice.getData();
+
+    console.log(result)
+    return {
+      statusCode: 200,
+      body: JSON.stringify(result),
+    };
   } catch (e: any) {
     if (e.message.includes('Missing parameter') || e.message.includes('Invalid format')) {
       return {
