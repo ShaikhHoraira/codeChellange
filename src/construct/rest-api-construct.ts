@@ -11,6 +11,8 @@ import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import RegistrationSchema from '../schema/registrationSchema'
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
+import { CustomResourceProvider } from './common/customeSecret';
+import * as cdk from 'aws-cdk-lib';
 //import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
 export class RestApiConstruct extends Construct {
@@ -125,20 +127,29 @@ export class RestApiConstruct extends Construct {
   };
 
 addApiKey(stackName: string, restApi: RestApi) {
+  const customResourceProvider = new CustomResourceProvider(this, 'CustomResourceProvider');
+  const secret = new Secret(this, 'ApiSecretRegistration', {
+    secretName: `${stackName}/${restApi}/api-key`,
+    description: 'Mobile push notification API Gateway API Key',
+    generateSecretString: {
+      generateStringKey: 'key',
+      secretStringTemplate: JSON.stringify({}),
+      excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
+    },
+  });
+
+  const customResource = new cdk.CustomResource(this, 'CustomResource', {
+    serviceToken: customResourceProvider.serviceToken,
+    properties: {
+      SECRET_NAME: secret.secretName,
+    },
+  });
     // API Gateway API Key
-    const secret = new Secret(this, 'ApiSecret', {
-      secretName: `${stackName}/${restApi}/api-key`,
-      description: 'Mobile push notification API Gateway API Key',
-      generateSecretString: {
-        generateStringKey: 'key',
-        secretStringTemplate: JSON.stringify({}),
-        excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
-      },
-    });
+    
 
     const apiKey = restApi.addApiKey('ApiKey', {
       apiKeyName: 'this._apiKeyName',
-      value: 'secret.secretValueFromJson',
+      value: customResource.getAttString('SecretValue'),
     });
 
     this.restAPIKeyArn = secret.secretArn;
