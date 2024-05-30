@@ -1,7 +1,7 @@
 import { GetSecretValueCommand, SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 
-export const handler = async (event: any) => {
-  const secretName = event.ResourceProperties.SECRET_NAME;
+export const handler = async (_event: any) => {
+  const secretName = process.env.SECRET_NAME;
   if (!secretName) {
     throw new Error('Environment variable SECRET_NAME is not defined');
   }

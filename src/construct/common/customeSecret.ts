@@ -7,7 +7,7 @@ import { Stack } from 'aws-cdk-lib';
 export class CustomResourceProvider extends Construct {
   public readonly serviceToken: string;
 
-  constructor(scope: Construct, id: string , stack: Stack) {
+  constructor(scope: Construct, id: string , stack: Stack, secretName : string) {
     super(scope, id);
     const handlerDir = path.resolve(__dirname, '../../../lib');
     // Define the Lambda function
@@ -15,6 +15,9 @@ export class CustomResourceProvider extends Construct {
       runtime: Runtime.NODEJS_20_X,
       handler: 'handler/common/secretHandler.handler',
       code: Code.fromAsset(handlerDir),
+      environment:{
+        SECRET_NAME: secretName,
+      }
     });
 
     // Create the custom resource provider

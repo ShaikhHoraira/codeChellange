@@ -127,10 +127,10 @@ export class RestApiConstruct extends Construct {
   };
 
 addApiKey(stackName: string, restApi: RestApi) {
-
+  const secrateNameApi = `${stackName}/${restApi}/api-key`
   console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ inside add apikey function:", restApi)
   const secret = new Secret(this, 'ApiSecretRegistration', {
-    secretName: `${stackName}/${restApi}/api-key`,
+    secretName: secrateNameApi,
     description: 'Register Customer API Gateway API Key',
     generateSecretString: {
       generateStringKey: 'key',
@@ -138,7 +138,7 @@ addApiKey(stackName: string, restApi: RestApi) {
       excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
     },
   });
-  console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ inside add apikey function:", secret)
+  console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ inside add apikey function:", secrateNameApi)
   this.restAPIKeyArn = secret.secretArn;
 
     new CfnOutput(this, 'restAPIKeyArnAtSource', {
@@ -151,13 +151,13 @@ addApiKey(stackName: string, restApi: RestApi) {
     console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ inside add apikey after the plan code block:", plan)
     
 
-  console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ secret:", secret.secretName)
-  const customResourceProvider = new CustomResourceProvider(this, 'ApiResourceProvider', Stack.of(this));
+  console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ secret:", secrateNameApi)
+  const customResourceProvider = new CustomResourceProvider(this, 'ApiResourceProvider', Stack.of(this), secrateNameApi);
   const customResource = new cdk.CustomResource(this, 'customResourceProviderForApi', {
     serviceToken: customResourceProvider.serviceToken,
-    properties: {
-      SECRET_NAME: secret.secretName,
-    },
+    // properties: {
+    //   SECRET_NAME: secret.secretName,
+    // },
   });
   console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ after custome resourse:", secret.secretName)
     const apiKey = restApi.addApiKey('ApiKey', {
