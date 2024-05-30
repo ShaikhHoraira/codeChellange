@@ -1,2 +1,6 @@
-import { Handler } from "aws-lambda";
-export declare const handler: Handler;
+export declare const handler: (_event: any) => Promise<{
+    PhysicalResourceId: string;
+    Data: {
+        SecretValue: any;
+    };
+}>;
