@@ -1,7 +1,8 @@
 import * as AWS from 'aws-sdk';
 const secretsManager = new AWS.SecretsManager();
+import { Handler } from "aws-lambda";
 
-exports.handler = async function(_event : any) {
+export const handler: Handler = async function(_event : any) {
   const secretName = process.env.SECRET_NAME;
   if (!secretName) {
     throw new Error('Environment variable SECRET_NAME is not defined');
