@@ -138,7 +138,7 @@ addApiKey(stackName: string, restApi: RestApi) {
     },
   });
 
-  const customResource = new cdk.CustomResource(this, 'CustomResource', {
+  const customResource = new cdk.CustomResource(this, 'customResourceProviderForApi', {
     serviceToken: customResourceProvider.serviceToken,
     properties: {
       SECRET_NAME: secret.secretName,
