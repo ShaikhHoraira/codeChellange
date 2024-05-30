@@ -7,8 +7,7 @@ import { Stack } from 'aws-cdk-lib';
 export class CustomResourceProvider extends Construct {
   public readonly serviceToken: string;
 
-  constructor(scope: Construct, id: string ,stack: Stack) {
-      super(scope, id);
+  constructor(scope: Construct, id: string , stack: Stack) {
     super(scope, id);
     const handlerDir = path.resolve(__dirname, '../../../lib');
     // Define the Lambda function
