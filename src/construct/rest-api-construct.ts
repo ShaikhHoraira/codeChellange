@@ -19,7 +19,7 @@ export class RestApiConstruct extends Construct {
   public restApi: RestApi;
   public restAPIKeyArn: string | undefined;
   //private _apiKeyName: string | undefined;
-  constructor(scope: Construct, id: string,stack : Stack) {
+  constructor(scope: Construct, id: string, stack : Stack) {
     super(scope, id);
     const stackName = Stack.of(this).stackName;
     // Configure the AWS SDK with region
@@ -127,7 +127,7 @@ export class RestApiConstruct extends Construct {
   };
 
 addApiKey(stackName: string, restApi: RestApi) {
-  const customResourceProvider = new CustomResourceProvider(this, 'CustomResourceProvider');
+  const customResourceProvider = new CustomResourceProvider(this, 'CustomResourceProvider', Stack.of(this));
   const secret = new Secret(this, 'ApiSecretRegistration', {
     secretName: `${stackName}/${restApi}/api-key`,
     description: 'Register Customer API Gateway API Key',
