@@ -138,9 +138,7 @@ addApiKey(stackName: string, restApi: RestApi) {
       excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
     },
   });
-  console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ inside add apikey function:", secrateNameApi)
   this.restAPIKeyArn = secret.secretArn;
-
     new CfnOutput(this, 'restAPIKeyArnAtSource', {
       value: this.restAPIKeyArn ?? '',
     });
@@ -148,10 +146,6 @@ addApiKey(stackName: string, restApi: RestApi) {
       name: `${stackName}-api-usage-plan`,
       apiStages: [{ stage: restApi.deploymentStage }],
     });
-    console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ inside add apikey after the plan code block:", plan)
-    
-
-  console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ secret:", secrateNameApi)
   const customResourceProvider = new CustomResourceProvider(this, 'ApiResourceProvider', Stack.of(this), secrateNameApi);
   const customResource = new cdk.CustomResource(this, 'customResourceProviderForApi', {
     serviceToken: customResourceProvider.serviceToken,
@@ -159,15 +153,11 @@ addApiKey(stackName: string, restApi: RestApi) {
     //   SECRET_NAME: secret.secretName,
     // },
   });
-  console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ after custome resourse:", secret.secretName)
     const apiKey = restApi.addApiKey('ApiKey', {
       apiKeyName: 'this._apiKeyName',
       value: customResource.getAttString('SecretValue'),
     });
     plan.addApiKey(apiKey);
-    
-
-    
   }
 
   addApiResponses(restApi: RestApi) {
@@ -241,7 +231,6 @@ addApiKey(stackName: string, restApi: RestApi) {
           'application/json': commonResponse.setResponseWithOutReason(403, 'Forbidden', '$context.requestId').body,
       },
   });
-  
     // *****************Error 5xx
     restApi.addGatewayResponse('DEFAULT_5XX', {
       type: ResponseType.DEFAULT_5XX,
@@ -262,7 +251,6 @@ addApiKey(stackName: string, restApi: RestApi) {
         'application/json': commonResponse.setResponseWithOutReason(401, 'Unauthorized', '$context.requestId').body,
     },
 });
-
     // ***************** Error for 429
     restApi.addGatewayResponse('QUOTA_EXCEEDED', {
       type: ResponseType.QUOTA_EXCEEDED,
