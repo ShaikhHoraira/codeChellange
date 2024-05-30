@@ -22,7 +22,7 @@ export class RestApiConstruct extends Construct {
   constructor(scope: Construct, id: string, stack : Stack) {
     super(scope, id);
     const stackName = Stack.of(this).stackName;
-    // Configure the AWS SDK with region
+
     AWS.config.update({ region: process.env.AWS_REGION });
 
     const saveAddress = new Table(stack, "Details", {
@@ -127,7 +127,6 @@ export class RestApiConstruct extends Construct {
   };
 
 addApiKey(stackName: string, restApi: RestApi) {
-  const customResourceProvider = new CustomResourceProvider(this, 'ApiResourceProvider', Stack.of(this));
   const secret = new Secret(this, 'ApiSecretRegistration', {
     secretName: `${stackName}/${restApi}/api-key`,
     description: 'Register Customer API Gateway API Key',
@@ -138,14 +137,13 @@ addApiKey(stackName: string, restApi: RestApi) {
     },
   });
 
+  const customResourceProvider = new CustomResourceProvider(this, 'ApiResourceProvider', Stack.of(this));
   const customResource = new cdk.CustomResource(this, 'customResourceProviderForApi', {
     serviceToken: customResourceProvider.serviceToken,
     properties: {
       SECRET_NAME: secret.secretName,
     },
   });
-    // API Gateway API Key
-    
 
     const apiKey = restApi.addApiKey('ApiKey', {
       apiKeyName: 'this._apiKeyName',
