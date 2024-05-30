@@ -130,7 +130,7 @@ addApiKey(stackName: string, restApi: RestApi) {
   const customResourceProvider = new CustomResourceProvider(this, 'CustomResourceProvider');
   const secret = new Secret(this, 'ApiSecretRegistration', {
     secretName: `${stackName}/${restApi}/api-key`,
-    description: 'Mobile push notification API Gateway API Key',
+    description: 'Register Customer API Gateway API Key',
     generateSecretString: {
       generateStringKey: 'key',
       secretStringTemplate: JSON.stringify({}),
