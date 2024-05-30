@@ -127,7 +127,7 @@ export class RestApiConstruct extends Construct {
   };
 
 addApiKey(stackName: string, restApi: RestApi) {
-  const customResourceProvider = new CustomResourceProvider(this, 'CustomResourceProvider', Stack.of(this));
+  const customResourceProvider = new CustomResourceProvider(this, 'ApiResourceProvider', Stack.of(this));
   const secret = new Secret(this, 'ApiSecretRegistration', {
     secretName: `${stackName}/${restApi}/api-key`,
     description: 'Register Customer API Gateway API Key',
