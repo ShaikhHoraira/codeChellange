@@ -3,18 +3,20 @@ import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Runtime, Code, Function } from 'aws-cdk-lib/aws-lambda';
 import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors, RequestValidator, AuthorizationType } from "aws-cdk-lib/aws-apigateway";
-import { Stack } from 'aws-cdk-lib';
+import { CfnOutput, Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApiCommonResponse } from '../modules/Common/api-common-response';
 import path = require('path');
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import RegistrationSchema from '../schema/registrationSchema'
+import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 //import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
 export class RestApiConstruct extends Construct {
   public restApi: RestApi;
-
+  public restAPIKeyArn: string | undefined;
+  private _apiKeyName: string | undefined;
   constructor(scope: Construct, id: string,stack : Stack) {
     super(scope, id);
     const stackName = Stack.of(this).stackName;
@@ -124,26 +126,26 @@ export class RestApiConstruct extends Construct {
 
 addApiKey(stackName: string, restApi: RestApi) {
     // API Gateway API Key
-    // const secret = new Secret(this, 'UserContacts-userAddress-api-secret', {
-    //   secretName: `${stackName}/api-key`,
-    //   description: 'Mobile push notification API Gateway API Key',
-    //   generateSecretString: {
-    //     generateStringKey: 'key',
-    //     secretStringTemplate: JSON.stringify({}),
-    //     excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
-    //   },
-    // });
-
-    const apiKey = restApi.addApiKey('ApiKey', {
-      apiKeyName: 'this._apiKeyName',
-      value: 'secret.secretValueFromJson',
+    const secret = new Secret(this, 'UserContacts-userAddress-api-secret', {
+      secretName: `${stackName}/${restApi}/api-key`,
+      description: 'Mobile push notification API Gateway API Key',
+      generateSecretString: {
+        generateStringKey: 'key',
+        secretStringTemplate: JSON.stringify({}),
+        excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
+      },
     });
 
-    // this.restAPIKeyArn = secret.secretArn;
+    const apiKey = restApi.addApiKey('ApiKey', {
+      apiKeyName: this._apiKeyName,
+      value: secret.secretValueFromJson('key').toString(),
+    });
 
-    // new CfnOutput(this, 'restAPIKeyArnAtSource', {
-    //   value: this.restAPIKeyArn ?? '',
-    // });
+    this.restAPIKeyArn = secret.secretArn;
+
+    new CfnOutput(this, 'restAPIKeyArnAtSource', {
+      value: this.restAPIKeyArn ?? '',
+    });
 
     const plan = restApi.addUsagePlan('userAPi-address-usage-plan', {
       name: `${stackName}-api-usage-plan`,
