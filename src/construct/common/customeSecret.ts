@@ -3,6 +3,7 @@ import * as cr from 'aws-cdk-lib/custom-resources';
 import * as path from 'path';
 import { Construct } from 'constructs';
 import { Stack } from 'aws-cdk-lib';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 
 export class CustomResourceProvider extends Construct {
   public readonly serviceToken: string;
@@ -19,7 +20,15 @@ export class CustomResourceProvider extends Construct {
         SECRET_NAME: secretName,
       }
     });
-
+    getSecretValueFunction.grantPrincipal.addToPrincipalPolicy(
+      new PolicyStatement({
+        resources: ['*'],
+        actions: [
+          'lambda:InvokeFunction',
+          'secretsmanager:GetSecretValue',
+        ],
+      }),
+    );
     // Create the custom resource provider
     const provider = new cr.Provider(this, 'ResourceProviderHandler', {
       onEventHandler: getSecretValueFunction,
