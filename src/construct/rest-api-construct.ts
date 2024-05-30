@@ -127,6 +127,8 @@ export class RestApiConstruct extends Construct {
   };
 
 addApiKey(stackName: string, restApi: RestApi) {
+
+  console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ inside add apikey function:", restApi)
   const secret = new Secret(this, 'ApiSecretRegistration', {
     secretName: `${stackName}/${restApi}/api-key`,
     description: 'Register Customer API Gateway API Key',
@@ -136,7 +138,20 @@ addApiKey(stackName: string, restApi: RestApi) {
       excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
     },
   });
+  console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ inside add apikey function:", secret)
+  this.restAPIKeyArn = secret.secretArn;
 
+    new CfnOutput(this, 'restAPIKeyArnAtSource', {
+      value: this.restAPIKeyArn ?? '',
+    });
+    const plan = restApi.addUsagePlan('userAPi-address-usage-plan', {
+      name: `${stackName}-api-usage-plan`,
+      apiStages: [{ stage: restApi.deploymentStage }],
+    });
+    console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ inside add apikey after the plan code block:", plan)
+    
+
+  console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ secret:", secret.secretName)
   const customResourceProvider = new CustomResourceProvider(this, 'ApiResourceProvider', Stack.of(this));
   const customResource = new cdk.CustomResource(this, 'customResourceProviderForApi', {
     serviceToken: customResourceProvider.serviceToken,
@@ -144,24 +159,15 @@ addApiKey(stackName: string, restApi: RestApi) {
       SECRET_NAME: secret.secretName,
     },
   });
-
+  console.log("🚀 ~ RestApiConstruct ~ addApiKey ~ after custome resourse:", secret.secretName)
     const apiKey = restApi.addApiKey('ApiKey', {
       apiKeyName: 'this._apiKeyName',
       value: customResource.getAttString('SecretValue'),
     });
-
-    this.restAPIKeyArn = secret.secretArn;
-
-    new CfnOutput(this, 'restAPIKeyArnAtSource', {
-      value: this.restAPIKeyArn ?? '',
-    });
-
-    const plan = restApi.addUsagePlan('userAPi-address-usage-plan', {
-      name: `${stackName}-api-usage-plan`,
-      apiStages: [{ stage: restApi.deploymentStage }],
-    });
-
     plan.addApiKey(apiKey);
+    
+
+    
   }
 
   addApiResponses(restApi: RestApi) {
