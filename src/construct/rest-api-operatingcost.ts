@@ -2,8 +2,9 @@
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Runtime, Code, Function } from 'aws-cdk-lib/aws-lambda';
+import * as cdk from 'aws-cdk-lib';
 import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors, AuthorizationType, RequestValidator } from "aws-cdk-lib/aws-apigateway";
-import { Stack } from 'aws-cdk-lib';
+import { Stack, CfnOutput } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApiCommonResponse } from '../modules/Common/api-common-response';
 import path = require('path');
@@ -11,11 +12,12 @@ import path = require('path');
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import OperationCostSchema from '../schema/operationCostSchema'
-//import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
+import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
+import { CustomResourceProvider } from './common/customeSecret';
 
 export class OperatingcostConstruct extends Construct {
   public restApi: RestApi;
-
+  public restAPIKeyArn: string | undefined;
   constructor(scope: Construct, id: string,stack : Stack) {
     super(scope, id);
     const stackName = Stack.of(this).stackName;
@@ -146,36 +148,38 @@ export class OperatingcostConstruct extends Construct {
       });
   };
 
-addApiKey(stackName: string, restApi: RestApi) {
-    // API Gateway API Key
-    // const secret = new Secret(this, 'UserContacts-userAddress-api-secret', {
-    //   secretName: `${stackName}/api-key`,
-    //   description: 'API Gateway API Key',
-    //   generateSecretString: {
-    //     generateStringKey: 'key',
-    //     secretStringTemplate: JSON.stringify({}),
-    //     excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
-    //   },
-    // });
-
-    const apiKey = restApi.addApiKey('ApiKey', {
-      apiKeyName: 'this._apiKeyName_Operation',
-      value: 'secret.secretValueFromJsonForOperationcost',
+  addApiKey(stackName: string, restApi: RestApi) {
+    const secrateNameApi = `${stackName}/${restApi}/api-key`
+    const secret = new Secret(this, 'OperationCostApiSecret', {
+      secretName: secrateNameApi,
+      description: 'Operation Cost API Gateway API Key',
+      generateSecretString: {
+        generateStringKey: 'key',
+        secretStringTemplate: JSON.stringify({}),
+        excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
+      },
     });
-
-    // this.restAPIKeyArn = secret.secretArn;
-
-    // new CfnOutput(this, 'restAPIKeyArnAtSource', {
-    //   value: this.restAPIKeyArn ?? '',
-    // });
-
-    const plan = restApi.addUsagePlan('EmployeeAPi-address-usage-plan', {
-      name: `${stackName}-api-usage-plan`,
-      apiStages: [{ stage: restApi.deploymentStage }],
+    this.restAPIKeyArn = secret.secretArn;
+      new CfnOutput(this, 'operationAPIKeyArnAtSource', {
+        value: this.restAPIKeyArn ?? '',
+      });
+      const plan = restApi.addUsagePlan('Operation-Cost-APi--usage-plan', {
+        name: `${stackName}-api-usage-plan`,
+        apiStages: [{ stage: restApi.deploymentStage }],
+      });
+    const customResourceProvider = new CustomResourceProvider(this, 'OperationCostApiResourceProvider', Stack.of(this), secrateNameApi);
+    const customResource = new cdk.CustomResource(this, 'customResourceProviderForOperationCostApi', {
+      serviceToken: customResourceProvider.serviceToken,
+      // properties: {
+      //   SECRET_NAME: secret.secretName,
+      // },
     });
-
-    plan.addApiKey(apiKey);
-  }
+      const apiKey = restApi.addApiKey('ApiKey', {
+        apiKeyName: secrateNameApi,
+        value: customResource.getAttString('SecretValue'),
+      });
+      plan.addApiKey(apiKey);
+    }
 
   addApiResponses(restApi: RestApi) {
     const commonResponse = new ApiCommonResponse();

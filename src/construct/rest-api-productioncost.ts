@@ -142,7 +142,7 @@ export class ProductionCostConstruct extends Construct {
       },
     });
     this.restAPIKeyArn = secret.secretArn;
-      new CfnOutput(this, 'restAPIKeyArnAtSource', {
+      new CfnOutput(this, 'productionAPIKeyArnAtSource', {
         value: this.restAPIKeyArn ?? '',
       });
       const plan = restApi.addUsagePlan('productionCostAPi-address-usage-plan', {
