@@ -29,7 +29,6 @@ export class CustomResourceProvider extends Construct {
         ],
       }),
     );
-    // Create the custom resource provider
     const provider = new cr.Provider(this, 'ResourceProviderHandler', {
       onEventHandler: getSecretValueFunction,
     });

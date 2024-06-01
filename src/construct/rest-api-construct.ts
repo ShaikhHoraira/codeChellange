@@ -2,6 +2,7 @@
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Runtime, Code, Function } from 'aws-cdk-lib/aws-lambda';
+import * as cdk from 'aws-cdk-lib';
 import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors, RequestValidator, AuthorizationType } from "aws-cdk-lib/aws-apigateway";
 import { CfnOutput, Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
@@ -12,8 +13,7 @@ import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import RegistrationSchema from '../schema/registrationSchema'
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { CustomResourceProvider } from './common/customeSecret';
-import * as cdk from 'aws-cdk-lib';
-//import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
+
 
 export class RestApiConstruct extends Construct {
   public restApi: RestApi;
