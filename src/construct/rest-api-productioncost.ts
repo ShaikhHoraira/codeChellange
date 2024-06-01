@@ -2,19 +2,21 @@
 import { Construct } from 'constructs';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Runtime, Code, Function } from 'aws-cdk-lib/aws-lambda';
+import * as cdk from 'aws-cdk-lib';
 import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors, AuthorizationType, RequestValidator } from "aws-cdk-lib/aws-apigateway";
-import { Stack } from 'aws-cdk-lib';
+import { CfnOutput, Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApiCommonResponse } from '../modules/Common/api-common-response';
 import path = require('path');
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import ProductionCostcostSchema from '../schema/productionCostSchema'
-//import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
+import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
+import { CustomResourceProvider } from './common/customeSecret';
 
 export class ProductionCostConstruct extends Construct {
   public restApi: RestApi;
-
+  public restAPIKeyArn: string | undefined;
   constructor(scope: Construct, id: string,stack : Stack) {
     super(scope, id);
     const stackName = Stack.of(this).stackName;
@@ -117,23 +119,6 @@ export class ProductionCostConstruct extends Construct {
     // MaintenanceCostApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
     // RepairsCosteApi.addMethod('POST', new LambdaIntegration(saveProductionCostdataLambda));
     
-    // const apiKey = api.addApiKey('ApiKey',{
-
-    //   apiKeyName: 'tuApiKey',
-    //   value: 'thisIsJustSampleAPi123' // we can get the apis using aws secret and get the key to fetch here 
-    // });
-  
-    // const plan = api.addUsagePlan('Tu_api-usage-plan', { // we can use rate limit and other usage plans 
-    //   name: `api-usage-plan`,
-    //   apiStages: [{ stage: api.deploymentStage }],
-    // });
-
-  
-    // plan.addApiKey(apiKey);
-  
-    // new CfnOutput(this, "API URL", {
-    //   value: api.url ?? "Something went wrong"
-    // });
     this.addApiKey(stackName, restApi);
     this.addApiResponses(restApi);
 
@@ -145,36 +130,38 @@ export class ProductionCostConstruct extends Construct {
       });
   };
 
-addApiKey(stackName: string, restApi: RestApi) {
-    // API Gateway API Key
-    // const secret = new Secret(this, 'UserContacts-userAddress-api-secret', {
-    //   secretName: `${stackName}/api-key`,
-    //   description: 'API Gateway API Key',
-    //   generateSecretString: {
-    //     generateStringKey: 'key',
-    //     secretStringTemplate: JSON.stringify({}),
-    //     excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
-    //   },
-    // });
-
-    const apiKey = restApi.addApiKey('ApiKey', {
-      apiKeyName: 'this._apiKeyName_Production',
-      value: 'secret.secretValueFromJsonForProductioncost',
+  addApiKey(stackName: string, restApi: RestApi) {
+    const secrateNameApi = `${stackName}/${restApi}/api-key`
+    const secret = new Secret(this, 'ApiSecretProduction', {
+      secretName: secrateNameApi,
+      description: 'Production cost API Gateway API Key',
+      generateSecretString: {
+        generateStringKey: 'key',
+        secretStringTemplate: JSON.stringify({}),
+        excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
+      },
     });
-
-    // this.restAPIKeyArn = secret.secretArn;
-
-    // new CfnOutput(this, 'restAPIKeyArnAtSource', {
-    //   value: this.restAPIKeyArn ?? '',
-    // });
-
-    const plan = restApi.addUsagePlan('ProductionCostAPi-address-usage-plan', {
-      name: `${stackName}-api-usage-plan`,
-      apiStages: [{ stage: restApi.deploymentStage }],
+    this.restAPIKeyArn = secret.secretArn;
+      new CfnOutput(this, 'productionAPIKeyArnAtSource', {
+        value: this.restAPIKeyArn ?? '',
+      });
+      const plan = restApi.addUsagePlan('productionCostAPi-address-usage-plan', {
+        name: `${stackName}-api-usage-plan`,
+        apiStages: [{ stage: restApi.deploymentStage }],
+      });
+    const customResourceProvider = new CustomResourceProvider(this, 'ProductionApiResourceProvider', Stack.of(this), secrateNameApi);
+    const customResource = new cdk.CustomResource(this, 'ProductionCostProviderForCustomerApi', {
+      serviceToken: customResourceProvider.serviceToken,
+      // properties: {
+      //   SECRET_NAME: secret.secretName,
+      // },
     });
-
-    plan.addApiKey(apiKey);
-  }
+      const apiKey = restApi.addApiKey('ApiKey', {
+        apiKeyName: secrateNameApi,
+        value: customResource.getAttString('SecretValue'),
+      });
+      plan.addApiKey(apiKey);
+    }
 
   addApiResponses(restApi: RestApi) {
     const commonResponse = new ApiCommonResponse();

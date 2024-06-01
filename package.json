@@ -32,6 +32,7 @@
     "@aws-cdk/assets": "^1.19.0",
     "@aws-cdk/region-info": "^2.87.0",
     "@aws-sdk/client-dynamodb": "^3.572.0",
+    "@aws-sdk/client-secrets-manager": "^3.583.0",
     "@aws-sdk/lib-dynamodb": "^3.342.0",
     "aws-cdk-lib": "^2.138.0",
     "aws-sdk": "^2.1617.0",

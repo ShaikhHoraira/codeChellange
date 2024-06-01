@@ -9,19 +9,13 @@ export const handler: Handler = async (event: any) => {
       const responseData = await manageDevice.saveRentData();
       console.log("🚀 ~ consthandler:Handler= ~ responseData:", responseData)
     }
-    // Construct the response
     const response = {
       statusCode: 200,
       body: JSON.stringify('Success')
     };
     return response;
-    // console.log("lambda called", event.path)
-    // return {
-    //     statusCode: 200,
-    //     body: event
     // }
   } catch (e) {
-    // Construct the error response
     const errorResponse = {
       statusCode: 500,
       body: (typeof e === 'string') ? e : 'Invalid Request Body'
