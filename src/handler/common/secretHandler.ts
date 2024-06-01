@@ -1,30 +1,14 @@
-import { GetSecretValueCommand, SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
+import { ManageSecrets } from '../../modules/Common/manager-secrets'
 
 export const handler = async (_event: any) => {
   const secretName = process.env.SECRET_NAME;
   if (!secretName) {
     throw new Error('Environment variable SECRET_NAME is not defined');
   }
-
-  // Create an instance of SecretsManagerClient
-  const client = new SecretsManagerClient({ region: 'ap-southeast-2' });
-
   try {
-    // Execute GetSecretValueCommand to retrieve the secret value
-    const response = await client.send(new GetSecretValueCommand({ SecretId: secretName }));
-
-    // Handle the response and access the secret value
-    if (response.SecretString) {
-      const secret = JSON.parse(response.SecretString);
-      return {
-        PhysicalResourceId: secretName,
-        Data: {
-          SecretValue: secret.key
-        }
-      };
-    } else {
-      throw new Error('Secret value not found');
-    }
+    const manageSecrets = new ManageSecrets({secretName});
+    const secretRetunr  = manageSecrets.getSecretValue();
+    return secretRetunr
   } catch (error : any) {
     console.error(error);
     throw new Error(`Error retrieving secret: ${error.message}`);
