@@ -8,10 +8,11 @@ import { ProductionCostConstruct } from './construct/rest-api-productioncost';
 export class BasictestStack extends Stack {
   constructor(scope: Construct, id: string, props?: any) {
     super(scope, id, props);
-    
+    const getSecretValueFunctionName = 'GetSecretValueFunction';
+    const customResourceProviderName = 'ResourceProviderHandler';
     new RestApiConstruct(this, 'rest-api-construct', this);
     // new OperatingcostConstruct(this, 'rest-api-operationcost', this);
-    new ProductionCostConstruct(this, 'rest-api-productioncost', this);
+    new ProductionCostConstruct(this, 'rest-api-productioncost', this, getSecretValueFunctionName, customResourceProviderName);
     // new InfrastructureCostConstruct(this, 'rest-api-infrastructureCost', this);
   }
 }

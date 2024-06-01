@@ -17,7 +17,7 @@ import { CustomResourceProvider } from './common/customeSecret';
 export class ProductionCostConstruct extends Construct {
   public restApi: RestApi;
   public restAPIKeyArn: string | undefined;
-  constructor(scope: Construct, id: string,stack : Stack) {
+  constructor(scope: Construct, id: string,stack : Stack, _getSecretValueFn: any, _customResource: any) {
     super(scope, id);
     const stackName = Stack.of(this).stackName;
     // Configure the AWS SDK with region
