@@ -12,7 +12,7 @@ export class CustomResourceProvider extends Construct {
     super(scope, id);
     const handlerDir = path.resolve(__dirname, '../../../lib');
     // Define the Lambda function
-    const getSecretValueFunction = new Function(stack, 'GetSecretValueFunction', {
+    const getSecretValueFunction = new Function(stack, `${secretName}`, {
       runtime: Runtime.NODEJS_20_X,
       handler: 'handler/common/secretHandler.handler',
       code: Code.fromAsset(handlerDir),
