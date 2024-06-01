@@ -13,7 +13,6 @@ export class ManageSecrets {
         this.client = new SecretsManagerClient({ region: 'ap-southeast-2' });
         this.secretDetails = props;
     }
-
     public async getSecretValue() {
         try {
           const response = await this.client.send(new GetSecretValueCommand({ SecretId: this.secretDetails.secretName }));
