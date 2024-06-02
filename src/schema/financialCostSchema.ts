@@ -5,7 +5,7 @@ const FinancialCostSchema: JsonSchema = {
   title: 'Mobile push notification Device Manager Request',
   type: JsonSchemaType.OBJECT,
   properties: {
-    rentId: {
+    insuranceId: {
       type: JsonSchemaType.STRING,
       description: 'Unique identifier for the user',
       maxLength: 100,
@@ -54,7 +54,7 @@ const FinancialCostSchema: JsonSchema = {
         minLength: 1,
       },
   },
-  required: ['rentId', 'customerName','address',],
+  required: ['insuranceId', 'customerName','address',],
   additionalProperties: false,
 };
 export default FinancialCostSchema;
