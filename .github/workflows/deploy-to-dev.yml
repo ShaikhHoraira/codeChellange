@@ -7,12 +7,14 @@ on:
       - develop  # Also trigger pipeline on push to the development branch
       - setupSecretForApi
       - financialApiSetup
+      - createlogisticscostApi
   pull_request:
     branches:
       - main  # Trigger pipeline on pull requests to the main branch
       - develop  # Also trigger pipeline on pull requests to the development branch
       - setupSecretForApi
       - financialApiSetup
+      - createlogisticscostApi
 
 jobs:
   build:
