@@ -20,7 +20,7 @@ export class GetInsuranceCostData {
     const params: QueryCommandInput = {
       TableName: TABLE_NAME,
       IndexName: "FinanceInsuranceIndex", // Assuming your secondary index name
-      KeyConditionExpression: "insuranceId = :insuranceId",
+      KeyConditionExpression: "InsuranceId = :insuranceId",
       ExpressionAttributeValues: {
         ":insuranceId": { S: this.insuranceId }, // Specifying string type for userId
       },
