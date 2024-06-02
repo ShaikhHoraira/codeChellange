@@ -10,7 +10,7 @@ import { ApiCommonResponse } from '../modules/Common/api-common-response';
 import path = require('path');
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import InfrastructureCostSchema from '../schema/infrastructureCost'
+import InfrastructureCostSchema from '../schema/infrastructureCostSchema'
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { CustomResourceProvider } from './common/customeSecret';
 

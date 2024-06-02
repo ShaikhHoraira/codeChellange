@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import { RestApi } from "aws-cdk-lib/aws-apigateway";
 import { Stack } from 'aws-cdk-lib';
-export declare class OperatingcostConstruct extends Construct {
+export declare class OperatingCostConstruct extends Construct {
     restApi: RestApi;
     restAPIKeyArn: string | undefined;
     constructor(scope: Construct, id: string, stack: Stack);

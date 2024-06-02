@@ -15,7 +15,7 @@ import OperationCostSchema from '../schema/operationCostSchema'
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { CustomResourceProvider } from './common/customeSecret';
 
-export class OperatingcostConstruct extends Construct {
+export class OperatingCostConstruct extends Construct {
   public restApi: RestApi;
   public restAPIKeyArn: string | undefined;
   constructor(scope: Construct, id: string,stack : Stack) {
