@@ -15,7 +15,7 @@ import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { CustomResourceProvider } from './common/customeSecret';
 
 
-export class MarketingandSalesCost extends Construct {
+export class MarketingandSalesCostConstruct extends Construct {
   public restApi: RestApi;
   public restAPIKeyArn: string | undefined;
   //private _apiKeyName: string | undefined;
