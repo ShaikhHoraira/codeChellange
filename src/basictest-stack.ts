@@ -6,6 +6,7 @@ import { ProductionCostConstruct } from './construct/rest-api-productioncost';
 import { InfrastructureCostConstruct } from './construct/rest-api-infrastructurecost'
 import { FinancialCostConstruct } from './construct/rest-api-financialcost';
 import { LogisticCostConstruct } from './construct/rest-api-logisticscost';
+import { MarketingandSalesCostConstruct } from './construct/rest-api-marketingandsalescost';
 
 export class BasictestStack extends Stack {
   constructor(scope: Construct, id: string, props?: any) {
@@ -17,5 +18,6 @@ export class BasictestStack extends Stack {
     new InfrastructureCostConstruct(this, 'rest-api-infrastructureCost', this);
     new FinancialCostConstruct(this, 'rest-api-financialCostConstruct', this);
     new LogisticCostConstruct(this, 'rest-api-logisticCostConstruct', this);
+    new MarketingandSalesCostConstruct(this, 'rest-api-MarketingandSalesCostConstruct', this);
   }
 }
