@@ -4,14 +4,15 @@ import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Runtime, Code, Function } from 'aws-cdk-lib/aws-lambda';
 import * as cdk from 'aws-cdk-lib';
 import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors, AuthorizationType, RequestValidator } from "aws-cdk-lib/aws-apigateway";
-import { Stack, CfnOutput } from 'aws-cdk-lib';
+// import { Stack, CfnOutput } from 'aws-cdk-lib';
+import { Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApiCommonResponse } from '../modules/Common/api-common-response';
 import path = require('path');
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import logisticCostSchema from '../schema/logisticCostSchema'
-import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
+// import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { CustomResourceProvider } from './common/customeSecret';
 
 export class LogisticCostConstruct extends Construct {
@@ -134,19 +135,19 @@ export class LogisticCostConstruct extends Construct {
 
   addApiKey(stackName: string, LogisticCostrestApi: RestApi) {
     const secrateNameApi = `${stackName}/${this.LogisticRestApi}/api-key`
-    const secret = new Secret(this, 'LogisticCostApiSecret', {
-      secretName: secrateNameApi,
-      description: 'Logistic Cost API Gateway API Key',
-      generateSecretString: {
-        generateStringKey: 'key',
-        secretStringTemplate: JSON.stringify({}),
-        excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
-      },
-    });
-    this.restAPIKeyArn = secret.secretArn;
-      new CfnOutput(this, 'logisticAPIKeyArnAtSource', {
-        value: this.restAPIKeyArn ?? '',
-      });
+    // const secret = new Secret(this, 'LogisticCostApiSecret', {
+    //   secretName: secrateNameApi,
+    //   description: 'Logistic Cost API Gateway API Key',
+    //   generateSecretString: {
+    //     generateStringKey: 'key',
+    //     secretStringTemplate: JSON.stringify({}),
+    //     excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
+    //   },
+    // });
+    // this.restAPIKeyArn = secret.secretArn;
+    //   new CfnOutput(this, 'logisticAPIKeyArnAtSource', {
+    //     value: this.restAPIKeyArn ?? '',
+    //   });
       const plan = LogisticCostrestApi.addUsagePlan('Logistic-Cost-APi--usage-plan', {
         name: `${stackName}-logistic-api-usage-plan`,
         apiStages: [{ stage: LogisticCostrestApi.deploymentStage }],

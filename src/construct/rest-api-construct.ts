@@ -4,14 +4,15 @@ import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Runtime, Code, Function } from 'aws-cdk-lib/aws-lambda';
 import * as cdk from 'aws-cdk-lib';
 import { RestApi, LambdaIntegration, ResponseType, CfnMethod, Cors, RequestValidator, AuthorizationType } from "aws-cdk-lib/aws-apigateway";
-import { CfnOutput, Stack } from 'aws-cdk-lib';
+// import { CfnOutput, Stack } from 'aws-cdk-lib';
+import {  Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApiCommonResponse } from '../modules/Common/api-common-response';
 import path = require('path');
 import * as AWS from 'aws-sdk';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import RegistrationSchema from '../schema/registrationSchema'
-import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
+// import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { CustomResourceProvider } from './common/customeSecret';
 
 
@@ -128,19 +129,19 @@ export class RestApiConstruct extends Construct {
 
 addApiKey(stackName: string, restApi: RestApi) {
   const secrateNameApi = `${stackName}/${restApi}/api-key`
-  const secret = new Secret(this, 'ApiSecretRegistration', {
-    secretName: secrateNameApi,
-    description: 'Register Customer API Gateway API Key',
-    generateSecretString: {
-      generateStringKey: 'key',
-      secretStringTemplate: JSON.stringify({}),
-      excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
-    },
-  });
-  this.restAPIKeyArn = secret.secretArn;
-    new CfnOutput(this, 'restAPIKeyArnAtSource', {
-      value: this.restAPIKeyArn ?? '',
-    });
+  // const secret = new Secret(this, 'ApiSecretRegistration', {
+  //   secretName: secrateNameApi,
+  //   description: 'Register Customer API Gateway API Key',
+  //   generateSecretString: {
+  //     generateStringKey: 'key',
+  //     secretStringTemplate: JSON.stringify({}),
+  //     excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
+  //   },
+  // });
+  // this.restAPIKeyArn = secret.secretArn;
+  //   new CfnOutput(this, 'restAPIKeyArnAtSource', {
+  //     value: this.restAPIKeyArn ?? '',
+  //   });
     const plan = restApi.addUsagePlan('userAPi-address-usage-plan', {
       name: `${stackName}-api-usage-plan`,
       apiStages: [{ stage: restApi.deploymentStage }],
